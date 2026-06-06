@@ -11,7 +11,7 @@ import {
  */
 export const TemplateComposition = () => {
   const frame = useCurrentFrame();
-  const { fps, durationInFrames } = useVideoConfig();
+  const { durationInFrames } = useVideoConfig();
 
   // 整体淡出
   const fadeOut = interpolate(
@@ -22,7 +22,7 @@ export const TemplateComposition = () => {
   );
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#030712" }}>
+    <AbsoluteFill style={{ backgroundColor: "transparent" }}>
       {/* 在这里实现 script.md 中定义的分镜 */}
       <AbsoluteFill
         style={{

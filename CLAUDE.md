@@ -5,10 +5,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 常用命令
 
 ```bash
-npm run dev          # 启动 Remotion Studio 预览
+npm run dev          # 启动 Remotion Studio，左侧边栏切换不同视频预览
 npm run build        # 打包视频（SSR bundle）
 npm run lint         # ESLint + TypeScript 类型检查
-npx remotion render  # 渲染视频到 out/ 目录
+
+# 渲染指定视频
+npx remotion render <composition-id> out/<output>.webm
+# 例如：npx remotion render remotion-intro out/intro.webm
 ```
 
 ## 项目架构
@@ -39,7 +42,8 @@ compositions/<video-name>/
 
 ### 已有视频
 
-- `src/compositions/remotion-intro/` — Remotion 入门介绍（暗黑霓虹风格，9秒）
+- `src/compositions/remotion-intro/` — Remotion 入门介绍（透明背景 + 赛博朋克风格，9秒）
+  - 扫描线 · 神经网络连线 · 脉冲环 · 电路折线 · 数据粒子 · 故障文字 · 全息渐变标题
 - `src/compositions/_template/` — 新视频模板，复制即用
 
 所有视频统一参数：**1920×1080**，**30fps**
@@ -50,7 +54,9 @@ compositions/<video-name>/
 - `remotion.config.ts` — Remotion 渲染配置：
   - 图片格式：**PNG**（支持透明通道）
   - 像素格式：**YUVA420P**（带 Alpha 通道）
-  - 编码器：**VP8**
+  - 编码器：**ProRes 4444**（.mov 容器，视觉无损 + Alpha 透明通道，剪映完美支持）
+  - 像素格式：**yuva444p10le**（4:4:4 色度 + 10bit + Alpha，边缘锐利无锯齿）
+  - 不要用 VP9/WebM：剪映对 WebM Alpha 支持差，且 yuva420p 色度采样导致文字模糊
   - 输出时自动覆盖已有文件
   - 通过 `enableTailwind` 启用 Tailwind v4
 
