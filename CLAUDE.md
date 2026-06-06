@@ -15,35 +15,34 @@ npx remotion render  # 渲染视频到 out/ 目录
 
 这是一个 **Remotion** 项目 — 用 React 组件以编程方式生成视频。
 
+### 脚本先行工作流（重要）
+
+**所有视频必须先写脚本，再写组件。**
+
+每个视频文件夹包含两个文件：
+```
+compositions/<video-name>/
+  script.md    ← 第一步：定义视频内容（分镜、文案、时长、风格）
+  index.tsx     ← 第二步：根据脚本实现动画组件
+```
+
+创建新视频的流程：
+1. 复制 `_template/` 文件夹，重命名为视频名
+2. 填写 `script.md`，定义所有分镜的详细内容
+3. 根据 `script.md` 实现 `index.tsx`
+4. 在 `Root.tsx` 中注册新的 `<Composition>`
+
 ### 入口与注册
 
 - `src/index.ts` — 入口文件，调用 `registerRoot()` 注册根组件
-- `src/Root.tsx` — 根组件，用 `<Composition>` 注册所有视频合成。**新增合成就在这里加**
+- `src/Root.tsx` — 根组件，用 `<Composition>` 注册所有视频合成
 
-### 视频组件
+### 已有视频
 
-所有视频组件放在 `src/compositions/` 下，每个视频一个子文件夹，用 `index.tsx` 导出组件。
+- `src/compositions/remotion-intro/` — Remotion 入门介绍（暗黑霓虹风格，9秒）
+- `src/compositions/_template/` — 新视频模板，复制即用
 
-- `src/compositions/remotion-intro/` — Remotion 入门介绍视频（暗黑炫酷风格）
-
-合成参数：**1920×1080**，**30fps**，**270帧（9秒）**
-
-### remotion-intro 动画时间线
-
-1. **0–0.5s**：暗场渐亮
-2. **0.5–2s**：三个关键词（React、组件、渲染）从不同方向飞入
-3. **2–4.5s**：中央几何图形（旋转双环 + 六边形）构建动画
-4. **4.5–6.5s**：主标题 "Remotion" 渐变文字出现
-5. **6.5–7.5s**：副标题 "用 React 创作视频" + 代码行展示
-6. **7.5–9s**：粒子扩散、闪光、整体淡出
-
-### 视觉风格
-
-- 暗黑背景 `#030712`
-- 霓虹发光效果（SVG feGaussianBlur 滤镜）
-- 蓝紫青渐变配色（#3b82f6 / #8b5cf6 / #06b6d4）
-- 等宽字体（JetBrains Mono）
-- 网格背景 + 粒子系统
+所有视频统一参数：**1920×1080**，**30fps**
 
 ### 样式与配置
 
