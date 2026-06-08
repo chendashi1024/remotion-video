@@ -43,6 +43,46 @@ npm run dev
 
 浏览器打开 Remotion Studio，左侧选中 `remotion-intro` 即可预览。
 
+## 抖音封面渲染
+
+本项目同时作为 `moqi-opc` 的封面渲染工具包。每期视频的封面素材仍然保存在 OPC 项目内，本项目只读取素材并导出候选图。
+
+OPC 侧目录约定：
+
+```txt
+moqi-opc/视频/<主题>/
+├── 脚本.md
+└── 素材/
+    └── 封面/
+        ├── bg.png
+        ├── prompt/
+        │   ├── bg.prompt.md
+        │   └── cover.render.md
+        └── 候选/
+```
+
+固定人物图：
+
+```txt
+moqi-opc/视频/通用素材/person/fixed-person.png
+```
+
+生成封面候选：
+
+```bash
+npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
+```
+
+输出：
+
+```txt
+moqi-opc/视频/<主题>/素材/封面/候选/cover-impact.png
+moqi-opc/视频/<主题>/素材/封面/候选/cover-tech.png
+moqi-opc/视频/<主题>/素材/封面/候选/cover-clean.png
+```
+
+不要把每期 `bg.png`、提示词或候选封面提交到本仓库。
+
 ## 手动安装
 
 ### 前置要求
@@ -105,6 +145,8 @@ src/
 ```bash
 npm run dev              # 启动 Studio，左侧切换视频预览
 npm run render           # 渲染 remotion-intro → out/intro.mov
+npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
+                         # 读取 OPC 素材并导出三张封面候选
 npm run lint             # ESLint + TypeScript 检查
 
 # 渲染其他视频

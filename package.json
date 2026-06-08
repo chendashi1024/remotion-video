@@ -25,6 +25,7 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "render": "remotion render remotion-intro out/intro.mov",
+    "cover": "node scripts/render-covers.mjs",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc"
   },
