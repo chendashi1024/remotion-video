@@ -4,6 +4,7 @@ import { studioArticleProjects } from "./articles";
 import { CoverStill, coverVariants, getCompositionId } from "./cover";
 import { ArticleDebugVideo } from "./video/article-debug/ArticleDebugVideo";
 import { RemotionIntro } from "./video/remotion-intro";
+import { defaultVfxEffect, VfxClip } from "./video/vfx";
 
 export const RemotionRoot: React.FC = () => {
   const defaultArticle = studioArticleProjects[0];
@@ -47,6 +48,18 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="vfx-clip"
+        component={VfxClip}
+        durationInFrames={180}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          effect: defaultVfxEffect,
+          durationInFrames: 90,
+        }}
       />
       {studioArticleProjects.map((article) => (
         <Composition

@@ -33,6 +33,8 @@
     "article:all": "node scripts/article.mjs all",
     "cover": "node scripts/cover.mjs",
     "cover:demo": "node scripts/cover.mjs src/articles/demo-opc",
+    "vfx": "node scripts/vfx.mjs",
+    "vfx:demo": "node scripts/vfx.mjs src/articles/demo-opc",
     "video": "node scripts/video.mjs",
     "video:demo": "node scripts/video.mjs src/articles/demo-opc",
     "upgrade": "remotion upgrade",

@@ -11,6 +11,8 @@ const baseFont =
 export const ArticleDebugVideo: React.FC<ArticleDebugVideoProps> = ({ data }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
+  const effects = data.effects ?? [];
+  const manualAssets = data.manualAssets ?? [];
   const enter = interpolate(frame, [0, 24], [0, 1], { extrapolateRight: "clamp" });
   const line = interpolate(frame, [18, 72], [0, 1], { extrapolateRight: "clamp" });
   const fadeOut = interpolate(frame, [durationInFrames - 24, durationInFrames], [1, 0], {
@@ -94,6 +96,34 @@ export const ArticleDebugVideo: React.FC<ArticleDebugVideoProps> = ({ data }) =>
             }}
           >
             {data.style}
+          </div>
+          <div
+            style={{
+              marginTop: 26,
+              display: "flex",
+              gap: 14,
+              flexWrap: "wrap",
+              alignItems: "center",
+              color: "#e0f2fe",
+              fontSize: 24,
+              fontWeight: 750,
+            }}
+          >
+            <span>自动动效 {effects.length}</span>
+            <span>手动素材 {manualAssets.length}</span>
+            {effects.slice(0, 4).map((effect) => (
+              <span
+                key={effect.id}
+                style={{
+                  padding: "8px 12px",
+                  border: "1px solid rgba(125, 211, 252, 0.44)",
+                  background: "rgba(14, 165, 233, 0.14)",
+                  color: "#bae6fd",
+                }}
+              >
+                {effect.id} {effect.name || effect.type}
+              </span>
+            ))}
           </div>
         </div>
       </AbsoluteFill>

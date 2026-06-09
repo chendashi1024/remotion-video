@@ -165,6 +165,28 @@ src/
 复制 _template/ → 重命名 → 填 script.md → 实现 index.tsx → 在 Root.tsx 注册 → 渲染
 ```
 
+## OPC 结构化动效 brief
+
+`moqi-opc` 的 `video-script.md` 使用文字锚点，而不是时间码。Remotion 读取其中的结构化动效项：
+
+```txt
+🎬 [自动][VFX-001][HeroTitle]
+- 锚点：为什么很多人用 AI 写了 100 篇内容，还是赚不到钱？
+- 名称：内容不等于钱
+- 画面文字：100 篇内容 ≠ 赚钱
+- 动效：逐字弹出 + 轻微震动
+- 建议时长：3秒
+- 音效：digital hit
+- 导出命名：VFX-001-HeroTitle-内容不等于钱.mov
+```
+
+约定：
+
+- `[自动][VFX-xxx]` 交给 Remotion 生成透明 `.mov`
+- `[手动][SHOT-xxx]` 留给剪映处理截图、红框、箭头
+- 导出文件名必须保持 `VFX-编号-类型-短中文名.mov`
+- 剪映对齐不看时间码，看 `锚点` 句和 `VFX` 编号
+
 **把这段话发给 Claude Code：**
 
 > 我在 /src/video/ 下新建了一个 my-video 文件夹，script.md 已经写好了。请根据 script.md 的内容帮我实现 index.tsx，合成参数是 1920x1080 @ 30fps，需要透明背景（用于剪映叠加）。
@@ -182,6 +204,8 @@ npm run article:all -- src/articles/<主题>
                          # 同一篇文章的封面和视频一次性生成
 npm run article:sync -- /Users/chenchen/Documents/moqi-opc/视频/<主题>/脚本
                          # 同步外部文章到 src/articles/<主题> 供 Studio 手动调试
+npm run vfx -- /Users/chenchen/Documents/moqi-opc/视频/<主题>/脚本
+                         # 读取结构化 brief 并逐条导出局部透明 VFX mov
 npm run lint             # ESLint + TypeScript 检查
 
 # 渲染其他视频

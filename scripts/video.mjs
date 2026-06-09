@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
+import { parseVfxBrief } from "./vfx-brief.mjs";
 
 const projectRoot = process.cwd();
 const inputDirArg = process.argv[2] ?? "src/articles/demo-opc";
@@ -18,6 +19,7 @@ if (!existsSync(scriptPath)) {
 }
 
 const markdown = readFileSync(scriptPath, "utf8");
+const { effects, manualAssets } = parseVfxBrief(markdown);
 
 const field = (label) => {
   const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -74,6 +76,8 @@ writeFileSync(
         scriptSummary,
         durationInFrames,
         style,
+        effects,
+        manualAssets,
       },
     },
     null,
@@ -97,3 +101,4 @@ if (result.status !== 0) {
 }
 
 console.log(`视频已导出：${output}`);
+console.log(`自动动效：${effects.length} 个；手动素材：${manualAssets.length} 个`);

@@ -7,6 +7,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
+import { parseVfxBrief } from "./vfx-brief.mjs";
 
 const projectRoot = process.cwd();
 const sourceArg = process.argv[2];
@@ -62,6 +63,7 @@ if (!existsSync(sourceVideoScriptPath)) {
 
 const coverPrompt = readIfExists(sourceCoverPromptPath);
 const videoScript = readIfExists(sourceVideoScriptPath);
+const { effects, manualAssets } = parseVfxBrief(videoScript);
 const title =
   field(coverPrompt, "标题") ||
   videoScript.match(/^#\s+(.+)$/m)?.[1]?.trim() ||
@@ -159,6 +161,8 @@ const meta = {
     scriptSummary,
     durationInFrames,
     style,
+    effects,
+    manualAssets,
   },
 };
 
