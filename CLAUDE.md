@@ -20,9 +20,9 @@ npx remotion render <composition-id> out/<output>.webm
 
 这是一个 **Remotion** 项目 — 用 React 组件以编程方式生成视频。
 
-## OPC 封面渲染工具包
+## OPC 视频 + 封面工作流
 
-本项目只保存封面渲染逻辑，不保存每期视频的内容资产。每期封面的背景、提示词、制作说明和候选图都归档在 `moqi-opc` 项目的 `视频/<主题>/素材/封面/` 目录中。
+本项目是 `moqi-opc` 的 Remotion 工具包，包含封面渲染和视频动画制作两套工作流。每期视频的内容资产（背景、提示词、脚本、候选图等）都归档在 `moqi-opc` 项目中，本仓库只保存可复用的组件、渲染脚本和工具逻辑。
 
 封面渲染入口：
 
@@ -46,7 +46,7 @@ npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
 视频/<主题>/素材/封面/候选/cover-clean.png
 ```
 
-不要把每期的 `bg.png`、提示词或候选封面提交到本仓库；本仓库只是 Remotion 工具包。
+不要把每期的 `bg.png`、提示词、脚本或候选封面提交到本仓库；本仓库只是 Remotion 工具包。
 
 ### 脚本先行工作流（重要）
 

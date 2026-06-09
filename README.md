@@ -1,4 +1,4 @@
-# Remotion 知识分享视频工坊
+# Remotion Workflow — 视频 + 封面制作工作流
 
 > 用 React 组件编程生成视频 —— 脚本先行，一键渲染，透明叠加，专为 AI 知识博主的口播视频打造。
 
@@ -35,17 +35,17 @@ npm run render → out/intro.mov（ProRes 4444 + Alpha 透明通道）
 ## 30 秒安装
 
 ```bash
-git clone git@github.com:chendashi1024/remotion-video.git
-cd remotion-video
+git clone git@github.com:chendashi1024/remotion-workflow.git
+cd remotion-workflow
 npm install
 npm run dev
 ```
 
 浏览器打开 Remotion Studio，左侧选中 `remotion-intro` 即可预览。
 
-## 抖音封面渲染
+## 抖音封面 + 视频制作
 
-本项目同时作为 `moqi-opc` 的封面渲染工具包。每期视频的封面素材仍然保存在 OPC 项目内，本项目只读取素材并导出候选图。
+本项目同时作为 `moqi-opc` 的封面渲染和视频动画制作工具包。
 
 OPC 侧目录约定：
 
@@ -96,8 +96,8 @@ moqi-opc/视频/<主题>/素材/封面/候选/cover-clean.png
 ### 1. 克隆并安装
 
 ```bash
-git clone git@github.com:chendashi1024/remotion-video.git
-cd remotion-video
+git clone git@github.com:chendashi1024/remotion-workflow.git
+cd remotion-workflow
 npm install
 ```
 
