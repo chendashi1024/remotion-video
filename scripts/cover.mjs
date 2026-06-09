@@ -6,39 +6,82 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { basename, dirname, isAbsolute, join, resolve } from "node:path";
+import { basename, dirname, extname, isAbsolute, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
-const variants = ["impact", "tech", "clean"];
+const variants = ["impact", "tech", "poster"];
 const projectRoot = process.cwd();
 
 const usage = () => {
-  console.error("用法：npm run cover -- /path/to/moqi-opc/视频/<主题>");
+  console.error("用法：npm run cover -- /path/to/文章/<slug>");
+  console.error("不传路径时默认使用 src/articles/demo-opc");
+  console.error("兼容旧结构：npm run cover -- /path/to/moqi-opc/视频/<主题>");
 };
 
-const videoDirArg = process.argv[2];
-if (!videoDirArg) {
-  usage();
-  process.exit(1);
-}
+const inputDirArg = process.argv[2] ?? "src/articles/demo-opc";
+const inputDir = resolve(inputDirArg);
 
-const videoDir = resolve(videoDirArg);
-const videoRoot = dirname(videoDir);
-const opcRoot = dirname(videoRoot);
-const coverDir = join(videoDir, "素材", "封面");
-const promptDir = join(coverDir, "prompt");
-const renderBriefPath = join(promptDir, "cover.render.md");
-const backgroundPath = join(coverDir, "bg.png");
-const personPath = join(opcRoot, "视频", "通用素材", "person", "fixed-person.png");
-const outputDir = join(coverDir, "候选");
+const firstExistingPath = (paths) => paths.find((path) => existsSync(path)) ?? paths[0];
+
+const detectArticleProject = (dir) => {
+  const articleCoverDir = join(dir, "cover");
+  const flatCoverBriefPath = firstExistingPath([
+    join(dir, "cover.prompt.md"),
+    join(dir, "cover.render.md"),
+  ]);
+  const isArticleDir =
+    existsSync(flatCoverBriefPath) ||
+    existsSync(join(dir, "cover.bg.png")) ||
+    existsSync(join(dir, "video.script.md")) ||
+    existsSync(articleCoverDir);
+
+  if (isArticleDir) {
+    return {
+      kind: "article",
+      rootDir: dir,
+      titleFallback: basename(dir),
+      outputSlug: basename(dir),
+      renderBriefPath: firstExistingPath([
+        flatCoverBriefPath,
+        join(articleCoverDir, "prompt.md"),
+        join(articleCoverDir, "prompt", "cover.render.md"),
+      ]),
+      backgroundPath: firstExistingPath([
+        join(dir, "cover.bg.png"),
+        join(dir, "cover.bg.svg"),
+        join(dir, "cover.bg.jpg"),
+        join(dir, "cover.bg.jpeg"),
+        join(dir, "cover.bg.webp"),
+        join(dir, "bg.png"),
+        join(articleCoverDir, "bg.png"),
+      ]),
+      personPath: join(projectRoot, "public", "cover-placeholder", "person.svg"),
+    };
+  }
+
+  const videoRoot = dirname(dir);
+  const opcRoot = dirname(videoRoot);
+  const coverDir = join(dir, "素材", "封面");
+  return {
+    kind: "legacy-opc-video",
+    rootDir: opcRoot,
+    titleFallback: basename(dir),
+    outputSlug: basename(dir),
+    renderBriefPath: join(coverDir, "prompt", "cover.render.md"),
+    backgroundPath: join(coverDir, "bg.png"),
+    personPath: join(opcRoot, "视频", "通用素材", "person", "fixed-person.png"),
+  };
+};
+
+const articleProject = detectArticleProject(inputDir);
 
 const readBrief = () => {
-  if (!existsSync(renderBriefPath)) {
-    console.error(`缺少封面制作说明：${renderBriefPath}`);
+  if (!existsSync(articleProject.renderBriefPath)) {
+    console.error(`缺少封面制作说明：${articleProject.renderBriefPath}`);
     process.exit(1);
   }
 
-  return readFileSync(renderBriefPath, "utf8");
+  return readFileSync(articleProject.renderBriefPath, "utf8");
 };
 
 const field = (markdown, label) => {
@@ -61,7 +104,10 @@ const resolveOpcPath = (value, fallback) => {
   if (isAbsolute(value)) {
     return value;
   }
-  return join(opcRoot, value);
+  if (value.startsWith("public/") || value.startsWith("src/")) {
+    return join(projectRoot, value);
+  }
+  return join(articleProject.rootDir, value);
 };
 
 const ensureFile = (path, message) => {
@@ -72,13 +118,13 @@ const ensureFile = (path, message) => {
 };
 
 const brief = readBrief();
-const title = field(brief, "标题") || basename(videoDir);
+const title = field(brief, "标题") || articleProject.titleFallback;
 const subtitle = field(brief, "副标题") || "普通人也能照着做";
-const topic = field(brief, "视频主题") || basename(videoDir);
+const topic = field(brief, "视频主题") || articleProject.titleFallback;
 const highlightWords = listField(brief, "高亮词");
-const briefBackgroundPath = resolveOpcPath(field(brief, "背景图"), backgroundPath);
-const briefPersonPath = resolveOpcPath(field(brief, "固定人物"), personPath);
-const briefOutputDir = resolveOpcPath(field(brief, "输出目录"), outputDir);
+const briefBackgroundPath = resolveOpcPath(field(brief, "背景图"), articleProject.backgroundPath);
+const briefPersonPath = resolveOpcPath(field(brief, "固定人物"), articleProject.personPath);
+const outputDir = join(projectRoot, "out", articleProject.outputSlug);
 
 ensureFile(briefBackgroundPath, "缺少背景图，请先把 ChatGPT Image 生成的图片保存为 bg.png");
 ensureFile(briefPersonPath, "缺少固定人物图");
@@ -88,17 +134,22 @@ const runtimePropsDir = join(projectRoot, ".runtime");
 rmSync(runtimePublicDir, { recursive: true, force: true });
 mkdirSync(runtimePublicDir, { recursive: true });
 mkdirSync(runtimePropsDir, { recursive: true });
-mkdirSync(briefOutputDir, { recursive: true });
+mkdirSync(outputDir, { recursive: true });
 
-copyFileSync(briefBackgroundPath, join(runtimePublicDir, "bg.png"));
-copyFileSync(briefPersonPath, join(runtimePublicDir, "person.png"));
+const backgroundExt = extname(briefBackgroundPath) || ".png";
+const personExt = extname(briefPersonPath) || ".png";
+const runtimeBackgroundName = `bg${backgroundExt}`;
+const runtimePersonName = `person${personExt}`;
+
+copyFileSync(briefBackgroundPath, join(runtimePublicDir, runtimeBackgroundName));
+copyFileSync(briefPersonPath, join(runtimePublicDir, runtimePersonName));
 
 const baseData = {
   id: topic,
   title,
   subtitle,
-  background: "runtime/bg.png",
-  person: "runtime/person.png",
+  background: `runtime/${runtimeBackgroundName}`,
+  person: `runtime/${runtimePersonName}`,
   textStyle: {
     highlightWords: highlightWords.length > 0 ? highlightWords : [title.slice(0, 2)],
     mood: "impact-tech",
@@ -123,7 +174,7 @@ for (const variant of variants) {
     "utf8"
   );
 
-  const output = join(briefOutputDir, `cover-${variant}.png`);
+  const output = join(outputDir, `cover-${variant}.png`);
   const result = spawnSync(
     "npx",
     ["remotion", "still", `cover-${variant}`, output, "--props", propsPath],
@@ -138,4 +189,4 @@ for (const variant of variants) {
   }
 }
 
-console.log(`封面已导出：${briefOutputDir}`);
+console.log(`封面已导出：${outputDir}`);

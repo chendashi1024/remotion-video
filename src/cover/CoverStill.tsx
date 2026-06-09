@@ -223,6 +223,74 @@ const ForegroundEffects = ({ data, variant }: CoverStillProps) => {
 
   return (
     <AbsoluteFill>
+      {variant === "poster" ? (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              right: 52,
+              top: 146,
+              width: 310,
+              height: 194,
+              border: "2px solid rgba(96, 165, 250, 0.68)",
+              background:
+                "linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(30, 64, 175, 0.32))",
+              boxShadow: "0 0 28px rgba(37, 99, 235, 0.44)",
+              transform: "rotate(-2deg)",
+            }}
+          >
+            {[0, 1, 2, 3].map((item) => (
+              <div
+                key={item}
+                style={{
+                  position: "absolute",
+                  left: 28,
+                  right: 26,
+                  top: 28 + item * 36,
+                  height: 10,
+                  background:
+                    item % 2 === 0
+                      ? "linear-gradient(90deg, #60a5fa, rgba(96, 165, 250, 0))"
+                      : "linear-gradient(90deg, #22c55e, rgba(34, 197, 94, 0))",
+                  opacity: 0.82,
+                }}
+              />
+            ))}
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              left: 62,
+              top: 76,
+              color: "#dbeafe",
+              fontFamily: "'JetBrains Mono','SF Mono',monospace",
+              fontSize: 17,
+              fontWeight: 800,
+              letterSpacing: 3,
+              opacity: 0.74,
+            }}
+          >
+            AI KNOWLEDGE · CREATOR OPS
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              right: 70,
+              bottom: 356,
+              padding: "12px 22px",
+              background: "#f97316",
+              color: "#111827",
+              fontFamily: baseFont,
+              fontSize: 30,
+              fontWeight: 1000,
+              transform: "rotate(-5deg)",
+              boxShadow: "0 12px 26px rgba(0, 0, 0, 0.42)",
+            }}
+          >
+            已经实测
+          </div>
+        </>
+      ) : null}
       <div
         style={{
           position: "absolute",
@@ -259,7 +327,7 @@ const ForegroundEffects = ({ data, variant }: CoverStillProps) => {
           background:
             "linear-gradient(115deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 18%, rgba(255,255,255,0) 72%, rgba(255,255,255,0.12) 100%)",
           mixBlendMode: "screen",
-          opacity: variant === "clean" ? 0.18 : 0.28,
+          opacity: variant === "poster" ? 0.34 : 0.28,
         }}
       />
     </AbsoluteFill>

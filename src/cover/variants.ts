@@ -1,11 +1,11 @@
 import type { CoverVariant } from "./types";
 
-export const coverVariants: CoverVariant[] = ["impact", "tech", "clean"];
+export const coverVariants: CoverVariant[] = ["impact", "tech", "poster"];
 
 export const variantLabels: Record<CoverVariant, string> = {
   impact: "强冲击",
   tech: "科技感",
-  clean: "简洁版",
+  poster: "爆款感",
 };
 
 export const variantStyles: Record<
@@ -41,8 +41,8 @@ export const variantStyles: Record<
     personX: 540,
     panelOpacity: 0.76,
     strokeWidth: 12,
-    glow: "rgba(34, 211, 238, 0.72)",
-    accent: "#22d3ee",
+    glow: "rgba(251, 191, 36, 0.72)",
+    accent: "#facc15",
     secondary: "#f8fafc",
   },
   tech: {
@@ -62,21 +62,21 @@ export const variantStyles: Record<
     accent: "#60a5fa",
     secondary: "#a78bfa",
   },
-  clean: {
-    titleTop: 214,
-    titleSize: 94,
-    titleLineHeight: 1.12,
-    titleAlign: "center",
-    titleLeft: 96,
-    titleWidth: 888,
-    subtitleTop: 456,
-    personWidth: 780,
-    personBottom: -18,
-    personX: 540,
-    panelOpacity: 0.5,
-    strokeWidth: 7,
-    glow: "rgba(255, 255, 255, 0.42)",
-    accent: "#f8fafc",
-    secondary: "#22d3ee",
+  poster: {
+    titleTop: 176,
+    titleSize: 108,
+    titleLineHeight: 1.04,
+    titleAlign: "left",
+    titleLeft: 64,
+    titleWidth: 820,
+    subtitleTop: 438,
+    personWidth: 820,
+    personBottom: -28,
+    personX: 650,
+    panelOpacity: 0.68,
+    strokeWidth: 10,
+    glow: "rgba(34, 197, 94, 0.62)",
+    accent: "#22c55e",
+    secondary: "#facc15",
   },
 };

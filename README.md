@@ -47,6 +47,33 @@ npm run dev
 
 本项目同时作为 `moqi-opc` 的封面渲染和视频动画制作工具包。
 
+当前采用“双模式”：
+
+- Remotion 内置文章样例用于手动调试，`npm run dev` 不依赖外部目录也能预览 cover/video。
+- 外部文章目录用于最终批量生产，封面和视频产物统一输出到 `out/<文章slug>/`。
+
+详细说明见根目录：[手动调试README.md](/Users/chenchen/Documents/remotion-workflow/手动调试README.md)。
+
+推荐的新文章目录按文件名区分用途，不再在文章内拆 `cover/`、`video/` 子目录：
+
+```txt
+文章/<article-slug>/
+├── article.md
+├── meta.json
+├── cover.prompt.md
+├── cover.bg.png
+├── video.script.md
+└── video.assets/
+```
+
+从外部文章同步到 Remotion 内置调试区：
+
+```bash
+npm run article:sync -- /Users/chenchen/Documents/moqi-opc/文章/<article-slug>
+```
+
+同步后可以在 `src/articles/<article-slug>/` 手动调试提示词和脚本，Studio 会通过 `src/articles/registry.ts` 发现文章预览入口。
+
 OPC 侧目录约定：
 
 ```txt
@@ -58,7 +85,6 @@ moqi-opc/视频/<主题>/
         ├── prompt/
         │   ├── bg.prompt.md
         │   └── cover.render.md
-        └── 候选/
 ```
 
 固定人物图：
@@ -70,15 +96,15 @@ moqi-opc/视频/通用素材/person/fixed-person.png
 生成封面候选：
 
 ```bash
-npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
+npm run article:cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
 ```
 
 输出：
 
 ```txt
-moqi-opc/视频/<主题>/素材/封面/候选/cover-impact.png
-moqi-opc/视频/<主题>/素材/封面/候选/cover-tech.png
-moqi-opc/视频/<主题>/素材/封面/候选/cover-clean.png
+out/<主题>/cover-impact.png
+out/<主题>/cover-tech.png
+out/<主题>/cover-poster.png
 ```
 
 不要把每期 `bg.png`、提示词或候选封面提交到本仓库。
@@ -149,8 +175,14 @@ src/
 ```bash
 npm run dev              # 启动 Studio，左侧切换视频预览
 npm run render           # 渲染 remotion-intro → out/intro.mov
-npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
+npm run article:cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
                          # 读取 OPC 素材并导出三张封面候选
+npm run article:video -- /Users/chenchen/Documents/moqi-opc/文章/<主题>
+                         # 读取文章脚本并导出调试视频
+npm run article:all -- /Users/chenchen/Documents/moqi-opc/文章/<主题>
+                         # 同一篇文章的封面和视频一次性生成
+npm run article:sync -- /Users/chenchen/Documents/moqi-opc/文章/<主题>
+                         # 同步外部文章到 src/articles/<主题> 供 Studio 手动调试
 npm run lint             # ESLint + TypeScript 检查
 
 # 渲染其他视频

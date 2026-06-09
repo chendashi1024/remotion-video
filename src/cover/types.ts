@@ -1,4 +1,4 @@
-export type CoverVariant = "impact" | "tech" | "clean";
+export type CoverVariant = "impact" | "tech" | "poster";
 
 export type CoverTextStyle = {
   highlightWords: string[];
