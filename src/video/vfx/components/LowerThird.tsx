@@ -1,6 +1,7 @@
 import { AbsoluteFill, interpolate } from "remotion";
 import type { VfxComponentProps } from "../types";
 import { clampText, vfxTheme } from "../theme";
+import { GlowPanel } from "../primitives";
 import { appear } from "../utils";
 
 export const LowerThird: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
@@ -13,15 +14,15 @@ export const LowerThird: React.FC<VfxComponentProps> = ({ effect, frame, duratio
 
   return (
     <AbsoluteFill style={{ fontFamily: vfxTheme.fontFamily, color: vfxTheme.colors.text, opacity }}>
-      <div
+      <GlowPanel
+        color={effect.color ?? "blue"}
+        variant="line"
         style={{
           position: "absolute",
           left: 76,
           right: 76,
           bottom: 284,
           padding: "18px 24px",
-          borderLeft: `6px solid ${vfxTheme.colors.cyan}`,
-          background: "linear-gradient(90deg, rgba(2,6,23,0.76), rgba(2,6,23,0.34), rgba(2,6,23,0))",
           transform: `translateY(${y}px)`,
         }}
       >
@@ -32,7 +33,7 @@ export const LowerThird: React.FC<VfxComponentProps> = ({ effect, frame, duratio
         {effect.footerText ? (
           <div style={{ marginTop: 8, color: vfxTheme.colors.muted, fontSize: 22, fontWeight: 820 }}>{effect.footerText}</div>
         ) : null}
-      </div>
+      </GlowPanel>
     </AbsoluteFill>
   );
 };

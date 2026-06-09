@@ -1,19 +1,14 @@
 import { AbsoluteFill, interpolate } from "remotion";
 import type { VfxComponentProps } from "../types";
 import { splitVisualText, vfxTheme } from "../theme";
+import { BigNumber } from "../primitives";
+import { getAccentColor } from "../themes";
 import { appear } from "../utils";
-
-const colorMap = {
-  blue: vfxTheme.colors.blue,
-  yellow: vfxTheme.colors.gold,
-  green: vfxTheme.colors.green,
-  red: vfxTheme.colors.red,
-};
 
 export const MilestoneNumber: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
   const opacity = appear(frame, durationInFrames);
   const parts = splitVisualText(effect.text || "");
-  const accent = colorMap[effect.color ?? "blue"];
+  const accent = getAccentColor(effect.color ?? "blue");
   const y = interpolate(frame, [0, 16], [42, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -35,19 +30,8 @@ export const MilestoneNumber: React.FC<VfxComponentProps> = ({ effect, frame, du
           {effect.eyebrow || "MILESTONE"}
           {effect.indexText ? ` · ${effect.indexText}` : ""}
         </div>
-        <div
-          style={{
-            marginTop: 12,
-            color: vfxTheme.colors.text,
-            fontSize: 128,
-            lineHeight: 0.92,
-            fontWeight: 1000,
-            letterSpacing: 0,
-            textShadow: "0 6px 0 rgba(0,0,0,0.5), 0 0 24px rgba(255,255,255,0.22)",
-          }}
-        >
-          {mainNumber}
-          <span style={{ color: accent }}>+</span>
+        <div style={{ marginTop: 12 }}>
+          <BigNumber value={mainNumber} color={effect.color ?? "blue"} />
         </div>
         <div style={{ marginTop: 14, color: accent, fontSize: 25, fontWeight: 1000, letterSpacing: 7, textTransform: "uppercase" }}>
           {effect.mainLabelEn || "CONTENT ASSET · SCALE"}
