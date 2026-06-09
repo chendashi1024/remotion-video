@@ -1,7 +1,7 @@
 import "./index.css";
 import { Composition } from "remotion";
-import { CoverStill, coverCompositions } from "./cover-workflow";
-import { RemotionIntro } from "./compositions/remotion-intro";
+import { CoverStill, coverCompositions } from "./cover";
+import { RemotionIntro } from "./video/remotion-intro";
 
 export const RemotionRoot: React.FC = () => {
   return (

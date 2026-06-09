@@ -83,7 +83,7 @@ const briefOutputDir = resolveOpcPath(field(brief, "输出目录"), outputDir);
 ensureFile(briefBackgroundPath, "缺少背景图，请先把 ChatGPT Image 生成的图片保存为 bg.png");
 ensureFile(briefPersonPath, "缺少固定人物图");
 
-const runtimePublicDir = join(projectRoot, "public", "runtime-cover");
+const runtimePublicDir = join(projectRoot, "public", "runtime");
 const runtimePropsDir = join(projectRoot, ".runtime");
 rmSync(runtimePublicDir, { recursive: true, force: true });
 mkdirSync(runtimePublicDir, { recursive: true });
@@ -97,8 +97,8 @@ const baseData = {
   id: topic,
   title,
   subtitle,
-  background: "runtime-cover/bg.png",
-  person: "runtime-cover/person.png",
+  background: "runtime/bg.png",
+  person: "runtime/person.png",
   textStyle: {
     highlightWords: highlightWords.length > 0 ? highlightWords : [title.slice(0, 2)],
     mood: "impact-tech",

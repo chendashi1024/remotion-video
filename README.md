@@ -119,15 +119,19 @@ npm run render
 
 ```
 src/
-├── Root.tsx                          ← 注册所有视频 Composition
+├── Root.tsx                          ← 注册 cover + video 所有 Composition
 ├── index.ts                          ← 入口
-└── compositions/
+├── cover/                            ← 封面渲染组件
+│   ├── CoverStill.tsx
+│   ├── types.ts
+│   └── variants.ts
+└── video/                            ← 视频动画组件
     ├── _template/                    ← 新视频模板（复制即用）
     │   ├── script.md                 ← 第一步：写分镜脚本
     │   └── index.tsx                 ← 第二步：实现动画组件
     └── remotion-intro/              ← 示例视频
         ├── script.md                 ← 教学视频分镜
-        └── index.tsx                 ← React 动画组件（580行）
+        └── index.tsx                 ← React 动画组件
 ```
 
 ## 制作新视频
@@ -138,7 +142,7 @@ src/
 
 **把这段话发给 Claude Code：**
 
-> 我在 /src/compositions/ 下新建了一个 my-video 文件夹，script.md 已经写好了。请根据 script.md 的内容帮我实现 index.tsx，合成参数是 1920x1080 @ 30fps，需要透明背景（用于剪映叠加）。
+> 我在 /src/video/ 下新建了一个 my-video 文件夹，script.md 已经写好了。请根据 script.md 的内容帮我实现 index.tsx，合成参数是 1920x1080 @ 30fps，需要透明背景（用于剪映叠加）。
 
 ## 使用
 

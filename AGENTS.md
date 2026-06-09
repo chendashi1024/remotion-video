@@ -54,7 +54,7 @@ npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
 
 每个视频文件夹包含两个文件：
 ```
-compositions/<video-name>/
+video/<video-name>/
   script.md    ← 第一步：定义视频内容（分镜、文案、时长、风格）
   index.tsx     ← 第二步：根据脚本实现动画组件
 ```
@@ -72,9 +72,9 @@ compositions/<video-name>/
 
 ### 已有视频
 
-- `src/compositions/remotion-intro/` — Remotion 入门介绍（透明背景 + 赛博朋克风格，9秒）
+- `src/video/remotion-intro/` — Remotion 入门介绍（透明背景 + 赛博朋克风格，9秒）
   - 扫描线 · 神经网络连线 · 脉冲环 · 电路折线 · 数据粒子 · 故障文字 · 全息渐变标题
-- `src/compositions/_template/` — 新视频模板，复制即用
+- `src/video/_template/` — 新视频模板，复制即用
 
 所有视频统一参数：**1920×1080**，**30fps**
 
