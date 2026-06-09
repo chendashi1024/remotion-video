@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { parseVfxBrief } from "./vfx-brief.mjs";
@@ -48,6 +48,12 @@ const runtimeDir = join(projectRoot, ".runtime", "vfx");
 const outputDir = join(projectRoot, "out", slug, "vfx");
 mkdirSync(runtimeDir, { recursive: true });
 mkdirSync(outputDir, { recursive: true });
+
+for (const fileName of readdirSync(outputDir)) {
+  if (fileName.endsWith(".mov") || fileName === "manifest.json") {
+    rmSync(join(outputDir, fileName), { force: true });
+  }
+}
 
 const manifest = [];
 
