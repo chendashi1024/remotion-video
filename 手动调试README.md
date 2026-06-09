@@ -14,10 +14,11 @@
 文章/<article-slug>/
 ├── article.md
 ├── meta.json
-├── cover.prompt.md
-├── cover.bg.png
-├── video.script.md
-└── video.assets/
+├── cover-prompt.md
+├── cover-bg.png
+├── video-script.md
+├── bg-prompt.md
+└── music.md
 ```
 
 生成产物统一平铺到：
@@ -45,8 +46,8 @@ src/
 ```txt
 src/articles/demo-opc/
 ├── meta.json                 # Studio 默认使用的数据
-├── cover.prompt.md           # npm run cover:demo 使用的封面说明
-└── video.script.md           # 文章视频脚本样例
+├── cover-prompt.md           # npm run cover:demo 使用的封面说明
+└── video-script.md           # 文章视频脚本样例
 ```
 
 ## 同步外部文章
@@ -54,13 +55,7 @@ src/articles/demo-opc/
 执行信息优先来自外部文章目录。同步脚本会把内容整理成 Remotion 可调试的平铺结构：
 
 ```bash
-npm run article:sync -- /Users/chenchen/Documents/moqi-opc/文章/<article-slug>
-```
-
-兼容旧 OPC 视频目录：
-
-```bash
-npm run article:sync -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
+npm run article:sync -- /Users/chenchen/Documents/moqi-opc/视频/<主题>/脚本
 ```
 
 同步后会写入：
@@ -68,14 +63,16 @@ npm run article:sync -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
 ```txt
 src/articles/<article-slug>/
 ├── meta.json
-├── cover.prompt.md
-└── video.script.md
+├── cover-prompt.md
+├── video-script.md
+├── bg-prompt.md
+└── music.md
 ```
 
 如果存在背景图，会复制一份到：
 
 ```txt
-public/articles/<article-slug>/cover.bg.<ext>
+public/articles/<article-slug>/cover-bg.<ext>
 ```
 
 同步脚本还会自动刷新：
@@ -158,39 +155,17 @@ npm run article
 新结构文章目录可以直接调用：
 
 ```bash
-npm run article:cover -- /Users/chenchen/Documents/moqi-opc/文章/<article-slug>
-npm run article:video -- /Users/chenchen/Documents/moqi-opc/文章/<article-slug>
-npm run article:all -- /Users/chenchen/Documents/moqi-opc/文章/<article-slug>
+npm run article:cover -- src/articles/<article-slug>
+npm run article:video -- src/articles/<article-slug>
+npm run article:all -- src/articles/<article-slug>
 ```
 
 脚本会读取：
 
 ```txt
-文章/<article-slug>/cover.prompt.md
-文章/<article-slug>/cover.bg.png
-文章/<article-slug>/video.script.md
-```
-
-并导出到：
-
-```txt
-out/<article-slug>/
-```
-
-## 旧 OPC 视频目录兼容
-
-旧结构继续可用：
-
-```bash
-npm run article:cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
-```
-
-脚本会读取：
-
-```txt
-视频/<主题>/素材/封面/prompt/cover.render.md
-视频/<主题>/素材/封面/bg.png
-视频/通用素材/person/fixed-person.png
+src/articles/<article-slug>/cover-prompt.md
+src/articles/<article-slug>/cover-bg.png
+src/articles/<article-slug>/video-script.md
 ```
 
 并导出到：

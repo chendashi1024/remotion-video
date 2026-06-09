@@ -60,31 +60,30 @@ npm run dev
 文章/<article-slug>/
 ├── article.md
 ├── meta.json
-├── cover.prompt.md
-├── cover.bg.png
-├── video.script.md
-└── video.assets/
+├── cover-prompt.md
+├── cover-bg.png
+├── video-script.md
+├── bg-prompt.md
+└── music.md
 ```
 
 从外部文章同步到 Remotion 内置调试区：
 
 ```bash
-npm run article:sync -- /Users/chenchen/Documents/moqi-opc/文章/<article-slug>
+npm run article:sync -- /Users/chenchen/Documents/moqi-opc/视频/<主题>/脚本
 ```
 
 同步后可以在 `src/articles/<article-slug>/` 手动调试提示词和脚本，Studio 会通过 `src/articles/registry.ts` 发现文章预览入口。
 
-OPC 侧目录约定：
+OPC 侧脚本目录约定：
 
 ```txt
-moqi-opc/视频/<主题>/
-├── 脚本.md
-└── 素材/
-    └── 封面/
-        ├── bg.png
-        ├── prompt/
-        │   ├── bg.prompt.md
-        │   └── cover.render.md
+moqi-opc/视频/<主题>/脚本/
+├── video-script.md
+├── cover-prompt.md
+├── bg-prompt.md
+├── music.md
+└── cover-bg.png
 ```
 
 固定人物图：
@@ -177,11 +176,11 @@ npm run dev              # 启动 Studio，左侧切换视频预览
 npm run render           # 渲染 remotion-intro → out/intro.mov
 npm run article:cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
                          # 读取 OPC 素材并导出三张封面候选
-npm run article:video -- /Users/chenchen/Documents/moqi-opc/文章/<主题>
+npm run article:video -- src/articles/<主题>
                          # 读取文章脚本并导出调试视频
-npm run article:all -- /Users/chenchen/Documents/moqi-opc/文章/<主题>
+npm run article:all -- src/articles/<主题>
                          # 同一篇文章的封面和视频一次性生成
-npm run article:sync -- /Users/chenchen/Documents/moqi-opc/文章/<主题>
+npm run article:sync -- /Users/chenchen/Documents/moqi-opc/视频/<主题>/脚本
                          # 同步外部文章到 src/articles/<主题> 供 Studio 手动调试
 npm run lint             # ESLint + TypeScript 检查
 

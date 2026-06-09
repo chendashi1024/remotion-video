@@ -9,9 +9,7 @@ const slug = basename(inputDir);
 
 const firstExistingPath = (paths) => paths.find((path) => existsSync(path)) ?? paths[0];
 const scriptPath = firstExistingPath([
-  join(inputDir, "video.script.md"),
-  join(inputDir, "video", "script.md"),
-  join(inputDir, "script.md"),
+  join(inputDir, "video-script.md"),
 ]);
 
 if (!existsSync(scriptPath)) {

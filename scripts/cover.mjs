@@ -6,16 +6,15 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { basename, dirname, extname, isAbsolute, join, resolve } from "node:path";
+import { basename, extname, isAbsolute, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const variants = ["impact", "tech", "poster"];
 const projectRoot = process.cwd();
 
 const usage = () => {
-  console.error("用法：npm run cover -- /path/to/文章/<slug>");
+  console.error("用法：npm run cover -- src/articles/<slug>");
   console.error("不传路径时默认使用 src/articles/demo-opc");
-  console.error("兼容旧结构：npm run cover -- /path/to/moqi-opc/视频/<主题>");
 };
 
 const inputDirArg = process.argv[2] ?? "src/articles/demo-opc";
@@ -23,57 +22,28 @@ const inputDir = resolve(inputDirArg);
 
 const firstExistingPath = (paths) => paths.find((path) => existsSync(path)) ?? paths[0];
 
-const detectArticleProject = (dir) => {
-  const articleCoverDir = join(dir, "cover");
+const readArticleProject = (dir) => {
   const flatCoverBriefPath = firstExistingPath([
-    join(dir, "cover.prompt.md"),
-    join(dir, "cover.render.md"),
+    join(dir, "cover-prompt.md"),
   ]);
-  const isArticleDir =
-    existsSync(flatCoverBriefPath) ||
-    existsSync(join(dir, "cover.bg.png")) ||
-    existsSync(join(dir, "video.script.md")) ||
-    existsSync(articleCoverDir);
 
-  if (isArticleDir) {
-    return {
-      kind: "article",
-      rootDir: dir,
-      titleFallback: basename(dir),
-      outputSlug: basename(dir),
-      renderBriefPath: firstExistingPath([
-        flatCoverBriefPath,
-        join(articleCoverDir, "prompt.md"),
-        join(articleCoverDir, "prompt", "cover.render.md"),
-      ]),
-      backgroundPath: firstExistingPath([
-        join(dir, "cover.bg.png"),
-        join(dir, "cover.bg.svg"),
-        join(dir, "cover.bg.jpg"),
-        join(dir, "cover.bg.jpeg"),
-        join(dir, "cover.bg.webp"),
-        join(dir, "bg.png"),
-        join(articleCoverDir, "bg.png"),
-      ]),
-      personPath: join(projectRoot, "public", "cover-placeholder", "person.svg"),
-    };
-  }
-
-  const videoRoot = dirname(dir);
-  const opcRoot = dirname(videoRoot);
-  const coverDir = join(dir, "素材", "封面");
   return {
-    kind: "legacy-opc-video",
-    rootDir: opcRoot,
     titleFallback: basename(dir),
     outputSlug: basename(dir),
-    renderBriefPath: join(coverDir, "prompt", "cover.render.md"),
-    backgroundPath: join(coverDir, "bg.png"),
-    personPath: join(opcRoot, "视频", "通用素材", "person", "fixed-person.png"),
+    rootDir: dir,
+    renderBriefPath: flatCoverBriefPath,
+    backgroundPath: firstExistingPath([
+      join(dir, "cover-bg.png"),
+      join(dir, "cover-bg.svg"),
+      join(dir, "cover-bg.jpg"),
+      join(dir, "cover-bg.jpeg"),
+      join(dir, "cover-bg.webp"),
+    ]),
+    personPath: join(projectRoot, "public", "cover-placeholder", "person.svg"),
   };
 };
 
-const articleProject = detectArticleProject(inputDir);
+const articleProject = readArticleProject(inputDir);
 
 const readBrief = () => {
   if (!existsSync(articleProject.renderBriefPath)) {

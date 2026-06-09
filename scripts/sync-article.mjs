@@ -6,23 +6,20 @@ import {
   readFileSync,
   writeFileSync,
 } from "node:fs";
-import { basename, extname, join, relative, resolve } from "node:path";
+import { basename, dirname, extname, join, relative, resolve } from "node:path";
 
 const projectRoot = process.cwd();
 const sourceArg = process.argv[2];
 
 if (!sourceArg) {
-  console.error("用法：npm run article:sync -- /path/to/文章/<slug>");
-  console.error("兼容旧结构：npm run article:sync -- /path/to/moqi-opc/视频/<主题>");
+  console.error("用法：npm run article:sync -- /path/to/moqi-opc/视频/<主题>/脚本");
   process.exit(1);
 }
 
 const sourceDir = resolve(sourceArg);
-const slug = basename(sourceDir);
+const slug = basename(sourceDir) === "脚本" ? basename(dirname(sourceDir)) : basename(sourceDir);
 const articleDir = join(projectRoot, "src", "articles", slug);
 const publicArticleDir = join(projectRoot, "public", "articles", slug);
-
-const firstExistingPath = (paths) => paths.find((path) => existsSync(path)) ?? "";
 
 const readIfExists = (path) => (path && existsSync(path) ? readFileSync(path, "utf8") : "");
 
@@ -39,38 +36,27 @@ const listField = (markdown, label) =>
     .filter(Boolean)
     .slice(0, 3);
 
-const sourceCoverPromptPath = firstExistingPath([
-  join(sourceDir, "cover.prompt.md"),
-  join(sourceDir, "cover.render.md"),
-  join(sourceDir, "cover", "prompt.md"),
-  join(sourceDir, "cover", "prompt", "cover.render.md"),
-  join(sourceDir, "素材", "封面", "prompt", "cover.render.md"),
-]);
+const firstExistingPath = (paths) => paths.find((path) => existsSync(path)) ?? "";
 
-const sourceVideoScriptPath = firstExistingPath([
-  join(sourceDir, "video.script.md"),
-  join(sourceDir, "video", "script.md"),
-  join(sourceDir, "script.md"),
-  join(sourceDir, "脚本.md"),
-]);
-
+const sourceVideoScriptPath = join(sourceDir, "video-script.md");
+const sourceCoverPromptPath = join(sourceDir, "cover-prompt.md");
+const sourceBgPromptPath = join(sourceDir, "bg-prompt.md");
+const sourceMusicPath = join(sourceDir, "music.md");
 const sourceBackgroundPath = firstExistingPath([
-  join(sourceDir, "cover.bg.png"),
-  join(sourceDir, "cover.bg.svg"),
-  join(sourceDir, "cover.bg.jpg"),
-  join(sourceDir, "cover.bg.jpeg"),
-  join(sourceDir, "cover.bg.webp"),
-  join(sourceDir, "cover", "bg.png"),
-  join(sourceDir, "素材", "封面", "bg.png"),
+  join(sourceDir, "cover-bg.png"),
+  join(sourceDir, "cover-bg.jpg"),
+  join(sourceDir, "cover-bg.jpeg"),
+  join(sourceDir, "cover-bg.webp"),
+  join(sourceDir, "cover-bg.svg"),
 ]);
 
-if (!sourceCoverPromptPath) {
-  console.error(`缺少封面提示词：${sourceDir}`);
+if (!existsSync(sourceCoverPromptPath)) {
+  console.error(`缺少封面制作说明：${sourceCoverPromptPath}`);
   process.exit(1);
 }
 
-if (!sourceVideoScriptPath) {
-  console.error(`缺少视频脚本：${sourceDir}`);
+if (!existsSync(sourceVideoScriptPath)) {
+  console.error(`缺少视频脚本：${sourceVideoScriptPath}`);
   process.exit(1);
 }
 
@@ -119,7 +105,7 @@ let backgroundRef = "cover-placeholder/bg.svg";
 let syncedCoverPrompt = coverPrompt;
 if (sourceBackgroundPath) {
   const backgroundExt = extname(sourceBackgroundPath) || ".png";
-  const backgroundName = `cover.bg${backgroundExt}`;
+  const backgroundName = `cover-bg${backgroundExt}`;
   copyFileSync(sourceBackgroundPath, join(publicArticleDir, backgroundName));
   backgroundRef = `articles/${slug}/${backgroundName}`;
   syncedCoverPrompt = coverPrompt.replace(
@@ -131,8 +117,14 @@ if (sourceBackgroundPath) {
   }
 }
 
-writeFileSync(join(articleDir, "cover.prompt.md"), syncedCoverPrompt.trimEnd() + "\n", "utf8");
-writeFileSync(join(articleDir, "video.script.md"), videoScript.trimEnd() + "\n", "utf8");
+writeFileSync(join(articleDir, "cover-prompt.md"), syncedCoverPrompt.trimEnd() + "\n", "utf8");
+writeFileSync(join(articleDir, "video-script.md"), videoScript.trimEnd() + "\n", "utf8");
+if (existsSync(sourceBgPromptPath)) {
+  writeFileSync(join(articleDir, "bg-prompt.md"), readIfExists(sourceBgPromptPath).trimEnd() + "\n", "utf8");
+}
+if (existsSync(sourceMusicPath)) {
+  writeFileSync(join(articleDir, "music.md"), readIfExists(sourceMusicPath).trimEnd() + "\n", "utf8");
+}
 
 const meta = {
   id: slug,
