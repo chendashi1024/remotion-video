@@ -4,6 +4,7 @@ import { studioArticleProjects } from "./articles";
 import { CoverStill, coverVariants, getCompositionId } from "./cover";
 import { ArticleDebugVideo } from "./video/article-debug/ArticleDebugVideo";
 import { RemotionIntro } from "./video/remotion-intro";
+import { ChapterTimeline, fallbackTimeline } from "./video/timeline";
 import { defaultVfxEffect, VfxClip } from "./video/vfx";
 
 export const RemotionRoot: React.FC = () => {
@@ -59,6 +60,17 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{
           effect: defaultVfxEffect,
           durationInFrames: 90,
+        }}
+      />
+      <Composition
+        id="chapter-timeline"
+        component={ChapterTimeline}
+        durationInFrames={18000}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          timeline: fallbackTimeline,
         }}
       />
       {studioArticleProjects.map((article) => (

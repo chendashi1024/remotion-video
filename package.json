@@ -35,6 +35,7 @@
     "cover:demo": "node scripts/cover.mjs src/articles/demo-opc",
     "vfx": "node scripts/vfx.mjs",
     "vfx:demo": "node scripts/vfx.mjs src/articles/demo-opc",
+    "timeline": "node scripts/timeline.mjs",
     "video": "node scripts/video.mjs",
     "video:demo": "node scripts/video.mjs src/articles/demo-opc",
     "upgrade": "remotion upgrade",
