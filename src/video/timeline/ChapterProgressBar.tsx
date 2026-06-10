@@ -27,16 +27,16 @@ export const ChapterProgressBar: React.FC<ChapterProgressBarProps> = ({ timeline
       <div
         style={{
           position: "absolute",
-          top: 88,
-          left: 72,
-          right: 72,
+          top: 70,
+          left: 90,
+          width: 680,
           transform: `translateY(${entrance}px)`,
         }}
       >
         <div
           style={{
             position: "relative",
-            height: 86,
+            height: 58,
             borderRadius: 6,
             border: "1px solid rgba(125, 211, 252, 0.3)",
             background: "linear-gradient(90deg, rgba(2,6,23,0.56), rgba(15,23,42,0.34))",
@@ -90,7 +90,7 @@ export const ChapterProgressBar: React.FC<ChapterProgressBarProps> = ({ timeline
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    padding: "0 12px",
+                    padding: "0 10px",
                     borderLeft: index === 0 ? "none" : "1px solid rgba(248,250,252,0.24)",
                   }}
                 >
@@ -100,7 +100,7 @@ export const ChapterProgressBar: React.FC<ChapterProgressBarProps> = ({ timeline
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
-                      fontSize: isActive ? 29 : 24,
+                      fontSize: isActive ? 21 : 18,
                       fontWeight: isActive ? 1000 : 820,
                       color: isActive ? vfxTheme.colors.text : "rgba(248,250,252,0.68)",
                       textShadow: isActive ? "0 0 18px rgba(255,255,255,0.36)" : "none",

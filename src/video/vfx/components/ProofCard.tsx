@@ -7,6 +7,7 @@ export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, duration
   const opacity = appear(frame, durationInFrames);
   const lines = splitVisualText(effect.proofText || effect.title || effect.text || effect.name).slice(0, 4);
   const isLeft = effect.position === "left";
+  const left = isLeft ? vfxTheme.layout.leftX : vfxTheme.layout.leftX + 220;
   const x = interpolate(frame, [0, 18], [isLeft ? -72 : 72, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -17,10 +18,9 @@ export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, duration
       <div
         style={{
           position: "absolute",
-          top: 250,
-          right: isLeft ? undefined : 120,
-          left: isLeft ? 120 : undefined,
-          width: 520,
+          top: 300,
+          left,
+          width: 470,
           minHeight: 270,
           padding: "22px 24px",
           borderRadius: 10,

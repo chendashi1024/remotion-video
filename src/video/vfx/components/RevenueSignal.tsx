@@ -12,7 +12,7 @@ export const RevenueSignal: React.FC<VfxComponentProps> = ({ effect, frame, dura
 
   return (
     <AbsoluteFill style={{ fontFamily: vfxTheme.fontFamily, color: vfxTheme.colors.text, opacity }}>
-      <div style={{ position: "absolute", top: 230, left: 120, width: 900, transform: `translateY(${y}px)` }}>
+      <div style={{ position: "absolute", top: 230, left: vfxTheme.layout.leftX, width: 650, transform: `translateY(${y}px)` }}>
         <div style={{ color: accent, fontSize: 23, fontWeight: 1000, letterSpacing: 5, textTransform: "uppercase" }}>{effect.eyebrow || "REVENUE SIGNAL"}</div>
         <div style={{ marginTop: 24 }}><BigNumber value={effect.value || effect.mainNumber || "70"} suffix={effect.suffix ?? "%"} color={effect.color ?? "green"} /></div>
         <div style={{ marginTop: 18, fontSize: 44, fontWeight: 1000 }}>{effect.title || effect.mainTitle || effect.name}</div>

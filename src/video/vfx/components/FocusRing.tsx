@@ -2,6 +2,7 @@ import { AbsoluteFill, interpolate } from "remotion";
 import type { VfxComponentProps } from "../types";
 import { getAccentColor } from "../themes";
 import { fadeInOut } from "../primitives";
+import { vfxTheme } from "../theme";
 
 export const FocusRing: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
   const accent = getAccentColor(effect.color ?? "yellow");
@@ -16,8 +17,8 @@ export const FocusRing: React.FC<VfxComponentProps> = ({ effect, frame, duration
       <div
         style={{
           position: "absolute",
-          left: effect.layout === "right" ? 1260 : 160,
-          top: 310,
+          left: effect.layout === "right" ? 1370 : vfxTheme.layout.leftX,
+          top: 300,
           width: 390,
           height: 220,
           border: `5px solid ${accent}`,

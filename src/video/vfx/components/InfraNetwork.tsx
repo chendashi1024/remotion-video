@@ -5,11 +5,11 @@ import { splitVisualText, vfxTheme } from "../theme";
 import { appear } from "../utils";
 
 const points = [
-  [1060, 520],
-  [1320, 340],
-  [1580, 520],
-  [1320, 730],
-  [1660, 300],
+  [220, 570],
+  [430, 400],
+  [650, 570],
+  [430, 725],
+  [680, 370],
 ];
 
 export const InfraNetwork: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
@@ -19,10 +19,10 @@ export const InfraNetwork: React.FC<VfxComponentProps> = ({ effect, frame, durat
 
   return (
     <AbsoluteFill style={{ fontFamily: vfxTheme.fontFamily, color: vfxTheme.colors.text, opacity }}>
-      <div style={{ position: "absolute", top: 180, left: 120, width: 760 }}>
+      <div style={{ position: "absolute", top: 150, left: vfxTheme.layout.leftX, width: 660 }}>
         <div style={{ color: accent, fontSize: 23, fontWeight: 1000, letterSpacing: 5, textTransform: "uppercase" }}>{effect.eyebrow || "SYSTEM MAP"}</div>
         <div style={{ marginTop: 8, fontSize: 27, fontWeight: 850, color: "rgba(248,250,252,0.72)" }}>{effect.subLabel || effect.name}</div>
-        <div style={{ marginTop: 16, fontSize: 58, fontWeight: 1000, lineHeight: 1.06 }}>{effect.mainTitle || effect.name}</div>
+        <div style={{ marginTop: 16, fontSize: 48, fontWeight: 1000, lineHeight: 1.06 }}>{effect.mainTitle || effect.name}</div>
       </div>
       <svg width="1920" height="1080" style={{ position: "absolute", inset: 0 }}>
         {nodes.slice(1).map((_, index) => (

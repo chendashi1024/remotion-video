@@ -15,16 +15,16 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
         color={effect.color ?? "blue"}
         style={{
           position: "absolute",
-          top: 260,
-          left: 120,
-          width: 1420,
-          padding: "28px 32px",
+          top: vfxTheme.layout.cardY,
+          left: vfxTheme.layout.leftX,
+          width: 720,
+          padding: "24px 28px",
         }}
       >
         <div style={{ color: vfxTheme.colors.cyan, fontSize: 24, fontWeight: 1000, letterSpacing: 5, textTransform: "uppercase" }}>
           {effect.eyebrow || "SYSTEM CHECK"}
         </div>
-        <div style={{ marginTop: 8, marginBottom: 18, fontSize: 34, fontWeight: 1000 }}>
+        <div style={{ marginTop: 8, marginBottom: 18, fontSize: 30, fontWeight: 1000 }}>
           {effect.titleLines?.[0] || effect.subLabel || effect.name || "结构化步骤"}
         </div>
         {isFlow ? (
@@ -35,12 +35,12 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
                 <div key={`${item}-${index}`} style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <div
                     style={{
-                      minWidth: 150,
-                      padding: "18px 20px",
+                      minWidth: 120,
+                      padding: "14px 16px",
                       border: `1px solid ${active ? vfxTheme.colors.gold : "rgba(34,211,238,0.42)"}`,
                       background: active ? "rgba(251,191,36,0.16)" : "rgba(15,23,42,0.58)",
                       color: active ? vfxTheme.colors.gold : vfxTheme.colors.text,
-                      fontSize: 27,
+                      fontSize: 23,
                       fontWeight: 950,
                       textAlign: "center",
                       boxShadow: active ? vfxTheme.shadow.gold : "0 12px 28px rgba(0,0,0,0.22)",

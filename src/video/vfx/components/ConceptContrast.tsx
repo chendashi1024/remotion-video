@@ -13,23 +13,23 @@ export const ConceptContrast: React.FC<VfxComponentProps> = ({ effect, frame, du
 
   return (
     <AbsoluteFill style={{ fontFamily: vfxTheme.fontFamily, color: vfxTheme.colors.text, opacity }}>
-      <div style={{ position: "absolute", top: 180, left: 120, width: 1420 }}>
+      <div style={{ position: "absolute", top: 190, left: vfxTheme.layout.leftX, width: 680 }}>
         <div style={{ color: accent, fontSize: 22, fontWeight: 1000, letterSpacing: 5, textTransform: "uppercase" }}>
           {effect.eyebrow || "SURFACE vs REAL BUSINESS"}
         </div>
         <div style={{ marginTop: 8, fontSize: 28, fontWeight: 900, color: "rgba(248,250,252,0.78)" }}>
           {effect.subLabel || effect.name}
         </div>
-        <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "0.92fr 1.08fr", gap: 32 }}>
-          <GlowPanel color="blue" style={{ padding: "34px 40px", opacity: 0.72, transform: `translateX(${leftX}px)` }}>
+        <div style={{ marginTop: 24, display: "grid", gridTemplateRows: "1fr 1fr", gap: 18 }}>
+          <GlowPanel color="blue" style={{ padding: "24px 28px", opacity: 0.72, transform: `translateX(${leftX}px)` }}>
             <div style={{ color: vfxTheme.colors.muted, fontSize: 24, fontWeight: 1000, letterSpacing: 4 }}>
               {effect.leftLabel || "SURFACE"}
             </div>
-            <div style={{ marginTop: 18, fontSize: 54, lineHeight: 1.08, fontWeight: 1000 }}>{effect.leftText || "表面"}</div>
+            <div style={{ marginTop: 12, fontSize: 42, lineHeight: 1.08, fontWeight: 1000 }}>{effect.leftText || "表面"}</div>
           </GlowPanel>
-          <GlowPanel color={effect.color ?? "yellow"} style={{ padding: "38px 40px", transform: `translateX(${rightX}px)`, boxShadow: `0 0 36px ${accent}55` }}>
+          <GlowPanel color={effect.color ?? "yellow"} style={{ padding: "26px 30px", transform: `translateX(${rightX}px)`, boxShadow: `0 0 36px ${accent}55` }}>
             <div style={{ color: accent, fontSize: 24, fontWeight: 1000, letterSpacing: 4 }}>{effect.rightLabel || "REAL BUSINESS"}</div>
-            <div style={{ marginTop: 18, color: accent, fontSize: 64, lineHeight: 1.04, fontWeight: 1000 }}>{effect.rightText || "本质"}</div>
+            <div style={{ marginTop: 12, color: accent, fontSize: 46, lineHeight: 1.04, fontWeight: 1000 }}>{effect.rightText || "本质"}</div>
           </GlowPanel>
         </div>
       </div>

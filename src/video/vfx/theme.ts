@@ -1,8 +1,19 @@
 export const vfxTheme = {
   fontFamily:
     "'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', -apple-system, BlinkMacSystemFont, sans-serif",
-  safeX: 120,
-  safeY: 90,
+  safeX: 90,
+  safeY: 78,
+  layout: {
+    leftX: 90,
+    leftWidth: 660,
+    topY: 78,
+    titleY: 220,
+    cardY: 360,
+    lowerY: 610,
+    subtitleTop: 805,
+    subjectSafeLeft: 760,
+    subjectSafeRight: 1760,
+  },
   colors: {
     text: "#f8fafc",
     muted: "#94a3b8",

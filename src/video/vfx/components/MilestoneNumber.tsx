@@ -20,9 +20,9 @@ export const MilestoneNumber: React.FC<VfxComponentProps> = ({ effect, frame, du
       <div
         style={{
           position: "absolute",
-          top: 220,
-          left: 120,
-          width: 900,
+          top: 230,
+          left: vfxTheme.layout.leftX,
+          width: 650,
           transform: `translateY(${y}px)`,
         }}
       >

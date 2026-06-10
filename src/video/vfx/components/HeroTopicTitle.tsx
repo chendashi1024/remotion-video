@@ -25,9 +25,9 @@ export const HeroTopicTitle: React.FC<VfxComponentProps> = ({ effect, frame, dur
       <div
         style={{
           position: "absolute",
-          top: 210,
-          left: 120,
-          width: 940,
+          top: vfxTheme.layout.titleY,
+          left: vfxTheme.layout.leftX,
+          width: vfxTheme.layout.leftWidth,
           transform: `translateX(${x}px)`,
         }}
       >
@@ -50,7 +50,7 @@ export const HeroTopicTitle: React.FC<VfxComponentProps> = ({ effect, frame, dur
               key={`${line}-${index}`}
               style={{
                 color: index === highlightLineIndex ? accent : vfxTheme.colors.text,
-                fontSize: line.length > 6 ? 76 : 88,
+                fontSize: line.length > 6 ? 64 : 78,
                 lineHeight: 0.96,
                 fontWeight: 1000,
                 letterSpacing: 0,
