@@ -35,6 +35,14 @@ if (invalidEffects.length > 0) {
   process.exit(1);
 }
 
+const timelineFieldEffects = effects.filter((effect) => effect.forbiddenFields?.length);
+if (timelineFieldEffects.length > 0) {
+  for (const effect of timelineFieldEffects) {
+    console.error(`VFX brief 不允许生成顶部时间轴字段：${effect.id} ${effect.forbiddenFields.join(", ")}`);
+  }
+  process.exit(1);
+}
+
 const parseDurationInFrames = (duration) => {
   const secondMatch = duration.match(/(\d+(?:\.\d+)?)\s*秒/);
   if (secondMatch) {

@@ -106,6 +106,7 @@ export const parseVfxBrief = (markdown) => {
         overlayType: undefined,
         intensity: undefined,
         commentKeyword: "",
+        forbiddenFields: [],
       };
       continue;
     }
@@ -131,8 +132,7 @@ export const parseVfxBrief = (markdown) => {
     if (key === "导出命名") current.outputName = value;
     if (key === "需要你") current.requiredAction = value;
     if (key === "剪映处理") current.capcutAction = value;
-    if (key === "章节导航") current.sections = splitList(value);
-    if (key === "当前章节") current.activeIndex = parseIndex(value);
+    if (key === "章节导航" || key === "当前章节") current.forbiddenFields.push(key);
     if (key === "英文标签") current.eyebrow = value;
     if (key === "中文标签") current.subLabel = value;
     if (key === "编号") current.indexText = value;

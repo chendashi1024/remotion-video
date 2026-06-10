@@ -61,6 +61,7 @@ export type VfxBriefItem = {
   overlayType?: "glow" | "scanline" | "grid" | "noise" | "vignette" | "gold";
   intensity?: "low" | "medium" | "high";
   commentKeyword?: string;
+  forbiddenFields?: string[];
 };
 
 export type VfxClipProps = {
