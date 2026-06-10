@@ -15,9 +15,9 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
         color={effect.color ?? "blue"}
         style={{
           position: "absolute",
-          top: 490,
-          left: 48,
-          width: 900,
+          top: 260,
+          left: 120,
+          width: 1420,
           padding: "28px 32px",
         }}
       >
@@ -28,19 +28,19 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
           {effect.titleLines?.[0] || effect.subLabel || effect.name || "结构化步骤"}
         </div>
         {isFlow ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             {items.map((item, index) => {
               const active = index === effect.highlightStep;
               return (
                 <div key={`${item}-${index}`} style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <div
                     style={{
-                      minWidth: 128,
+                      minWidth: 150,
                       padding: "18px 20px",
                       border: `1px solid ${active ? vfxTheme.colors.gold : "rgba(34,211,238,0.42)"}`,
                       background: active ? "rgba(251,191,36,0.16)" : "rgba(15,23,42,0.58)",
                       color: active ? vfxTheme.colors.gold : vfxTheme.colors.text,
-                      fontSize: 28,
+                      fontSize: 27,
                       fontWeight: 950,
                       textAlign: "center",
                       boxShadow: active ? vfxTheme.shadow.gold : "0 12px 28px rgba(0,0,0,0.22)",

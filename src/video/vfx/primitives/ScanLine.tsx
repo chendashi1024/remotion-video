@@ -9,7 +9,7 @@ type ScanLineProps = {
 };
 
 export const ScanLine: React.FC<ScanLineProps> = ({ frame, durationInFrames, opacity = 0.22 }) => {
-  const x = sweepX(frame, 1080, durationInFrames);
+  const x = sweepX(frame, 1920, durationInFrames);
 
   return (
     <AbsoluteFill style={{ pointerEvents: "none", overflow: "hidden" }}>

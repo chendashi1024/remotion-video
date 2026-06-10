@@ -15,9 +15,9 @@ export const RiskPackage: React.FC<VfxComponentProps> = ({ effect, frame, durati
         color="red"
         style={{
           position: "absolute",
-          top: 360,
-          left: 54,
-          width: 900,
+          top: 210,
+          left: 120,
+          width: 1260,
           padding: "38px 42px",
           transform: `translateY(${y}px)`,
           background: "linear-gradient(135deg, rgba(45,7,12,0.92), rgba(15,23,42,0.7))",
@@ -28,7 +28,7 @@ export const RiskPackage: React.FC<VfxComponentProps> = ({ effect, frame, durati
           {effect.indexText ? ` · ${effect.indexText}` : ""}
         </div>
         <div style={{ marginTop: 8, color: "rgba(248,250,252,0.72)", fontSize: 26, fontWeight: 850 }}>{effect.subLabel || "风险提示"}</div>
-        <div style={{ marginTop: 18, fontSize: 78, lineHeight: 1.04, fontWeight: 1000 }}>{effect.mainTitle || effect.name}</div>
+        <div style={{ marginTop: 18, fontSize: 68, lineHeight: 1.04, fontWeight: 1000 }}>{effect.mainTitle || effect.name}</div>
         {effect.subtitle ? <div style={{ marginTop: 10, color: vfxTheme.colors.red, fontSize: 42, fontWeight: 950 }}>{effect.subtitle}</div> : null}
         {items.length ? <div style={{ marginTop: 28 }}><StepRows items={items} frame={frame} color="red" compact /></div> : null}
       </GlowPanel>

@@ -18,7 +18,7 @@ export const BreakingLabel: React.FC<VfxComponentProps> = ({ effect, frame, dura
           position: "absolute",
           top: programTheme.layout.labelY,
           left: programTheme.layout.leftX,
-          width: 610,
+          width: 860,
           transform: `translateX(${x}px)`,
         }}
       >

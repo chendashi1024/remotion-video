@@ -17,10 +17,10 @@ export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, duration
       <div
         style={{
           position: "absolute",
-          top: 420,
-          right: isLeft ? undefined : 36,
-          left: isLeft ? 36 : undefined,
-          width: 405,
+          top: 250,
+          right: isLeft ? undefined : 120,
+          left: isLeft ? 120 : undefined,
+          width: 520,
           minHeight: 270,
           padding: "22px 24px",
           borderRadius: 10,

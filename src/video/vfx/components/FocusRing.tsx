@@ -16,10 +16,10 @@ export const FocusRing: React.FC<VfxComponentProps> = ({ effect, frame, duration
       <div
         style={{
           position: "absolute",
-          left: effect.layout === "right" ? 650 : 70,
-          top: 500,
-          width: 330,
-          height: 190,
+          left: effect.layout === "right" ? 1260 : 160,
+          top: 310,
+          width: 390,
+          height: 220,
           border: `5px solid ${accent}`,
           borderRadius: 18,
           boxShadow: `0 0 28px ${accent}, inset 0 0 18px ${accent}44`,

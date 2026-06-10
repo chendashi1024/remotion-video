@@ -3,13 +3,13 @@ import { vfxTheme } from "../theme";
 export const programTheme = {
   ...vfxTheme,
   layout: {
-    topNavY: 190,
-    leftX: 38,
-    rightX: 36,
-    titleY: 370,
-    labelY: 292,
-    lowerThirdBottom: 284,
-    subtitleReservedBottom: 250,
+    topNavY: 90,
+    leftX: 120,
+    rightX: 120,
+    titleY: 210,
+    labelY: 150,
+    lowerThirdBottom: 140,
+    subtitleReservedBottom: 150,
   },
   effects: {
     glowSoft: "0 0 12px rgba(34,211,238,0.28)",

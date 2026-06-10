@@ -25,9 +25,9 @@ export const HeroTopicTitle: React.FC<VfxComponentProps> = ({ effect, frame, dur
       <div
         style={{
           position: "absolute",
-          top: 370,
-          left: 38,
-          width: 610,
+          top: 210,
+          left: 120,
+          width: 940,
           transform: `translateX(${x}px)`,
         }}
       >

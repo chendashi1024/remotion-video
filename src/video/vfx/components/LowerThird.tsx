@@ -19,9 +19,9 @@ export const LowerThird: React.FC<VfxComponentProps> = ({ effect, frame, duratio
         variant="line"
         style={{
           position: "absolute",
-          left: 76,
-          right: 76,
-          bottom: 284,
+          left: 160,
+          right: 160,
+          bottom: 140,
           padding: "18px 24px",
           transform: `translateY(${y}px)`,
         }}

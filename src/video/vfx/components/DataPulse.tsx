@@ -18,9 +18,9 @@ export const DataPulse: React.FC<VfxComponentProps> = ({ effect, frame, duration
           key={index}
           style={{
             position: "absolute",
-            left: 54 + index * 104,
-            top: 330 + ((index * 83) % 780),
-            width: 58,
+            left: 120 + index * 170,
+            top: 190 + ((index * 71) % 430),
+            width: 74,
             height: 3,
             background: accent,
             opacity: pulse * (0.25 + (index % 3) * 0.18),

@@ -15,11 +15,11 @@ export const NextEpisodePackage: React.FC<VfxComponentProps> = ({ effect, frame,
       <GlowPanel
         color={effect.color ?? "yellow"}
         variant="line"
-        style={{ position: "absolute", left: 70, right: 70, bottom: 300, padding: "24px 30px", transform: `translateY(${y}px)` }}
+        style={{ position: "absolute", left: 160, right: 160, bottom: 150, padding: "24px 34px", transform: `translateY(${y}px)` }}
       >
         <div style={{ color: accent, fontSize: 22, fontWeight: 1000, letterSpacing: 5, textTransform: "uppercase" }}>{effect.eyebrow || "NEXT TRACK"}</div>
         <div style={{ marginTop: 8, color: "rgba(248,250,252,0.72)", fontSize: 24, fontWeight: 850 }}>{effect.subLabel || "下期预告"}</div>
-        <div style={{ marginTop: 12, fontSize: 58, fontWeight: 1000, lineHeight: 1.08 }}>{effect.mainTitle || effect.title || effect.name}</div>
+        <div style={{ marginTop: 12, fontSize: 56, fontWeight: 1000, lineHeight: 1.08 }}>{effect.mainTitle || effect.title || effect.name}</div>
         {effect.subtitle ? <div style={{ marginTop: 10, fontSize: 30, fontWeight: 850, color: "rgba(248,250,252,0.78)" }}>{effect.subtitle}</div> : null}
         {effect.commentKeyword ? (
           <div style={{ marginTop: 18, display: "inline-flex", padding: "10px 16px", borderRadius: 999, background: `${accent}22`, color: accent, fontSize: 24, fontWeight: 1000 }}>
