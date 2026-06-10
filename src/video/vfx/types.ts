@@ -1,24 +1,14 @@
 export type VfxType =
-  | "HeroTitle"
-  | "ProgramHeader"
-  | "BreakingLabel"
-  | "HeroTopicTitle"
-  | "MilestoneNumber"
-  | "ProofCard"
   | "ProgramPackage"
+  | "ConceptContrast"
   | "StepSystem"
-  | "LowerThird"
-  | "GlowSweep"
-  | "GridOverlay"
-  | "CameraFlash"
-  | "DataPulse"
-  | "FocusRing"
-  | "SectionTitle"
-  | "StepList"
-  | "NumberCard"
-  | "KeywordCards"
-  | "RiskCard"
-  | "CTAEnd";
+  | "RiskPackage"
+  | "InfraNetwork"
+  | "MilestoneNumber"
+  | "RevenueSignal"
+  | "ProofCard"
+  | "NextEpisodePackage"
+  | "AtmosphereOverlay";
 
 export type VfxBriefItem = {
   mode: string;
@@ -49,7 +39,28 @@ export type VfxBriefItem = {
   proofLabel?: string;
   proofText?: string;
   footerText?: string;
-  layout?: "left" | "right" | "top" | "bottom";
+  layout?: "left" | "right" | "top" | "bottom" | "flow" | "checklist";
+  leftLabel?: string;
+  leftText?: string;
+  rightLabel?: string;
+  rightText?: string;
+  steps?: string[];
+  highlightStep?: number;
+  mainTitle?: string;
+  subtitle?: string;
+  riskItems?: string[];
+  nodes?: string[];
+  highlightNode?: number;
+  suffix?: string;
+  value?: string;
+  title?: string;
+  badge?: string;
+  verified?: string;
+  position?: "left" | "right";
+  image?: string;
+  overlayType?: "glow" | "scanline" | "grid" | "noise" | "vignette" | "gold";
+  intensity?: "low" | "medium" | "high";
+  commentKeyword?: string;
 };
 
 export type VfxClipProps = {

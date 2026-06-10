@@ -5,8 +5,9 @@ import { appear } from "../utils";
 
 export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
   const opacity = appear(frame, durationInFrames);
-  const lines = splitVisualText(effect.proofText || effect.text || effect.name).slice(0, 4);
-  const x = interpolate(frame, [0, 18], [72, 0], {
+  const lines = splitVisualText(effect.proofText || effect.title || effect.text || effect.name).slice(0, 4);
+  const isLeft = effect.position === "left";
+  const x = interpolate(frame, [0, 18], [isLeft ? -72 : 72, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -17,7 +18,8 @@ export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, duration
         style={{
           position: "absolute",
           top: 420,
-          right: 36,
+          right: isLeft ? undefined : 36,
+          left: isLeft ? 36 : undefined,
           width: 405,
           minHeight: 270,
           padding: "22px 24px",
@@ -25,15 +27,15 @@ export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, duration
           background: "linear-gradient(135deg, rgba(248,250,252,0.96), rgba(226,232,240,0.9))",
           color: "#0f172a",
           boxShadow: "0 18px 40px rgba(0,0,0,0.34), 0 0 0 1px rgba(96,165,250,0.72)",
-          transform: `translateX(${x}px) rotateY(-6deg)`,
+          transform: `translateX(${x}px) rotateY(${isLeft ? 6 : -6}deg)`,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
           <div style={{ color: "#2563eb", fontSize: 18, fontWeight: 1000, letterSpacing: 2, textTransform: "uppercase" }}>
-            {effect.proofLabel || effect.eyebrow || "PROOF CARD"}
+            {effect.proofLabel || effect.eyebrow || effect.title || "PROOF CARD"}
           </div>
           <div style={{ borderRadius: 999, padding: "5px 10px", background: "#dbeafe", color: "#1d4ed8", fontSize: 15, fontWeight: 1000 }}>
-            DATA
+            {effect.badge || "DATA"}
           </div>
         </div>
         <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
@@ -69,7 +71,7 @@ export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, duration
           }}
         >
           <span style={{ width: 7, height: 7, borderRadius: 999, background: "#052e16" }} />
-          REAL · VERIFIED
+          {effect.verified || "REAL · VERIFIED"}
         </div>
       </div>
     </AbsoluteFill>

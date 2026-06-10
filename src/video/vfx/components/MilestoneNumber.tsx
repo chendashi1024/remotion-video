@@ -13,7 +13,7 @@ export const MilestoneNumber: React.FC<VfxComponentProps> = ({ effect, frame, du
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const mainNumber = effect.mainNumber || parts[0] || "10+";
+  const mainNumber = effect.mainNumber || effect.value || parts[0] || "10";
 
   return (
     <AbsoluteFill style={{ fontFamily: vfxTheme.fontFamily, color: vfxTheme.colors.text, opacity }}>
@@ -31,7 +31,7 @@ export const MilestoneNumber: React.FC<VfxComponentProps> = ({ effect, frame, du
           {effect.indexText ? ` · ${effect.indexText}` : ""}
         </div>
         <div style={{ marginTop: 12 }}>
-          <BigNumber value={mainNumber} color={effect.color ?? "blue"} />
+          <BigNumber value={mainNumber} color={effect.color ?? "blue"} suffix={effect.suffix ?? "+"} />
         </div>
         <div style={{ marginTop: 14, color: accent, fontSize: 25, fontWeight: 1000, letterSpacing: 7, textTransform: "uppercase" }}>
           {effect.mainLabelEn || "CONTENT ASSET · SCALE"}

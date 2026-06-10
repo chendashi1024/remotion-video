@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
-import { parseVfxBrief } from "./vfx-brief.mjs";
+import { allowedVfxTypes, parseVfxBrief } from "./vfx-brief.mjs";
 
 const projectRoot = process.cwd();
 const inputArg = process.argv[2] ?? "src/articles/demo-opc";
@@ -23,6 +23,15 @@ const { effects } = parseVfxBrief(markdown);
 
 if (effects.length === 0) {
   console.error("没有找到可渲染的 [自动][VFX-xxx] 动效项");
+  process.exit(1);
+}
+
+const invalidEffects = effects.filter((effect) => !allowedVfxTypes.includes(effect.type));
+if (invalidEffects.length > 0) {
+  for (const effect of invalidEffects) {
+    console.error(`不支持的 VFX 类型：${effect.id} ${effect.type}`);
+  }
+  console.error(`允许的 VFX 类型：${allowedVfxTypes.join(", ")}`);
   process.exit(1);
 }
 

@@ -1,5 +1,17 @@
 const effectHeader = /^🎬\s*\[(自动|手动)\]\[(VFX-\d{3}|SHOT-\d{3})\]\[([A-Za-z]+)\]\s*$/;
 const fieldLine = /^-\s*([^：:]+)[：:]\s*(.*)$/;
+export const allowedVfxTypes = [
+  "ProgramPackage",
+  "ConceptContrast",
+  "StepSystem",
+  "RiskPackage",
+  "InfraNetwork",
+  "MilestoneNumber",
+  "RevenueSignal",
+  "ProofCard",
+  "NextEpisodePackage",
+  "AtmosphereOverlay",
+];
 
 const splitList = (value) =>
   value
@@ -13,6 +25,11 @@ const parseIndex = (value) => {
 };
 
 const parseHighlightLine = (value) => {
+  const number = Number(value.replace(/[^\d]/g, ""));
+  return Number.isFinite(number) && number > 0 ? number - 1 : undefined;
+};
+
+const normalizeOneBasedIndex = (value) => {
   const number = Number(value.replace(/[^\d]/g, ""));
   return Number.isFinite(number) && number > 0 ? number - 1 : undefined;
 };
@@ -68,6 +85,27 @@ export const parseVfxBrief = (markdown) => {
         proofText: "",
         footerText: "",
         layout: undefined,
+        leftLabel: "",
+        leftText: "",
+        rightLabel: "",
+        rightText: "",
+        steps: [],
+        highlightStep: undefined,
+        mainTitle: "",
+        subtitle: "",
+        riskItems: [],
+        nodes: [],
+        highlightNode: undefined,
+        suffix: "",
+        value: "",
+        title: "",
+        badge: "",
+        verified: "",
+        position: undefined,
+        image: "",
+        overlayType: undefined,
+        intensity: undefined,
+        commentKeyword: "",
       };
       continue;
     }
@@ -104,12 +142,57 @@ export const parseVfxBrief = (markdown) => {
     if (key === "主数字") current.mainNumber = value;
     if (key === "英文说明") current.mainLabelEn = value;
     if (key === "中文说明") current.mainLabelZh = value;
-    if (key === "次级数字") current.secondaryNumber = value;
+    if (key === "次级数字" || key === "次数字") current.secondaryNumber = value;
     if (key === "次级说明") current.secondaryLabelZh = value;
     if (key === "证据标签") current.proofLabel = value;
     if (key === "证据文字") current.proofText = value;
     if (key === "底部文字") current.footerText = value;
-    if (key === "布局") current.layout = value;
+    if (key === "布局") current.layout = value.toLowerCase().includes("check") || value.includes("清单")
+      ? "checklist"
+      : value.toLowerCase().includes("flow") || value.includes("流程") || value.includes("链路")
+        ? "flow"
+        : value.includes("右") || value.toLowerCase().includes("right")
+          ? "right"
+          : value.includes("上") || value.toLowerCase().includes("top")
+            ? "top"
+            : value.includes("下") || value.toLowerCase().includes("bottom")
+              ? "bottom"
+              : "left";
+    if (key === "左侧标签") current.leftLabel = value;
+    if (key === "左侧文字") current.leftText = value;
+    if (key === "右侧标签") current.rightLabel = value;
+    if (key === "右侧文字") current.rightText = value;
+    if (key === "步骤") current.steps = splitList(value);
+    if (key === "高亮步骤") current.highlightStep = normalizeOneBasedIndex(value);
+    if (key === "主标题") current.mainTitle = value;
+    if (key === "副标题") current.subtitle = value;
+    if (key === "风险项") current.riskItems = splitList(value);
+    if (key === "节点") current.nodes = splitList(value);
+    if (key === "高亮节点") current.highlightNode = normalizeOneBasedIndex(value);
+    if (key === "后缀") current.suffix = value;
+    if (key === "数值") current.value = value;
+    if (key === "标题") current.title = value;
+    if (key === "Badge") current.badge = value;
+    if (key === "Verified") current.verified = value;
+    if (key === "位置") current.position = value.includes("左") || value.toLowerCase().includes("left") ? "left" : "right";
+    if (key === "图片") current.image = value;
+    if (key === "类型") current.overlayType = value.includes("网格")
+      ? "grid"
+      : value.includes("扫描")
+        ? "scanline"
+        : value.includes("噪声")
+          ? "noise"
+          : value.includes("暗角")
+            ? "vignette"
+            : value.includes("金")
+              ? "gold"
+              : "glow";
+    if (key === "强度") current.intensity = value.includes("高")
+      ? "high"
+      : value.includes("中")
+        ? "medium"
+        : "low";
+    if (key === "评论关键词") current.commentKeyword = value;
   }
 
   if (current) {
