@@ -63,6 +63,8 @@ const safeFileName = (name) =>
 
 const runtimeDir = join(projectRoot, ".runtime", "vfx");
 const outputDir = join(projectRoot, "out", slug, "vfx");
+const systemChrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const browserArgs = existsSync(systemChrome) ? ["--browser-executable", systemChrome] : [];
 mkdirSync(runtimeDir, { recursive: true });
 mkdirSync(outputDir, { recursive: true });
 
@@ -104,6 +106,11 @@ for (const effect of effects) {
       propsPath,
       "--frames",
       `0-${durationInFrames - 1}`,
+      "--concurrency",
+      "1",
+      "--timeout",
+      "120000",
+      ...browserArgs,
     ],
     {
       cwd: projectRoot,
