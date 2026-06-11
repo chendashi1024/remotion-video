@@ -65,14 +65,12 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
         style={{
           position: "absolute",
           left: `${normalizedProgress * 100}%`,
-          top: 27,
-          width: 14,
-          height: 14,
-          transform: "translateX(-50%)",
-          borderRadius: "50%",
-          border: `1px solid ${matrixOpcTheme.colors.green}`,
-          background: "rgba(40,245,154,0.2)",
-          boxShadow: "0 0 8px rgba(40,245,154,0.28)",
+          top: 28,
+          width: 12,
+          height: 12,
+          transform: "translateX(-50%) rotate(45deg)",
+          background: matrixOpcTheme.colors.green,
+          boxShadow: `0 0 10px ${matrixOpcTheme.colors.green}, 0 0 20px ${matrixOpcTheme.colors.green}55`,
         }}
       />
       {steps.slice(1).map((step, index) => {
@@ -84,14 +82,12 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
             style={{
               position: "absolute",
               left: `${boundaryProgress * 100}%`,
-              top: 28,
-              width: 10,
-              height: 10,
-              transform: "translateX(-50%)",
-              borderRadius: "50%",
-              border: `1px solid ${passed ? "rgba(40,245,154,0.82)" : matrixOpcTheme.colors.mutedDeep}`,
-              background: passed ? "rgba(40,245,154,0.1)" : "rgba(0,0,0,0.2)",
-              boxShadow: passed ? "0 0 5px rgba(40,245,154,0.14)" : "none",
+              top: 30,
+              width: 8,
+              height: 8,
+              transform: "translateX(-50%) rotate(45deg)",
+              background: passed ? `${matrixOpcTheme.colors.green}cc` : matrixOpcTheme.colors.mutedDeep,
+              boxShadow: passed ? `0 0 6px ${matrixOpcTheme.colors.green}55` : "none",
             }}
           />
         );
