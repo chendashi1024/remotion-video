@@ -21,32 +21,32 @@ export const BrandSignature: React.FC<BrandSignatureProps> = ({ frame, variant =
           bottom: matrixOpcTheme.layout.brandBottom,
           display: "flex",
           alignItems: "center",
-          gap: 10,
+          gap: 12,
           color: matrixOpcTheme.colors.green,
-          opacity: pulse * 0.84,
-          textShadow: "0 0 8px rgba(40,245,154,0.22)",
+          opacity: pulse * 0.92,
+          textShadow: "0 0 10px rgba(40,245,154,0.28)",
         }}
       >
         <div
           style={{
-            width: 7,
-            height: 7,
+            width: 9,
+            height: 9,
             border: `1px solid ${matrixOpcTheme.colors.green}`,
-            boxShadow: "0 0 6px rgba(40,245,154,0.2)",
+            boxShadow: "0 0 8px rgba(40,245,154,0.28)",
             flex: "0 0 auto",
           }}
         />
-        <div style={{ fontSize: 20, lineHeight: "22px", fontWeight: 900, letterSpacing: 1 }}>C哥OPC</div>
+        <div style={{ fontSize: 28, lineHeight: "30px", fontWeight: 900, letterSpacing: 1.5 }}>C哥OPC</div>
         {variant === "full" ? (
           <>
-            <div style={{ width: 1, height: 14, background: matrixOpcTheme.colors.hairline }} />
+            <div style={{ width: 1, height: 18, background: matrixOpcTheme.colors.hairline }} />
             <div
               style={{
                 fontFamily: matrixOpcTheme.monoFont,
                 color: matrixOpcTheme.colors.muted,
-                fontSize: 12,
-                lineHeight: "14px",
-                letterSpacing: 1.8,
+                fontSize: 14,
+                lineHeight: "16px",
+                letterSpacing: 2,
                 transform: "translateY(1px)",
               }}
             >
