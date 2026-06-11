@@ -3,7 +3,7 @@
 这个仓库当前按“双模式”运行：
 
 - **手动调试模式**：Remotion 仓库内保留内置文章样例，`npm run dev` 可直接打开 Studio 调 cover/video。
-- **同步调试模式**：先从 `moqi-opc` 或其他内容仓库同步文章执行信息到 `src/articles/<slug>/`，再在 Remotion 内手动调试。
+- **同步调试模式**：先从 `cge-opc` 或其他内容仓库同步文章执行信息到 `src/articles/<slug>/`，再在 Remotion 内手动调试。
 - **外部渲染模式**：脚本也可以直接读取外部文章目录，所有产物统一导出到本仓库 `out/<文章slug>/`。
 
 ## 推荐目录模型
@@ -55,7 +55,7 @@ src/articles/demo-opc/
 执行信息优先来自外部文章目录。同步脚本会把内容整理成 Remotion 可调试的平铺结构：
 
 ```bash
-npm run article:sync -- /Users/chenchen/Documents/moqi-opc/视频/<主题>/脚本
+npm run article:sync -- /Users/chenchen/Documents/cge-opc/视频/<主题>/脚本
 ```
 
 同步后会写入：

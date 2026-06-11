@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm run dev          # 启动 Remotion Studio，左侧边栏切换不同视频预览
 npm run build        # 打包视频（SSR bundle）
-npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
+npm run cover -- /Users/chenchen/Documents/cge-opc/视频/<主题>
                      # 读取 OPC 视频目录素材，导出 3 张封面候选
 npm run lint         # ESLint + TypeScript 类型检查
 
@@ -22,12 +22,12 @@ npx remotion render <composition-id> out/<output>.webm
 
 ## OPC 视频 + 封面工作流
 
-本项目是 `moqi-opc` 的 Remotion 工具包，包含封面渲染和视频动画制作两套工作流。每期视频的内容资产（背景、提示词、脚本、候选图等）都归档在 `moqi-opc` 项目中，本仓库只保存可复用的组件、渲染脚本和工具逻辑。
+本项目是 `cge-opc` 的 Remotion 工具包，包含封面渲染和视频动画制作两套工作流。每期视频的内容资产（背景、提示词、脚本、候选图等）都归档在 `cge-opc` 项目中，本仓库只保存可复用的组件、渲染脚本和工具逻辑。
 
 封面渲染入口：
 
 ```bash
-npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
+npm run cover -- /Users/chenchen/Documents/cge-opc/视频/<主题>
 ```
 
 脚本会读取：
@@ -53,6 +53,7 @@ npm run cover -- /Users/chenchen/Documents/moqi-opc/视频/<主题>
 **所有视频必须先写脚本，再写组件。**
 
 每个视频文件夹包含两个文件：
+
 ```
 video/<video-name>/
   script.md    ← 第一步：定义视频内容（分镜、文案、时长、风格）
@@ -60,6 +61,7 @@ video/<video-name>/
 ```
 
 创建新视频的流程：
+
 1. 复制 `_template/` 文件夹，重命名为视频名
 2. 填写 `script.md`，定义所有分镜的详细内容
 3. 根据 `script.md` 实现 `index.tsx`

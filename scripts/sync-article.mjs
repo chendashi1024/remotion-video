@@ -13,7 +13,7 @@ const projectRoot = process.cwd();
 const sourceArg = process.argv[2];
 
 if (!sourceArg) {
-  console.error("用法：npm run article:sync -- /path/to/moqi-opc/视频/<主题>/脚本");
+  console.error("用法：npm run article:sync -- /path/to/cge-opc/视频/<主题>/脚本");
   process.exit(1);
 }
 
