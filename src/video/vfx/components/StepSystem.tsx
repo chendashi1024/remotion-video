@@ -15,10 +15,9 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
   });
   const cornerLineStyle = {
     position: "absolute" as const,
-    width: 28,
-    height: 28,
+    width: 30,
+    height: 30,
     borderColor: accent,
-    opacity: 0.86,
     pointerEvents: "none" as const,
   };
 
@@ -58,10 +57,10 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
             transform: "skewX(-12deg)",
           }}
         />
-        <div style={{ ...cornerLineStyle, top: -1, left: -1, borderTop: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
-        <div style={{ ...cornerLineStyle, top: -1, right: -1, borderTop: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
-        <div style={{ ...cornerLineStyle, bottom: -1, left: -1, borderBottom: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
-        <div style={{ ...cornerLineStyle, bottom: -1, right: -1, borderBottom: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
+        <div style={{ ...cornerLineStyle, top: 8, left: 8, borderTop: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
+        <div style={{ ...cornerLineStyle, top: 8, right: 8, borderTop: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
+        <div style={{ ...cornerLineStyle, bottom: 8, left: 8, borderBottom: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
+        <div style={{ ...cornerLineStyle, bottom: 8, right: 8, borderBottom: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
         <div
           style={{
             position: "absolute",

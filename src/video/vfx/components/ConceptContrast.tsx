@@ -5,8 +5,8 @@ import { getMatrixAccent, matrixOpcTheme } from "../../matrix-opc";
 
 const cornerBase = {
   position: "absolute" as const,
-  width: 28,
-  height: 28,
+  width: 30,
+  height: 30,
   pointerEvents: "none" as const,
 };
 
@@ -56,10 +56,10 @@ export const ConceptContrast: React.FC<VfxComponentProps> = ({ effect, frame, du
             transform: "skewX(-12deg)",
           }}
         />
-        <div style={{ ...cornerBase, top: -1, left: -1, borderTop: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
-        <div style={{ ...cornerBase, top: -1, right: -1, borderTop: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
-        <div style={{ ...cornerBase, bottom: -1, left: -1, borderBottom: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
-        <div style={{ ...cornerBase, bottom: -1, right: -1, borderBottom: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
+        <div style={{ ...cornerBase, top: 8, left: 8, borderTop: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
+        <div style={{ ...cornerBase, top: 8, right: 8, borderTop: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
+        <div style={{ ...cornerBase, bottom: 8, left: 8, borderBottom: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
+        <div style={{ ...cornerBase, bottom: 8, right: 8, borderBottom: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
         <div
           style={{
             position: "absolute",
