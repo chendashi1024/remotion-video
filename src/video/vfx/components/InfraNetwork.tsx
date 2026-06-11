@@ -12,11 +12,11 @@ const cornerBase = {
 };
 
 const nodePositions = [
-  { x: 80, y: 288 },
-  { x: 330, y: 132 },
-  { x: 580, y: 288 },
-  { x: 330, y: 428 },
-  { x: 610, y: 98 },
+  { x: 80, y: 230 },
+  { x: 330, y: 90 },
+  { x: 580, y: 230 },
+  { x: 330, y: 350 },
+  { x: 610, y: 60 },
 ];
 
 export const InfraNetwork: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
@@ -24,7 +24,7 @@ export const InfraNetwork: React.FC<VfxComponentProps> = ({ effect, frame, durat
   const accent = getMatrixAccent(effect.color === "red" ? "red" : effect.color === "blue" ? "blue" : effect.color === "yellow" ? "orange" : "green");
   const nodes = (effect.nodes?.length ? effect.nodes : splitVisualText(effect.text || effect.name)).slice(0, 5);
   const panelWidth = 820;
-  const panelHeight = 560;
+  const panelHeight = 510;
 
   return (
     <AbsoluteFill style={{ fontFamily: matrixOpcTheme.fontFamily, color: matrixOpcTheme.colors.text, opacity }}>
@@ -78,8 +78,8 @@ export const InfraNetwork: React.FC<VfxComponentProps> = ({ effect, frame, durat
         <div style={{ marginTop: 6, fontSize: 36, lineHeight: 1.06, fontWeight: 950, letterSpacing: 0 }}>
           {effect.mainTitle || effect.name || "内容资产系统"}
         </div>
-        <div style={{ position: "relative", marginTop: 18, height: 440 }}>
-          <svg width="760" height="440" style={{ position: "absolute", inset: 0 }}>
+        <div style={{ position: "relative", marginTop: 18, height: 390 }}>
+          <svg width="760" height="390" style={{ position: "absolute", inset: 0 }}>
             {nodes.slice(1).map((_, index) => (
               <line
                 key={index}
@@ -114,10 +114,10 @@ export const InfraNetwork: React.FC<VfxComponentProps> = ({ effect, frame, durat
                 key={`${node}-${index}`}
                 style={{
                   position: "absolute",
-                  left: pos.x - 72,
-                  top: pos.y - 40,
-                  width: 144,
-                  minHeight: 80,
+                  left: pos.x - 65,
+                  top: pos.y - 36,
+                  width: 130,
+                  minHeight: 72,
                   borderRadius: 999,
                   display: "flex",
                   alignItems: "center",

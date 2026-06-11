@@ -5,8 +5,10 @@ import { CoverStill, coverVariants, getCompositionId } from "./cover";
 import { ArticleDebugVideo } from "./video/article-debug/ArticleDebugVideo";
 import { RemotionIntro } from "./video/remotion-intro";
 import { ChapterTimeline, fallbackTimeline } from "./video/timeline";
-import { defaultVfxEffect, VfxClip } from "./video/vfx";
+import { defaultVfxEffect, VfxClip, VfxDemo } from "./video/vfx";
+import type { VfxBriefItem } from "./video/vfx";
 import { MatrixBrandLayer, MatrixOpcPreview, MatrixPersistentOverlay } from "./video/matrix-opc";
+import demoEffects from "./video/vfx/demo-effects.json";
 
 export const RemotionRoot: React.FC = () => {
   const defaultArticle = studioArticleProjects[0];
@@ -97,6 +99,17 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="vfx-demo"
+        component={VfxDemo}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          effects: demoEffects.effects as VfxBriefItem[],
+        }}
       />
       {studioArticleProjects.map((article) => (
         <Composition
