@@ -15,6 +15,10 @@ export const ConceptContrast: React.FC<VfxComponentProps> = ({ effect, frame, du
   const accent = getMatrixAccent(effect.color === "red" ? "red" : effect.color === "blue" ? "blue" : effect.color === "yellow" ? "orange" : "green");
   const leftX = interpolate(frame, [0, 16], [-42, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const rightX = interpolate(frame, [4, 22], [56, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const scan = interpolate(frame, [0, durationInFrames], [-200, 900], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill style={{ fontFamily: matrixOpcTheme.fontFamily, color: matrixOpcTheme.colors.text, opacity }}>
@@ -28,8 +32,30 @@ export const ConceptContrast: React.FC<VfxComponentProps> = ({ effect, frame, du
           background: `linear-gradient(135deg, ${matrixOpcTheme.colors.panel}, rgba(0,8,6,0.54))`,
           border: `1px solid ${accent}66`,
           boxShadow: `${matrixOpcTheme.shadow.panel}, 0 0 18px ${accent}18`,
+          overflow: "hidden",
         }}
       >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            opacity: 0.14,
+            backgroundImage:
+              "linear-gradient(rgba(40,245,154,0.22) 1px, transparent 1px), linear-gradient(90deg, rgba(40,245,154,0.18) 1px, transparent 1px)",
+            backgroundSize: "34px 34px",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: scan,
+            width: 160,
+            height: "100%",
+            background: `linear-gradient(90deg, transparent, ${accent}1a, transparent)`,
+            transform: "skewX(-12deg)",
+          }}
+        />
         <div style={{ ...cornerBase, top: -1, left: -1, borderTop: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
         <div style={{ ...cornerBase, top: -1, right: -1, borderTop: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
         <div style={{ ...cornerBase, bottom: -1, left: -1, borderBottom: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />

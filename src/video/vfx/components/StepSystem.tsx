@@ -1,4 +1,4 @@
-import { AbsoluteFill } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import type { VfxComponentProps } from "../types";
 import { splitVisualText } from "../theme";
 import { appear } from "../utils";
@@ -9,6 +9,10 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
   const items = (effect.steps?.length ? effect.steps : splitVisualText(effect.text || effect.name)).slice(0, 5);
   const isFlow = effect.layout !== "checklist";
   const accent = effect.color === "red" ? matrixOpcTheme.colors.red : effect.color === "yellow" ? matrixOpcTheme.colors.orange : matrixOpcTheme.colors.green;
+  const scan = interpolate(frame, [0, durationInFrames], [-200, 900], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
   const cornerLineStyle = {
     position: "absolute" as const,
     width: 28,
@@ -30,8 +34,30 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
           background: `linear-gradient(135deg, ${matrixOpcTheme.colors.panel}, rgba(0, 8, 6, 0.54))`,
           border: `1px solid ${accent}66`,
           boxShadow: `${matrixOpcTheme.shadow.panel}, 0 0 18px ${accent}18`,
+          overflow: "hidden",
         }}
       >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            opacity: 0.14,
+            backgroundImage:
+              "linear-gradient(rgba(40,245,154,0.22) 1px, transparent 1px), linear-gradient(90deg, rgba(40,245,154,0.18) 1px, transparent 1px)",
+            backgroundSize: "34px 34px",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: scan,
+            width: 160,
+            height: "100%",
+            background: `linear-gradient(90deg, transparent, ${accent}1a, transparent)`,
+            transform: "skewX(-12deg)",
+          }}
+        />
         <div style={{ ...cornerLineStyle, top: -1, left: -1, borderTop: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
         <div style={{ ...cornerLineStyle, top: -1, right: -1, borderTop: `2px solid ${accent}`, borderRight: `2px solid ${accent}` }} />
         <div style={{ ...cornerLineStyle, bottom: -1, left: -1, borderBottom: `2px solid ${accent}`, borderLeft: `2px solid ${accent}` }} />
