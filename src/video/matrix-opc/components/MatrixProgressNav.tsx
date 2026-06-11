@@ -34,7 +34,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
         top: 0,
         left: 34,
         right: 34,
-        height: 36,
+        height: 38,
         transform: `translateY(${y}px)`,
         fontFamily: matrixOpcTheme.fontFamily,
         color: matrixOpcTheme.colors.text,
@@ -96,8 +96,8 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           position: "absolute",
           left: 0,
           right: 0,
-          top: 6,
-          height: 20,
+          top: 4,
+          height: 24,
         }}
       >
         {steps.map((step, index) => {
@@ -113,8 +113,8 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
                 position: "absolute",
                 left: `${labelProgress * 100}%`,
                 top: 0,
-                width: 190,
-                height: 20,
+                width: 210,
+                height: 24,
                 transform: "translateX(-50%)",
               }}
             >
@@ -124,7 +124,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
                   top: 0,
                   left: 0,
                   right: 0,
-                  lineHeight: "20px",
+                  lineHeight: "24px",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
@@ -134,9 +134,9 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
                     : passed
                       ? "rgba(232,255,245,0.85)"
                       : "rgba(232,255,245,0.60)",
-                  fontSize: 14,
+                  fontSize: 20,
                   fontWeight: active ? 900 : 650,
-                  letterSpacing: 0.4,
+                  letterSpacing: 0.6,
                 }}
               >
                 {String(index + 1).padStart(2, "0")}. {step.title}
