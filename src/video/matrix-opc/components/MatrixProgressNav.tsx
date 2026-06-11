@@ -31,15 +31,15 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
     <div
       style={{
         position: "absolute",
-        top: 24,
+        top: 0,
         left: 34,
         right: 34,
-        height: 68,
+        height: 44,
         transform: `translateY(${y}px)`,
         fontFamily: matrixOpcTheme.fontFamily,
         color: matrixOpcTheme.colors.text,
         background: "rgba(0,0,0,0.65)",
-        borderRadius: 4,
+        borderRadius: "0 0 4px 4px",
       }}
     >
       <div
@@ -47,7 +47,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           position: "absolute",
           left: 0,
           right: 0,
-          top: 34,
+          top: 26,
           height: 1,
           background: "rgba(108,143,130,0.45)",
         }}
@@ -57,7 +57,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           position: "absolute",
           left: 0,
           width: `${normalizedProgress * 100}%`,
-          top: 34,
+          top: 26,
           height: 2,
           background: `linear-gradient(90deg, rgba(40,245,154,0.95), rgba(76,255,178,0.92))`,
         }}
@@ -66,7 +66,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
         style={{
           position: "absolute",
           left: `${normalizedProgress * 100}%`,
-          top: 28,
+          top: 20,
           width: 12,
           height: 12,
           transform: "translateX(-50%) rotate(45deg)",
@@ -82,7 +82,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
             style={{
               position: "absolute",
               left: `${boundaryProgress * 100}%`,
-              top: 30,
+              top: 22,
               width: 8,
               height: 8,
               transform: "translateX(-50%) rotate(45deg)",
@@ -96,7 +96,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           position: "absolute",
           left: 0,
           right: 0,
-          top: 4,
+          top: 2,
           height: 48,
         }}
       >
