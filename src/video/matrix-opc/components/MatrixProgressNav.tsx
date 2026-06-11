@@ -31,73 +31,81 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
     <div
       style={{
         position: "absolute",
-        top: 24,
-        left: 34,
-        right: 34,
-        height: 68,
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 72,
         transform: `translateY(${y}px)`,
         fontFamily: matrixOpcTheme.fontFamily,
         color: matrixOpcTheme.colors.text,
+        background: "rgba(0,0,0,0.72)",
+        borderBottom: `1px solid ${matrixOpcTheme.colors.hairline}`,
       }}
     >
+      {/* 轨道层 */}
       <div
         style={{
           position: "absolute",
-          left: 0,
-          right: 0,
-          top: 34,
-          height: 1,
-          background: "rgba(108,143,130,0.26)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          width: `${normalizedProgress * 100}%`,
-          top: 34,
-          height: 2,
-          background: `linear-gradient(90deg, rgba(40,245,154,0.95), rgba(76,255,178,0.92))`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: `${normalizedProgress * 100}%`,
-          top: 28,
-          width: 12,
-          height: 12,
-          transform: "translateX(-50%) rotate(45deg)",
-          background: matrixOpcTheme.colors.green,
-        }}
-      />
-      {steps.slice(1).map((step, index) => {
-        const boundaryProgress = (index + 1) / steps.length;
-        const passed = boundaryProgress <= normalizedProgress + 0.002;
-        return (
-          <div
-            key={`boundary-${step.title}-${index}`}
-            style={{
-              position: "absolute",
-              left: `${boundaryProgress * 100}%`,
-              top: 30,
-              width: 8,
-              height: 8,
-              transform: "translateX(-50%) rotate(45deg)",
-              background: passed ? `${matrixOpcTheme.colors.green}cc` : matrixOpcTheme.colors.mutedDeep,
-            }}
-          />
-        );
-      })}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: 4,
-          height: 48,
+          left: 34,
+          right: 34,
+          top: 0,
+          bottom: 0,
         }}
       >
+        {/* 背景轨线 */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 38,
+            height: 1,
+            background: "rgba(108,143,130,0.45)",
+          }}
+        />
+        {/* 已走完的进度线 */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            width: `${normalizedProgress * 100}%`,
+            top: 38,
+            height: 2,
+            background: `linear-gradient(90deg, rgba(40,245,154,0.95), rgba(76,255,178,0.92))`,
+          }}
+        />
+        {/* 当前进度菱形 */}
+        <div
+          style={{
+            position: "absolute",
+            left: `${normalizedProgress * 100}%`,
+            top: 32,
+            width: 12,
+            height: 12,
+            transform: "translateX(-50%) rotate(45deg)",
+            background: matrixOpcTheme.colors.green,
+          }}
+        />
+        {/* 步骤分界菱形 */}
+        {steps.slice(1).map((step, index) => {
+          const boundaryProgress = (index + 1) / steps.length;
+          const passed = boundaryProgress <= normalizedProgress + 0.002;
+          return (
+            <div
+              key={`boundary-${step.title}-${index}`}
+              style={{
+                position: "absolute",
+                left: `${boundaryProgress * 100}%`,
+                top: 34,
+                width: 8,
+                height: 8,
+                transform: "translateX(-50%) rotate(45deg)",
+                background: passed ? `${matrixOpcTheme.colors.green}cc` : "rgba(108,143,130,0.55)",
+              }}
+            />
+          );
+        })}
+        {/* 步骤文字 */}
         {steps.map((step, index) => {
           const active = index === activeIndex;
           const segmentStart = index / steps.length;
@@ -110,30 +118,25 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
               style={{
                 position: "absolute",
                 left: `${labelProgress * 100}%`,
-                top: 0,
+                top: 6,
                 width: 190,
                 height: 48,
                 transform: "translateX(-50%)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                textAlign: "center",
+                color: active
+                  ? matrixOpcTheme.colors.green
+                  : passed
+                    ? "rgba(232,255,245,0.85)"
+                    : "rgba(232,255,245,0.60)",
+                fontSize: 14,
+                fontWeight: active ? 900 : 650,
+                letterSpacing: 0.4,
               }}
             >
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  textAlign: "center",
-                  color: active ? matrixOpcTheme.colors.green : passed ? "rgba(232,255,245,0.56)" : "rgba(232,255,245,0.32)",
-                  fontSize: 14,
-                  fontWeight: active ? 900 : 650,
-                  letterSpacing: 0.4,
-                }}
-              >
-                {String(index + 1).padStart(2, "0")}. {step.title}
-              </div>
+              {String(index + 1).padStart(2, "0")}. {step.title}
             </div>
           );
         })}
