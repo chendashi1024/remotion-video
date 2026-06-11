@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { matrixOpcTheme } from "../theme";
 
 type MatrixBackdropProps = {
@@ -14,10 +14,6 @@ const codeColumns = Array.from({ length: 18 }, (_, index) => ({
 }));
 
 export const MatrixBackdrop: React.FC<MatrixBackdropProps> = ({ frame, density = "low", transparent = true }) => {
-  const sweep = interpolate(frame % 180, [0, 180], [-260, 1920], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
   const columnCount = density === "medium" ? codeColumns.length : 10;
 
   return (
@@ -55,7 +51,7 @@ export const MatrixBackdrop: React.FC<MatrixBackdropProps> = ({ frame, density =
               fontSize: 15,
               lineHeight: "24px",
               writingMode: "vertical-rl",
-              textShadow: matrixOpcTheme.shadow.greenSoft,
+              textShadow: "none",
               whiteSpace: "nowrap",
             }}
           >
@@ -66,21 +62,9 @@ export const MatrixBackdrop: React.FC<MatrixBackdropProps> = ({ frame, density =
       <div
         style={{
           position: "absolute",
-          left: sweep,
-          top: 0,
-          width: 180,
-          height: "100%",
-          background:
-            "linear-gradient(90deg, transparent, rgba(40,245,154,0.14), rgba(76,255,178,0.08), transparent)",
-          filter: "blur(10px)",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
           inset: 0,
-          background: "radial-gradient(circle at 22% 48%, rgba(40,245,154,0.12), transparent 28%)",
-          opacity: 0.58,
+          background: "radial-gradient(circle at 22% 48%, rgba(40,245,154,0.06), transparent 28%)",
+          opacity: 0.35,
         }}
       />
     </AbsoluteFill>

@@ -1,17 +1,12 @@
-import { AbsoluteFill, interpolate } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { matrixOpcTheme } from "../theme";
 
 type BrandSignatureProps = {
-  frame: number;
+  frame?: number;
   variant?: "compact" | "full";
 };
 
-export const BrandSignature: React.FC<BrandSignatureProps> = ({ frame, variant = "full" }) => {
-  const pulse = interpolate(frame % 150, [0, 24, 150], [0.62, 1, 0.62], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
+export const BrandSignature: React.FC<BrandSignatureProps> = ({ variant = "full" }) => {
   return (
     <AbsoluteFill style={{ pointerEvents: "none", fontFamily: matrixOpcTheme.fontFamily }}>
       <div
@@ -23,8 +18,7 @@ export const BrandSignature: React.FC<BrandSignatureProps> = ({ frame, variant =
           alignItems: "center",
           gap: 12,
           color: matrixOpcTheme.colors.green,
-          opacity: pulse * 0.92,
-          textShadow: "0 0 10px rgba(40,245,154,0.28)",
+          opacity: 0.85,
         }}
       >
         <div
@@ -32,7 +26,6 @@ export const BrandSignature: React.FC<BrandSignatureProps> = ({ frame, variant =
             width: 9,
             height: 9,
             border: `1px solid ${matrixOpcTheme.colors.green}`,
-            boxShadow: "0 0 8px rgba(40,245,154,0.28)",
             flex: "0 0 auto",
           }}
         />

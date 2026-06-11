@@ -58,7 +58,6 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           top: 34,
           height: 2,
           background: `linear-gradient(90deg, rgba(40,245,154,0.95), rgba(76,255,178,0.92))`,
-          boxShadow: "0 0 7px rgba(40,245,154,0.24)",
         }}
       />
       <div
@@ -70,7 +69,6 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           height: 12,
           transform: "translateX(-50%) rotate(45deg)",
           background: matrixOpcTheme.colors.green,
-          boxShadow: `0 0 10px ${matrixOpcTheme.colors.green}, 0 0 20px ${matrixOpcTheme.colors.green}55`,
         }}
       />
       {steps.slice(1).map((step, index) => {
@@ -87,7 +85,6 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
               height: 8,
               transform: "translateX(-50%) rotate(45deg)",
               background: passed ? `${matrixOpcTheme.colors.green}cc` : matrixOpcTheme.colors.mutedDeep,
-              boxShadow: passed ? `0 0 6px ${matrixOpcTheme.colors.green}55` : "none",
             }}
           />
         );
