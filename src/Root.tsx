@@ -1,7 +1,6 @@
 import "./index.css";
 import { Composition } from "remotion";
 import { studioArticleProjects } from "./articles";
-import { CoverStill, coverVariants, getCompositionId } from "./cover";
 import { ArticleDebugVideo } from "./video/article-debug/ArticleDebugVideo";
 import { RemotionIntro } from "./video/remotion-intro";
 import { ChapterTimeline, fallbackTimeline } from "./video/timeline";
@@ -28,21 +27,6 @@ export const RemotionRoot: React.FC = () => {
               data: defaultArticle.video,
             }}
           />
-          {coverVariants.map((variant) => (
-            <Composition
-              key={getCompositionId(defaultArticle.cover.data, variant)}
-              id={getCompositionId(defaultArticle.cover.data, variant)}
-              component={CoverStill}
-              durationInFrames={1}
-              fps={30}
-              width={1080}
-              height={1440}
-              defaultProps={{
-                data: defaultArticle.cover.data,
-                variant,
-              }}
-            />
-          ))}
         </>
       ) : null}
       <Composition
@@ -137,23 +121,6 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
       ))}
-      {studioArticleProjects.map((article) =>
-        article.cover.variants.map((variant) => (
-          <Composition
-            key={`article-${article.slug}-cover-${variant}`}
-            id={`article-${article.slug}-cover-${variant}`}
-            component={CoverStill}
-            durationInFrames={1}
-            fps={30}
-            width={1080}
-            height={1440}
-            defaultProps={{
-              data: article.cover.data,
-              variant,
-            }}
-          />
-        ))
-      )}
     </>
   );
 };

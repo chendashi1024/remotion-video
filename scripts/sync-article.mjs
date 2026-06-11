@@ -1,12 +1,11 @@
 import {
-  copyFileSync,
   existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,
   writeFileSync,
 } from "node:fs";
-import { basename, dirname, extname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import { parseVfxBrief } from "./vfx-brief.mjs";
 
 const projectRoot = process.cwd();
@@ -20,59 +19,25 @@ if (!sourceArg) {
 const sourceDir = resolve(sourceArg);
 const slug = basename(sourceDir) === "脚本" ? basename(dirname(sourceDir)) : basename(sourceDir);
 const articleDir = join(projectRoot, "src", "articles", slug);
-const publicArticleDir = join(projectRoot, "public", "articles", slug);
 
 const readIfExists = (path) => (path && existsSync(path) ? readFileSync(path, "utf8") : "");
 
-const field = (markdown, label) => {
-  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = markdown.match(new RegExp(`^-\\s*${escaped}[：:]\\s*(.+)$`, "m"));
-  return match?.[1]?.trim() ?? "";
-};
-
-const listField = (markdown, label) =>
-  field(markdown, label)
-    .split(/[、,，/]/)
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .slice(0, 3);
-
-const firstExistingPath = (paths) => paths.find((path) => existsSync(path)) ?? "";
-
 const sourceVideoScriptPath = join(sourceDir, "video-script.md");
-const sourceCoverPromptPath = join(sourceDir, "cover-prompt.md");
 const sourceBgPromptPath = join(sourceDir, "bg-prompt.md");
 const sourceMusicPath = join(sourceDir, "music.md");
-const sourceBackgroundPath = firstExistingPath([
-  join(sourceDir, "cover-bg.png"),
-  join(sourceDir, "cover-bg.jpg"),
-  join(sourceDir, "cover-bg.jpeg"),
-  join(sourceDir, "cover-bg.webp"),
-  join(sourceDir, "cover-bg.svg"),
-]);
-
-if (!existsSync(sourceCoverPromptPath)) {
-  console.error(`缺少封面制作说明：${sourceCoverPromptPath}`);
-  process.exit(1);
-}
 
 if (!existsSync(sourceVideoScriptPath)) {
   console.error(`缺少视频脚本：${sourceVideoScriptPath}`);
   process.exit(1);
 }
 
-const coverPrompt = readIfExists(sourceCoverPromptPath);
 const videoScript = readIfExists(sourceVideoScriptPath);
 const { effects, manualAssets } = parseVfxBrief(videoScript);
 const title =
-  field(coverPrompt, "标题") ||
   videoScript.match(/^#\s+(.+)$/m)?.[1]?.trim() ||
   slug;
-const subtitle = field(coverPrompt, "副标题") || "普通人也能照着做";
-const topic = field(coverPrompt, "视频主题") || slug;
-const highlightWords = listField(coverPrompt, "高亮词");
-const style = field(videoScript, "风格") || "透明背景 + 文章调试层";
-const durationText = field(videoScript, "时长");
+const style = videoScript.match(/^-\s*风格[：:]\s*(.+)$/m)?.[1]?.trim() || "透明背景 + 文章调试层";
+const durationText = videoScript.match(/^-\s*时长[：:]\s*(.+)$/m)?.[1]?.trim() || "";
 const frameDurationMatch = durationText.match(/(\d+)\s*帧/);
 const secondDurationMatch = durationText.match(/(\d+(?:\.\d+)?)\s*秒/);
 const durationInFrames = frameDurationMatch
@@ -101,25 +66,7 @@ const scriptSummary =
     : "从文章脚本生成调试视频，用于在 Remotion Studio 中确认布局、节奏和动效方向。";
 
 mkdirSync(articleDir, { recursive: true });
-mkdirSync(publicArticleDir, { recursive: true });
 
-let backgroundRef = "cover-placeholder/bg.svg";
-let syncedCoverPrompt = coverPrompt;
-if (sourceBackgroundPath) {
-  const backgroundExt = extname(sourceBackgroundPath) || ".png";
-  const backgroundName = `cover-bg${backgroundExt}`;
-  copyFileSync(sourceBackgroundPath, join(publicArticleDir, backgroundName));
-  backgroundRef = `articles/${slug}/${backgroundName}`;
-  syncedCoverPrompt = coverPrompt.replace(
-    /^-\s*背景图[：:].*$/m,
-    `- 背景图：public/articles/${slug}/${backgroundName}`
-  );
-  if (syncedCoverPrompt === coverPrompt) {
-    syncedCoverPrompt = `${coverPrompt.trim()}\n- 背景图：public/articles/${slug}/${backgroundName}\n`;
-  }
-}
-
-writeFileSync(join(articleDir, "cover-prompt.md"), syncedCoverPrompt.trimEnd() + "\n", "utf8");
 writeFileSync(join(articleDir, "video-script.md"), videoScript.trimEnd() + "\n", "utf8");
 if (existsSync(sourceBgPromptPath)) {
   writeFileSync(join(articleDir, "bg-prompt.md"), readIfExists(sourceBgPromptPath).trimEnd() + "\n", "utf8");
@@ -132,30 +79,6 @@ const meta = {
   id: slug,
   title,
   slug,
-  cover: {
-    variants: ["impact", "tech", "poster"],
-    data: {
-      id: topic,
-      title,
-      subtitle,
-      background: backgroundRef,
-      person: "cover-placeholder/person.svg",
-      textStyle: {
-        highlightWords: highlightWords.length > 0 ? highlightWords : [title.slice(0, 2)],
-        mood: "impact-tech",
-        contrast: "high",
-        layoutHint: "title-top-person-bottom",
-      },
-      personStyle: {
-        position: "bottom-center",
-        scale: 1,
-        rimLight: "cyan-blue",
-        ambientColor: "#2563eb",
-        shadow: "strong",
-        lowerFade: true,
-      },
-    },
-  },
   video: {
     title,
     scriptSummary,
@@ -195,6 +118,4 @@ writeFileSync(
 );
 
 const relativeArticleDir = relative(projectRoot, articleDir);
-const relativePublicDir = relative(projectRoot, publicArticleDir);
 console.log(`文章已同步：${relativeArticleDir}`);
-console.log(`预览素材已同步：${relativePublicDir}`);

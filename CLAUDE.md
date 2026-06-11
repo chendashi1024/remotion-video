@@ -7,46 +7,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm run dev          # 启动 Remotion Studio，左侧边栏切换不同视频预览
 npm run build        # 打包视频（SSR bundle）
-npm run cover -- /Users/chenchen/Documents/cge-opc/视频/<主题>
-                     # 读取 OPC 视频目录素材，导出 3 张封面候选
 npm run lint         # ESLint + TypeScript 类型检查
 
 # 渲染指定视频
-npx remotion render <composition-id> out/<output>.webm
-# 例如：npx remotion render remotion-intro out/intro.webm
+npx remotion render <composition-id> out/<output>.mov
+# 例如：npx remotion render remotion-intro out/intro.mov
 ```
 
 ## 项目架构
 
 这是一个 **Remotion** 项目 — 用 React 组件以编程方式生成视频。
 
-## OPC 视频 + 封面工作流
+## OPC 视频工作流
 
-本项目是 `cge-opc` 的 Remotion 工具包，包含封面渲染和视频动画制作两套工作流。每期视频的内容资产（背景、提示词、脚本、候选图等）都归档在 `cge-opc` 项目中，本仓库只保存可复用的组件、渲染脚本和工具逻辑。
+本项目是 `cge-opc` 的 Remotion 工具包，用于视频动画制作。每期视频的内容资产（背景、提示词、脚本等）都归档在 `cge-opc` 项目中，本仓库只保存可复用的组件、渲染脚本和工具逻辑。
 
-封面渲染入口：
-
-```bash
-npm run cover -- /Users/chenchen/Documents/cge-opc/视频/<主题>
-```
-
-脚本会读取：
-
-```txt
-视频/<主题>/素材/封面/prompt/cover.render.md
-视频/<主题>/素材/封面/bg.png
-视频/通用素材/person/fixed-person.png
-```
-
-并导出：
-
-```txt
-视频/<主题>/素材/封面/候选/cover-impact.png
-视频/<主题>/素材/封面/候选/cover-tech.png
-视频/<主题>/素材/封面/候选/cover-clean.png
-```
-
-不要把每期的 `bg.png`、提示词、脚本或候选封面提交到本仓库；本仓库只是 Remotion 工具包。
+不要把每期的素材、提示词或脚本提交到本仓库；本仓库只是 Remotion 工具包。
 
 ### 脚本先行工作流（重要）
 

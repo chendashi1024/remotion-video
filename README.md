@@ -1,4 +1,4 @@
-# Remotion Workflow — 视频 + 封面制作工作流
+# Remotion Workflow — 视频制作工作流
 
 > 用 React 组件编程生成视频 —— 脚本先行，一键渲染，透明叠加，专为 AI 知识博主的口播视频打造。
 
@@ -43,25 +43,23 @@ npm run dev
 
 浏览器打开 Remotion Studio，左侧选中 `remotion-intro` 即可预览。
 
-## 抖音封面 + 视频制作
+## 视频制作
 
-本项目同时作为 `cge-opc` 的封面渲染和视频动画制作工具包。
+本项目作为 `cge-opc` 的视频动画制作工具包。
 
-当前采用“双模式”：
+当前采用”双模式”：
 
-- Remotion 内置文章样例用于手动调试，`npm run dev` 不依赖外部目录也能预览 cover/video。
-- 外部文章目录用于最终批量生产，封面和视频产物统一输出到 `out/<文章slug>/`。
+- Remotion 内置文章样例用于手动调试，`npm run dev` 不依赖外部目录也能预览视频。
+- 外部文章目录用于最终批量生产，视频产物统一输出到 `out/<文章slug>/`。
 
 详细说明见根目录：[手动调试README.md](/Users/chenchen/Documents/remotion-workflow/手动调试README.md)。
 
-推荐的新文章目录按文件名区分用途，不再在文章内拆 `cover/`、`video/` 子目录：
+推荐的新文章目录结构：
 
 ```txt
 文章/<article-slug>/
 ├── article.md
 ├── meta.json
-├── cover-prompt.md
-├── cover-bg.png
 ├── video-script.md
 ├── bg-prompt.md
 └── music.md
@@ -80,33 +78,11 @@ OPC 侧脚本目录约定：
 ```txt
 cge-opc/视频/<主题>/脚本/
 ├── video-script.md
-├── cover-prompt.md
 ├── bg-prompt.md
-├── music.md
-└── cover-bg.png
+└── music.md
 ```
 
-固定人物图：
-
-```txt
-cge-opc/视频/通用素材/person/fixed-person.png
-```
-
-生成封面候选：
-
-```bash
-npm run article:cover -- /Users/chenchen/Documents/cge-opc/视频/<主题>
-```
-
-输出：
-
-```txt
-out/<主题>/cover-impact.png
-out/<主题>/cover-tech.png
-out/<主题>/cover-poster.png
-```
-
-不要把每期 `bg.png`、提示词或候选封面提交到本仓库。
+不要把每期素材、提示词提交到本仓库。
 
 ## 手动安装
 
@@ -144,12 +120,8 @@ npm run render
 
 ```
 src/
-├── Root.tsx                          ← 注册 cover + video 所有 Composition
+├── Root.tsx                          ← 注册所有 Composition
 ├── index.ts                          ← 入口
-├── cover/                            ← 封面渲染组件
-│   ├── CoverStill.tsx
-│   ├── types.ts
-│   └── variants.ts
 └── video/                            ← 视频动画组件
     ├── _template/                    ← 新视频模板（复制即用）
     │   ├── script.md                 ← 第一步：写分镜脚本
@@ -196,12 +168,8 @@ src/
 ```bash
 npm run dev              # 启动 Studio，左侧切换视频预览
 npm run render           # 渲染 remotion-intro → out/intro.mov
-npm run article:cover -- /Users/chenchen/Documents/cge-opc/视频/<主题>
-                         # 读取 OPC 素材并导出三张封面候选
 npm run article:video -- src/articles/<主题>
                          # 读取文章脚本并导出调试视频
-npm run article:all -- src/articles/<主题>
-                         # 同一篇文章的封面和视频一次性生成
 npm run article:sync -- /Users/chenchen/Documents/cge-opc/视频/<主题>/脚本
                          # 同步外部文章到 src/articles/<主题> 供 Studio 手动调试
 npm run vfx -- /Users/chenchen/Documents/cge-opc/视频/<主题>/脚本

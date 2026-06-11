@@ -10,3 +10,4 @@ build
 .runtime
 public/runtime
 public/articles
+.gstack/
