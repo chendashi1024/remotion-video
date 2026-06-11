@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 
 const maybeMode = process.argv[2];
 const mode = maybeMode === "video" ? "video" : "all";
-const inputDir = modes.has(maybeMode) ? process.argv[3] : process.argv[2];
+const inputDir = maybeMode === "video" ? process.argv[3] : process.argv[2];
 
 const run = (script) => {
   const args = ["node", script];

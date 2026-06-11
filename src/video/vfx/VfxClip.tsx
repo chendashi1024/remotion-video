@@ -8,10 +8,11 @@ export const VfxClip: React.FC<VfxClipProps> = ({ effect, durationInFrames }) =>
   const config = useVideoConfig();
   const resolvedDuration = durationInFrames ?? config.durationInFrames;
   const Component = isKnownVfxType(effect.type) ? vfxRegistry[effect.type] : vfxRegistry.ProgramPackage;
+  const themedEffect = { ...effect, color: "green" as const };
 
   return (
     <AbsoluteFill style={{ backgroundColor: "transparent", fontFamily: vfxTheme.fontFamily }}>
-      <Component effect={effect} frame={frame} durationInFrames={resolvedDuration} />
+      <Component effect={themedEffect} frame={frame} durationInFrames={resolvedDuration} />
     </AbsoluteFill>
   );
 };

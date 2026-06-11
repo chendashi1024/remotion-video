@@ -17,7 +17,13 @@ if (!sourceArg) {
 }
 
 const sourceDir = resolve(sourceArg);
-const slug = basename(sourceDir) === "脚本" ? basename(dirname(sourceDir)) : basename(sourceDir);
+const rawSlug = basename(sourceDir) === "脚本" ? basename(dirname(sourceDir)) : basename(sourceDir);
+const slug = rawSlug
+  .replace(/\s+/g, "-")
+  .replace(/[^a-zA-Z0-9一-鿿-]/g, "")
+  .replace(/-+/g, "-")
+  .replace(/^-|-$/g, "")
+  || rawSlug.replace(/[^a-zA-Z0-9一-鿿]/g, "").slice(0, 60);
 const articleDir = join(projectRoot, "src", "articles", slug);
 
 const readIfExists = (path) => (path && existsSync(path) ? readFileSync(path, "utf8") : "");
@@ -34,17 +40,21 @@ if (!existsSync(sourceVideoScriptPath)) {
 const videoScript = readIfExists(sourceVideoScriptPath);
 const { effects, manualAssets } = parseVfxBrief(videoScript);
 const title =
+  videoScript.match(/^-\s*文章标题[：:]\s*(.+)$/m)?.[1]?.trim() ||
   videoScript.match(/^#\s+(.+)$/m)?.[1]?.trim() ||
   slug;
 const style = videoScript.match(/^-\s*风格[：:]\s*(.+)$/m)?.[1]?.trim() || "透明背景 + 文章调试层";
-const durationText = videoScript.match(/^-\s*时长[：:]\s*(.+)$/m)?.[1]?.trim() || "";
+const durationText = videoScript.match(/^-\s*(?:预计)?时长[：:]\s*(.+)$/m)?.[1]?.trim() || "";
 const frameDurationMatch = durationText.match(/(\d+)\s*帧/);
+const minuteSecondMatch = durationText.match(/(\d+)\s*分\s*(\d+)\s*秒/);
 const secondDurationMatch = durationText.match(/(\d+(?:\.\d+)?)\s*秒/);
 const durationInFrames = frameDurationMatch
   ? Number(frameDurationMatch[1])
-  : secondDurationMatch
-    ? Math.round(Number(secondDurationMatch[1]) * 30)
-    : 180;
+  : minuteSecondMatch
+    ? (Number(minuteSecondMatch[1]) * 60 + Number(minuteSecondMatch[2])) * 30
+    : secondDurationMatch
+      ? Math.round(Number(secondDurationMatch[1]) * 30)
+      : 180;
 
 const summaryLines = videoScript
   .split("\n")
