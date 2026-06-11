@@ -6,6 +6,7 @@ import { ArticleDebugVideo } from "./video/article-debug/ArticleDebugVideo";
 import { RemotionIntro } from "./video/remotion-intro";
 import { ChapterTimeline, fallbackTimeline } from "./video/timeline";
 import { defaultVfxEffect, VfxClip } from "./video/vfx";
+import { MatrixBrandLayer, MatrixOpcPreview, MatrixPersistentOverlay } from "./video/matrix-opc";
 
 export const RemotionRoot: React.FC = () => {
   const defaultArticle = studioArticleProjects[0];
@@ -72,6 +73,30 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{
           timeline: fallbackTimeline,
         }}
+      />
+      <Composition
+        id="matrix-opc-style-preview"
+        component={MatrixOpcPreview}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="matrix-brand-layer"
+        component={MatrixBrandLayer}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="matrix-persistent-overlay"
+        component={MatrixPersistentOverlay}
+        durationInFrames={18000}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       {studioArticleProjects.map((article) => (
         <Composition
