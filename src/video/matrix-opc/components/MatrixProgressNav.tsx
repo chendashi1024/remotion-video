@@ -20,7 +20,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
   activeIndex,
   progress,
 }) => {
-  const y = interpolate(frame, [0, 18], [-20, 0], {
+  const y = interpolate(frame, [0, 45], [-38, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

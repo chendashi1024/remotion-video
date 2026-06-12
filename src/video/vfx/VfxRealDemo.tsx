@@ -99,7 +99,7 @@ export const VfxRealDemo: React.FC<VfxRealDemoProps> = ({
       />
 
       {/* 左下角品牌 */}
-      <BrandSignature />
+      <BrandSignature frame={frame} />
     </AbsoluteFill>
   );
 };
