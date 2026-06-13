@@ -338,11 +338,17 @@ const SceneRenderer: React.FC<{ scene: PersonIntegrationScene }> = ({ scene }) =
 export const OpcPersonIntegrationTest: React.FC = () => {
   const frame = useCurrentFrame();
   const progress = clamp(frame / Math.max(personIntegrationDuration - 1, 1));
-  const activeIndex = Math.min(
-    personIntegrationScenes.length - 1,
-    Math.max(0, personIntegrationScenes.findIndex((scene) => frame >= scene.start && frame < scene.start + scene.duration))
-  );
-  const steps = [{ title: "P0 METRIC" }, { title: "P0 EVIDENCE" }, { title: "P0 COMPARE" }, { title: "P1 CLOSURE" }];
+  const steps = [
+    { title: "内容垃圾警报" },
+    { title: "产出沉淀反差" },
+    { title: "内容散落路径" },
+    { title: "资产四条件" },
+    { title: "手艺系统反转" },
+    { title: "三步资产化" },
+    { title: "内容资产系统" },
+    { title: "下期资产库" },
+  ];
+  const activeIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
 
   return (
     <VideoShell>
