@@ -1,3 +1,5 @@
+import { componentCaseSceneDuration, componentCaseScenes } from "./componentCaseScenes";
+
 export type PersonIntegrationScene =
   | {
       component: "MetricCounterCard";
@@ -51,7 +53,8 @@ export type PersonIntegrationScene =
       };
     };
 
-export const personIntegrationDuration = 450;
+export const personIntroDuration = 450;
+export const personIntegrationDuration = personIntroDuration + componentCaseScenes.length * componentCaseSceneDuration;
 
 export const personIntegrationScenes: PersonIntegrationScene[] = [
   {

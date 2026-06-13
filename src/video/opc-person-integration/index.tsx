@@ -1,8 +1,10 @@
 import type { CSSProperties } from "react";
 import { AbsoluteFill, Easing, Img, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { MatrixBaseOverlay, matrixOpcTheme } from "../matrix-opc";
+import { VfxClip } from "../vfx";
 import { VideoShell } from "../vfx/components/analysis/SystemShell";
-import { personIntegrationDuration, personIntegrationScenes, type PersonIntegrationScene } from "./scenes";
+import { componentCaseSceneDuration, componentCaseScenes } from "./componentCaseScenes";
+import { personIntegrationDuration, personIntegrationScenes, personIntroDuration, type PersonIntegrationScene } from "./scenes";
 
 const green = matrixOpcTheme.colors.green;
 const hot = matrixOpcTheme.colors.greenHot;
@@ -367,16 +369,22 @@ export const OpcPersonIntegrationTest: React.FC = () => {
   const frame = useCurrentFrame();
   const progress = clamp(frame / Math.max(personIntegrationDuration - 1, 1));
   const steps = [
-    { title: "内容垃圾警报" },
-    { title: "产出沉淀反差" },
-    { title: "内容散落路径" },
-    { title: "资产四条件" },
-    { title: "手艺系统反转" },
-    { title: "三步资产化" },
-    { title: "内容资产系统" },
-    { title: "下期资产库" },
+    { title: "效率锁定" },
+    { title: "官方证据" },
+    { title: "对比判断" },
+    { title: "系统结论" },
+    { title: "组件巡检" },
+    { title: "数据图表" },
+    { title: "系统网络" },
+    { title: "收束" },
   ];
-  const activeIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
+  const caseProgress = clamp((frame - personIntroDuration) / Math.max(personIntegrationDuration - personIntroDuration - 1, 1));
+  const activeIndex =
+    frame < 105 ? 0 :
+      frame < 210 ? 1 :
+        frame < 315 ? 2 :
+          frame < personIntroDuration ? 3 :
+            Math.min(steps.length - 1, 4 + Math.floor(caseProgress * 4));
 
   return (
     <VideoShell>
@@ -384,6 +392,15 @@ export const OpcPersonIntegrationTest: React.FC = () => {
       {personIntegrationScenes.map((scene) => (
         <Sequence key={`${scene.component}-${scene.start}`} from={scene.start} durationInFrames={scene.duration}>
           <SceneRenderer scene={scene} />
+        </Sequence>
+      ))}
+      {componentCaseScenes.map((caseScene, index) => (
+        <Sequence
+          key={`${caseScene.effect.id}-${index}`}
+          from={personIntroDuration + index * componentCaseSceneDuration}
+          durationInFrames={componentCaseSceneDuration}
+        >
+          <VfxClip effect={caseScene.effect} durationInFrames={componentCaseSceneDuration} />
         </Sequence>
       ))}
       <MatrixBaseOverlay steps={steps} activeIndex={activeIndex} progress={progress} />
