@@ -6,7 +6,6 @@ import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
 import { SceneLabel, SubtitleLayer, VideoShell } from "../vfx/components/analysis/SystemShell";
 import { personIntegrationDuration, personIntegrationScenes, type FocusArea, type PersonIntegrationScene } from "./scenes";
 
-const H = 1080;
 const green = matrixOpcTheme.colors.green;
 const hot = matrixOpcTheme.colors.greenHot;
 const muted = matrixOpcTheme.colors.muted;
@@ -44,8 +43,8 @@ const Panel: React.FC<{ children: React.ReactNode; style?: CSSProperties; accent
       position: "absolute",
       overflow: "hidden",
       border: `1px solid ${accent}88`,
-      background: `linear-gradient(135deg, rgba(0, 18, 14, 0.86), rgba(0, 7, 6, 0.9))`,
-      boxShadow: `0 24px 70px rgba(0,0,0,0.45), 0 0 34px ${accent}22`,
+      background: "linear-gradient(135deg, rgba(2, 3, 3, 0.94), rgba(0, 0, 0, 0.96))",
+      boxShadow: `0 24px 70px rgba(0,0,0,0.58), 0 0 18px ${accent}12`,
       color: text,
       fontFamily: font,
       opacity,
@@ -56,9 +55,9 @@ const Panel: React.FC<{ children: React.ReactNode; style?: CSSProperties; accent
       style={{
         position: "absolute",
         inset: 0,
-        opacity: 0.17,
+        opacity: 0.035,
         backgroundImage:
-          "linear-gradient(rgba(40,245,154,0.24) 1px, transparent 1px), linear-gradient(90deg, rgba(40,245,154,0.18) 1px, transparent 1px)",
+          "linear-gradient(rgba(232,255,245,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(232,255,245,0.12) 1px, transparent 1px)",
         backgroundSize: "34px 34px",
       }}
     />
@@ -122,8 +121,6 @@ const DataPill: React.FC<{ label: string; accent?: string }> = ({ label, accent 
 );
 
 const BackgroundVideoFrame: React.FC = () => {
-  const frame = useCurrentFrame();
-  const scanY = ((frame * 1.6) % H) - 140;
   return (
     <AbsoluteFill style={{ background: bg, overflow: "hidden" }}>
       <Img
@@ -133,44 +130,21 @@ const BackgroundVideoFrame: React.FC = () => {
           height: "100%",
           objectFit: "cover",
           objectPosition: "center center",
-          filter: "saturate(1.03) contrast(1.08) brightness(0.82)",
+          filter: "grayscale(0.24) saturate(0.52) contrast(1.2) brightness(0.72)",
         }}
       />
       <AbsoluteFill
         style={{
           background:
-            "linear-gradient(90deg, rgba(0,8,6,0.94) 0%, rgba(0,14,10,0.88) 37%, rgba(0,10,8,0.36) 56%, rgba(0,0,0,0.2) 100%)",
+            "linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.82) 36%, rgba(0,0,0,0.2) 58%, rgba(0,0,0,0.42) 100%)",
         }}
       />
       <AbsoluteFill
         style={{
-          background:
-            "radial-gradient(circle at 62% 38%, rgba(40,245,154,0.16), transparent 23%), radial-gradient(circle at 18% 44%, rgba(28,183,255,0.1), transparent 36%)",
-          mixBlendMode: "screen",
-          opacity: 0.78,
+          background: "linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.02) 36%, rgba(0,0,0,0.38) 100%)",
         }}
       />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          opacity: 0.12,
-          backgroundImage:
-            "linear-gradient(rgba(40,245,154,0.26) 1px, transparent 1px), linear-gradient(90deg, rgba(40,245,154,0.18) 1px, transparent 1px)",
-          backgroundSize: "54px 54px",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: scanY,
-          height: 120,
-          background: `linear-gradient(180deg, transparent, ${green}2e, transparent)`,
-        }}
-      />
-      <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 150px rgba(0,0,0,0.5), inset 0 -150px 120px rgba(0,0,0,0.74)" }} />
+      <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 160px rgba(0,0,0,0.62), inset 0 -150px 120px rgba(0,0,0,0.78)" }} />
     </AbsoluteFill>
   );
 };
