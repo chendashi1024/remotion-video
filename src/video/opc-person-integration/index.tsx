@@ -130,21 +130,8 @@ const BackgroundVideoFrame: React.FC = () => {
           height: "100%",
           objectFit: "cover",
           objectPosition: "center center",
-          filter: "grayscale(0.24) saturate(0.52) contrast(1.2) brightness(0.72)",
         }}
       />
-      <AbsoluteFill
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.82) 36%, rgba(0,0,0,0.2) 58%, rgba(0,0,0,0.42) 100%)",
-        }}
-      />
-      <AbsoluteFill
-        style={{
-          background: "linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.02) 36%, rgba(0,0,0,0.38) 100%)",
-        }}
-      />
-      <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 160px rgba(0,0,0,0.62), inset 0 -150px 120px rgba(0,0,0,0.78)" }} />
     </AbsoluteFill>
   );
 };
