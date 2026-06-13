@@ -1,11 +1,12 @@
 import type { CSSProperties } from "react";
 import { AbsoluteFill, Easing, Img, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { matrixOpcTheme } from "../matrix-opc";
+import { BrandSignature } from "../matrix-opc/components/BrandSignature";
+import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
+import { SceneLabel, SubtitleLayer, VideoShell } from "../vfx/components/analysis/SystemShell";
 import { personIntegrationDuration, personIntegrationScenes, type FocusArea, type PersonIntegrationScene } from "./scenes";
 
-const W = 1920;
 const H = 1080;
-const subtitleSafeHeight = 168;
 const green = matrixOpcTheme.colors.green;
 const hot = matrixOpcTheme.colors.greenHot;
 const muted = matrixOpcTheme.colors.muted;
@@ -174,99 +175,6 @@ const BackgroundVideoFrame: React.FC = () => {
   );
 };
 
-const TopSystemBar: React.FC<{ activeIndex: number; progress: number }> = ({ activeIndex, progress }) => {
-  const labels = ["效率", "证据", "对比", "收束"];
-  return (
-    <div style={{ position: "absolute", top: 28, left: 52, right: 52, height: 72, fontFamily: mono, color: text }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <div style={{ color: green, fontSize: 26, fontWeight: 1000, letterSpacing: 3 }}>C哥OPC</div>
-        <div style={{ color: muted, fontSize: 13, letterSpacing: 2 }}>CONTENT OPERATING SYSTEM / LIVE ANALYSIS / 1920x1080</div>
-      </div>
-      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 2, background: "rgba(108,143,130,0.36)" }}>
-        <div style={{ width: `${progress * 100}%`, height: "100%", background: `linear-gradient(90deg, ${green}, ${hot})` }} />
-      </div>
-      <div style={{ position: "absolute", left: 0, width: 900, bottom: 8, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14 }}>
-        {labels.map((label, index) => (
-          <div key={label} style={{ color: index === activeIndex ? green : "rgba(232,255,245,0.56)", fontSize: 14, fontWeight: index === activeIndex ? 900 : 650, letterSpacing: 1.2 }}>
-            {String(index + 1).padStart(2, "0")} {label}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const BottomCaptionSafe: React.FC<{ textLine?: string }> = ({ textLine }) => (
-  <div
-    style={{
-      position: "absolute",
-      left: 0,
-      right: 0,
-      bottom: 0,
-      height: subtitleSafeHeight,
-      background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.78) 44%, rgba(0,0,0,0.9))",
-      pointerEvents: "none",
-    }}
-  >
-    {textLine ? (
-      <div
-        style={{
-          position: "absolute",
-          left: 420,
-          right: 420,
-          bottom: 52,
-          minHeight: 56,
-          display: "grid",
-          placeItems: "center",
-          color: text,
-          fontSize: 32,
-          lineHeight: 1.18,
-          fontWeight: 950,
-          textAlign: "center",
-          background: "rgba(0,0,0,0.32)",
-          borderTop: `1px solid ${green}44`,
-        }}
-      >
-        {textLine}
-      </div>
-    ) : null}
-    <div style={{ position: "absolute", left: 54, bottom: 48, color: green, fontSize: 28, fontWeight: 950, letterSpacing: 1.2 }}>
-      C哥OPC
-      <span style={{ color: muted, fontFamily: mono, fontSize: 14, marginLeft: 14, letterSpacing: 2 }}>CONTENT SYSTEM ANALYSIS</span>
-    </div>
-  </div>
-);
-
-const HostTargetFrame: React.FC<{ label?: string; compact?: boolean }> = ({ label = "HOST INPUT / LIVE FEED", compact = false }) => (
-  <div
-    style={{
-      position: "absolute",
-      left: compact ? 970 : 910,
-      top: compact ? 150 : 126,
-      width: compact ? 660 : 760,
-      height: compact ? 430 : 500,
-      border: `1px solid ${green}78`,
-      boxShadow: `0 0 28px ${green}20, inset 0 0 26px ${green}10`,
-      pointerEvents: "none",
-    }}
-  >
-    <div style={{ position: "absolute", top: -30, left: 0, color: green, fontFamily: mono, fontSize: 14, fontWeight: 900, letterSpacing: 1.8 }}>{label}</div>
-    <div style={{ position: "absolute", left: 18, right: 18, top: 100, height: 1, background: `${green}45` }} />
-    <div style={{ position: "absolute", left: 18, right: 18, top: compact ? 250 : 292, height: 1, background: `${green}30` }} />
-    <div
-      style={{
-        position: "absolute",
-        left: compact ? 268 : 318,
-        top: compact ? 172 : 198,
-        width: compact ? 76 : 86,
-        height: compact ? 76 : 86,
-        border: `1px solid ${hot}aa`,
-        transform: "rotate(45deg)",
-      }}
-    />
-  </div>
-);
-
 const MetricScene: React.FC<{ scene: Extract<PersonIntegrationScene, { component: "MetricCounterCard" }> }> = ({ scene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -284,7 +192,6 @@ const MetricScene: React.FC<{ scene: Extract<PersonIntegrationScene, { component
 
   return (
     <AbsoluteFill style={{ opacity }}>
-      <HostTargetFrame />
       <Panel
         style={{
           left: 74,
@@ -368,7 +275,6 @@ const EvidenceScene: React.FC<{ scene: Extract<PersonIntegrationScene, { compone
   const p = enter(frame, 0, 16);
   return (
     <AbsoluteFill style={{ opacity }}>
-      <HostTargetFrame compact label="HOST INPUT / C哥OPC" />
       <Panel style={{ left: 58, top: 136, width: 760, height: 700, padding: "30px 30px", transform: `translateY(${interpolate(p, [0, 1], [28, 0])}px)` }}>
         <Header eyebrow={scene.data.sourceLabel} title={scene.data.sourceType} meta={scene.data.confidenceTag} />
         <div style={{ marginTop: 24, fontSize: 46, lineHeight: 1.08, fontWeight: 980 }}>{scene.data.headline}</div>
@@ -426,7 +332,6 @@ const CompareScene: React.FC<{ scene: Extract<PersonIntegrationScene, { componen
   const glitch = frame > 84 && frame < 90 ? (frame % 2 === 0 ? 5 : -4) : 0;
   return (
     <AbsoluteFill style={{ opacity }}>
-      <HostTargetFrame compact label="HOST INPUT / DIMMED" />
       <Panel style={{ left: 54, top: 142, width: 800, height: 704, padding: "30px 26px" }}>
         <Header eyebrow="SYSTEM DIFF" title="A/B conflict analysis" meta="VS" />
         <div style={{ marginTop: 28, display: "grid", gridTemplateColumns: "1fr 68px 1fr", gap: 14, alignItems: "stretch" }}>
@@ -461,7 +366,6 @@ const SystemClosureScene: React.FC<{ scene: Extract<PersonIntegrationScene, { co
   const quoteP = enter(frame, 4, 18);
   return (
     <AbsoluteFill style={{ opacity }}>
-      <HostTargetFrame compact label="HOST INPUT / LOCKED" />
       <Panel style={{ left: 58, top: 170, width: 760, minHeight: 610, padding: "36px 36px" }}>
         <Header eyebrow="SYSTEM CONCLUSION" title="content operating system" meta="ONLINE" />
         <div style={{ marginTop: 42, opacity: quoteP, color: text, fontSize: 47, lineHeight: 1.14, fontWeight: 980 }}>{scene.data.quote}</div>
@@ -504,17 +408,28 @@ export const OpcPersonIntegrationTest: React.FC = () => {
         : active.component === "CompareCard"
           ? "真正的差异，是内容有没有资产化"
           : "每一次都从零开始，才是普通人做内容最大的损耗";
+  const steps = [{ title: "P0 METRIC" }, { title: "P0 EVIDENCE" }, { title: "P0 COMPARE" }, { title: "P1 CLOSURE" }];
+  const sceneLabel =
+    active.component === "MetricCounterCard"
+      ? { id: "P0-001", title: "内容生产效率" }
+      : active.component === "EvidenceCard"
+        ? { id: "P0-002", title: "证据素材槽" }
+        : active.component === "CompareCard"
+          ? { id: "P0-003", title: "创作模式对比" }
+          : { id: "P1-001", title: "系统收束" };
 
   return (
-    <AbsoluteFill style={{ width: W, height: H, overflow: "hidden", background: bg }}>
+    <VideoShell>
       <BackgroundVideoFrame />
-      <TopSystemBar activeIndex={activeIndex} progress={progress} />
       {personIntegrationScenes.map((scene) => (
         <Sequence key={`${scene.component}-${scene.start}`} from={scene.start} durationInFrames={scene.duration}>
           <SceneRenderer scene={scene} />
         </Sequence>
       ))}
-      <BottomCaptionSafe textLine={caption} />
-    </AbsoluteFill>
+      <MatrixProgressNav frame={frame} steps={steps} activeIndex={activeIndex} progress={progress} />
+      <SceneLabel id={sceneLabel.id} title={sceneLabel.title} />
+      <SubtitleLayer text={caption} />
+      <BrandSignature frame={frame} />
+    </VideoShell>
   );
 };
