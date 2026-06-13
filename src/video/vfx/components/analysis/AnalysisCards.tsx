@@ -633,15 +633,16 @@ export const NetworkGraph: React.FC<VfxComponentProps> = ({ effect, frame, durat
   const accent = accentForStatus(effect.status);
   const { fps } = useVideoConfig();
   const pulse = springIn(frame, fps, 6);
-  const cx = 410;
-  const cy = 310;
-  const radius = 220;
+  const cx = 380;
+  const cy = 270;
+  const radius = 172;
+  const nodeRadius = 38;
 
   return (
     <AbsoluteFill style={{ fontFamily: opcHud.fontFamily, color: opcHud.colors.text, opacity }}>
       <SystemPanel accent={accent} style={panelStyle}>
         <SystemHeader eyebrow={effect.eyebrow || "NETWORK GRAPH"} title={getTitle(effect, "资产网络")} accent={accent} />
-        <svg width="760" height="520" style={{ marginTop: 20 }}>
+        <svg width="760" height="500" viewBox="0 0 760 500" style={{ marginTop: 16, display: "block" }}>
           {nodes.map((node, index) => {
             const angle = (Math.PI * 2 * index) / nodes.length - Math.PI / 2;
             const x = cx + Math.cos(angle) * radius;
@@ -657,8 +658,8 @@ export const NetworkGraph: React.FC<VfxComponentProps> = ({ effect, frame, durat
             const y = cy + Math.sin(angle) * radius;
             return (
               <g key={node} opacity={p}>
-                <circle cx={x} cy={y} r={42} fill="rgba(0,18,14,0.92)" stroke={accent} strokeWidth={2} />
-                <text x={x} y={y + 6} textAnchor="middle" fill={opcHud.colors.text} fontSize="16" fontWeight="850">{node}</text>
+                <circle cx={x} cy={y} r={nodeRadius} fill="rgba(0,18,14,0.92)" stroke={accent} strokeWidth={2} />
+                <text x={x} y={y + 6} textAnchor="middle" fill={opcHud.colors.text} fontSize="15" fontWeight="850">{node}</text>
               </g>
             );
           })}

@@ -6,7 +6,7 @@ import { SceneLabel, SubtitleLayer, VideoShell } from "../vfx/components/analysi
 import { showcaseScenes } from "./showcaseEffects";
 
 const sceneDuration = 120;
-const sections = ["P2 SHELL", "P0 EVIDENCE", "P0 COMPARE", "P0 METRIC", "P0 FLOW", "P1 CHARTS", "P2 NETWORK", "LEGACY"];
+const sections = ["P2 SHELL", "P0 EVIDENCE", "P0 COMPARE", "P0 METRIC", "P0 FLOW", "P1 CHARTS", "P2 NETWORK"];
 
 export const opcShowcaseDuration = showcaseScenes.length * sceneDuration;
 
@@ -15,7 +15,7 @@ export const OpcComponentsShowcase: React.FC = () => {
   const { durationInFrames } = useVideoConfig();
   const activeIndex = Math.min(showcaseScenes.length - 1, Math.floor(frame / sceneDuration));
   const active = showcaseScenes[activeIndex];
-  const activeSection = active.section.startsWith("P1") && ["P1 BAR", "P1 LINE", "P1 DONUT", "P1 GAUGE"].includes(active.section) ? "P1 CHARTS" : active.section;
+  const activeSection = active.section.startsWith("P1") ? "P1 CHARTS" : active.section;
   const progress = frame / Math.max(durationInFrames - 1, 1);
   const activeSectionIndex = Math.max(0, sections.findIndex((section) => section === activeSection));
 
