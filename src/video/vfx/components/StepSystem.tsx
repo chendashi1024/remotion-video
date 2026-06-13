@@ -1,5 +1,6 @@
 import { AbsoluteFill } from "remotion";
 import type { VfxComponentProps } from "../types";
+import { enterProgress } from "../design-language";
 import { splitVisualText } from "../theme";
 import { appear } from "../utils";
 import { matrixOpcTheme } from "../../matrix-opc";
@@ -93,8 +94,9 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
             {items.map((item, index) => {
               const active = index === effect.highlightStep;
               const isPassed = index <= (effect.highlightStep ?? 0);
+              const p = enterProgress(frame, 10 + index * 10, 34);
               return (
-                <div key={`${item}-${index}`} style={{ position: "relative", minWidth: 0, textAlign: "center" }}>
+                <div key={`${item}-${index}`} style={{ position: "relative", minWidth: 0, textAlign: "center", opacity: 0.35 + p * 0.65, transform: `translateY(${(1 - p) * 18}px)` }}>
                   <div
                     style={{
                       width: 76,
@@ -135,10 +137,13 @@ export const StepSystem: React.FC<VfxComponentProps> = ({ effect, frame, duratio
           <div style={{ display: "grid", gap: 12 }}>
             {items.map((item, index) => {
               const active = index === effect.highlightStep || index === items.length - 1;
+              const p = enterProgress(frame, 10 + index * 9, 32);
               return (
                 <div
                   key={`${item}-${index}`}
                   style={{
+                    opacity: 0.35 + p * 0.65,
+                    transform: `translateY(${(1 - p) * 16}px)`,
                     display: "grid",
                     gridTemplateColumns: "42px 1fr",
                     alignItems: "center",

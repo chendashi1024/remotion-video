@@ -45,6 +45,12 @@ const formatCurrency = (value: number, currency?: string) => {
   return `¥${value.toLocaleString("zh-CN")}`;
 };
 
+const formatNumber = (value: number, decimals = 0) =>
+  value.toLocaleString("zh-CN", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+
 const getChartData = (effect: VfxBriefItem): ChartDatum[] => {
   const props = getComponentProps(effect);
   const direct = effect.chartData ?? effect.data;
@@ -133,12 +139,25 @@ export const EvidenceCard: React.FC<VfxComponentProps> = ({ effect, frame, durat
             <div
               style={{
                 position: "absolute",
-                left: `${18 + focus * 10}%`,
+                left: `${18 + focus * 8}%`,
                 top: `${22 + focus * 4}%`,
-                width: `${44 + focus * 6}%`,
-                height: `${26 + focus * 4}%`,
-                border: `3px solid ${accent}`,
-                boxShadow: `0 0 24px ${accent}66, inset 0 0 18px ${accent}22`,
+                width: `${42 + focus * 5}%`,
+                height: `${24 + focus * 3}%`,
+                borderTop: `2px solid ${accent}88`,
+                borderBottom: `2px solid ${accent}55`,
+                boxShadow: `0 0 14px ${accent}33`,
+                opacity: 0.72,
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                left: `${20 + focus * 8}%`,
+                top: `${34 + focus * 4}%`,
+                width: `${38 + focus * 4}%`,
+                height: 2,
+                background: `linear-gradient(90deg, transparent, ${accent}99, transparent)`,
+                opacity: 0.68,
               }}
             />
           </div>
@@ -271,12 +290,13 @@ export const MetricCounterCard: React.FC<VfxComponentProps> = ({ effect, frame, 
   const accent = accentForStatus(effect.status || effect.trend);
   const startValue = numberFrom(props.startValue, effect.startValue ?? numberFrom(effect.secondaryNumber, 0));
   const endValue = numberFrom(props.endValue, effect.endValue ?? numberFrom(effect.mainNumber || effect.value, 100));
-  const progress = enterProgress(frame, 8, Math.min(70, durationInFrames - 18));
+  const progress = enterProgress(frame, 8, Math.min(82, durationInFrames - 14));
   const value = startValue + (endValue - startValue) * progress;
   const decimals = Math.max(0, numberFrom(props.decimals, effect.decimals ?? 0));
   const prefix = textProp(props, "prefix", effect.prefix || "");
   const suffix = textProp(props, "suffix", effect.suffix || effect.unit || "");
   const max = Math.max(Math.abs(endValue), Math.abs(startValue), 1);
+  const valueText = `${prefix}${formatNumber(value, decimals)}${suffix}`;
 
   return (
     <AbsoluteFill style={{ fontFamily: opcHud.fontFamily, color: opcHud.colors.text, opacity }}>
@@ -286,17 +306,15 @@ export const MetricCounterCard: React.FC<VfxComponentProps> = ({ effect, frame, 
         <div style={{ marginTop: 44, color: opcHud.colors.muted, fontSize: 28, fontWeight: 850 }}>{getTitle(effect, "核心指标")}</div>
         <div style={{ marginTop: 20, display: "flex", alignItems: "baseline", gap: 14 }}>
           <span style={{ color: accent, fontSize: 112, lineHeight: 0.95, fontWeight: 1000, textShadow: `0 0 28px ${accent}44` }}>
-            {prefix}
-            {value.toFixed(decimals)}
+            {valueText}
           </span>
-          <span style={{ color: opcHud.colors.text, fontSize: 42, fontWeight: 950 }}>{suffix}</span>
         </div>
         <div style={{ marginTop: 32, height: 16, border: `1px solid ${accent}55`, background: "rgba(0,0,0,0.3)" }}>
           <div style={{ width: `${Math.min(100, (Math.abs(value) / max) * 100)}%`, height: "100%", background: `linear-gradient(90deg, ${accent}, ${opcHud.colors.greenHot})`, boxShadow: `0 0 18px ${accent}55` }} />
         </div>
         <div style={{ marginTop: 34, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          <LevelBadge label={`START ${startValue}`} accent={opcHud.colors.muted} />
-          <LevelBadge label={`TARGET ${endValue}`} accent={accent} />
+          <LevelBadge label={`START ${formatNumber(startValue)}`} accent={opcHud.colors.muted} />
+          <LevelBadge label={`TARGET ${formatNumber(endValue)}`} accent={accent} />
         </div>
         <div style={{ marginTop: 42, fontSize: 30, lineHeight: 1.18, fontWeight: 900 }}>{getTakeaway(effect, "数字变化必须服务口播结论。")}</div>
       </SystemPanel>
@@ -317,7 +335,7 @@ export const FlowPipelineCard: React.FC<VfxComponentProps> = ({ effect, frame, d
         <div style={{ marginTop: 52, position: "relative", display: "grid", gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))`, gap: 14 }}>
           <div style={{ position: "absolute", left: 60, right: 60, top: 57, height: 2, background: `linear-gradient(90deg, ${accent}88, ${accent}22)` }} />
           {steps.map((step, index) => {
-            const p = enterProgress(frame, index * 7, 14);
+            const p = enterProgress(frame, 8 + index * 9, 32);
             const isActive = index === active;
             const done = index <= active;
             return (
@@ -430,7 +448,7 @@ export const CostCard: React.FC<VfxComponentProps> = ({ effect, frame, durationI
         endValue: amountEnd,
         prefix: effect.currency === "USD" ? "$" : effect.currency === "none" ? "" : "¥",
         suffix: effect.period === "monthly" ? "/月" : effect.period === "per_video" ? "/条" : "",
-        status: effect.riskLevel === "high" ? "danger" : effect.riskLevel === "medium" ? "warning" : "good",
+        status: "good",
         conclusion: getTakeaway(effect, "成本不是单点价格，而是整条链路的损耗。"),
       }}
       frame={frame}
@@ -454,14 +472,15 @@ export const BarChartPanel: React.FC<VfxComponentProps> = ({ effect, frame, dura
         <div style={{ marginTop: 40, display: "grid", gap: 18 }}>
           {data.map((item, index) => {
             const value = numberFrom(datumValue(item, valueKey), 0);
-            const p = enterProgress(frame, index * 5, 18);
+            const p = enterProgress(frame, 10 + index * 8, 46);
+            const animatedValue = value * p;
             return (
               <div key={`${String(datumValue(item, nameKey))}-${index}`} style={{ display: "grid", gridTemplateColumns: "140px 1fr 90px", gap: 16, alignItems: "center" }}>
                 <div style={{ color: opcHud.colors.muted, fontSize: 22, fontWeight: 820, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{String(datumValue(item, nameKey))}</div>
                 <div style={{ height: 28, background: "rgba(0,0,0,0.28)", border: `1px solid ${opcHud.colors.hairline}` }}>
                   <div style={{ height: "100%", width: `${(value / max) * p * 100}%`, background: `linear-gradient(90deg, ${accent}, ${opcHud.colors.greenHot})`, boxShadow: `0 0 18px ${accent}55` }} />
                 </div>
-                <div style={{ color: accent, fontFamily: opcHud.monoFont, fontSize: 22, fontWeight: 900 }}>{value}{effect.unit || ""}</div>
+                <div style={{ color: accent, fontFamily: opcHud.monoFont, fontSize: 22, fontWeight: 900 }}>{formatNumber(animatedValue)}{effect.unit || ""}</div>
               </div>
             );
           })}
@@ -517,46 +536,49 @@ export const DonutChartPanel: React.FC<VfxComponentProps> = ({ effect, frame, du
   const valueKey = effect.valueKey || "value";
   const nameKey = effect.nameKey || "name";
   const total = Math.max(1, data.reduce((sum, item) => sum + numberFrom(datumValue(item, valueKey), 0), 0));
-  const progress = enterProgress(frame, 8, 48);
+  const progress = enterProgress(frame, 10, 68);
   let offset = 0;
-  const radius = 128;
+  const radius = 118;
   const circumference = 2 * Math.PI * radius;
+  const palette = [accent, opcHud.colors.greenHot, "#35d08f", "#1fa873", opcHud.colors.greenDim];
 
   return (
     <AbsoluteFill style={{ fontFamily: opcHud.fontFamily, color: opcHud.colors.text, opacity }}>
       <SystemPanel accent={accent} style={panelStyle}>
         <SystemHeader eyebrow={effect.eyebrow || "DONUT CHART"} title={getTitle(effect, "结构占比")} accent={accent} />
-        <div style={{ marginTop: 38, display: "grid", gridTemplateColumns: "330px 1fr", gap: 34, alignItems: "center" }}>
-          <svg width="320" height="320">
-            <circle cx="160" cy="160" r={radius} fill="none" stroke="rgba(40,245,154,0.12)" strokeWidth="34" />
+        <div style={{ marginTop: 34, display: "grid", gridTemplateColumns: "300px 1fr", gap: 36, alignItems: "center" }}>
+          <svg width="300" height="300">
+            <circle cx="150" cy="150" r={radius} fill="none" stroke="rgba(40,245,154,0.12)" strokeWidth="26" />
             {data.map((item, index) => {
               const value = numberFrom(datumValue(item, valueKey), 0);
               const length = (value / total) * circumference * progress;
               const dashOffset = -offset;
               offset += (value / total) * circumference;
-              const color = [accent, opcHud.colors.blue, opcHud.colors.orange, opcHud.colors.yellow, opcHud.colors.red][index % 5];
+              const color = palette[index % palette.length];
               return (
                 <circle
                   key={String(datumValue(item, nameKey))}
-                  cx="160"
-                  cy="160"
+                  cx="150"
+                  cy="150"
                   r={radius}
                   fill="none"
                   stroke={color}
-                  strokeWidth="34"
+                  strokeWidth="26"
                   strokeDasharray={`${length} ${circumference}`}
                   strokeDashoffset={dashOffset}
-                  transform="rotate(-90 160 160)"
+                  transform="rotate(-90 150 150)"
                 />
               );
             })}
-            <text x="160" y="154" textAnchor="middle" fill={accent} fontSize="42" fontWeight="900">{Math.round(total)}</text>
-            <text x="160" y="190" textAnchor="middle" fill={opcHud.colors.muted} fontSize="16" fontWeight="800">TOTAL</text>
+            <text x="150" y="142" textAnchor="middle" fill={accent} fontSize="28" fontWeight="900">ASSET</text>
+            <text x="150" y="174" textAnchor="middle" fill={opcHud.colors.muted} fontSize="15" fontWeight="800">COMPOSITION</text>
           </svg>
           <div style={{ display: "grid", gap: 14 }}>
             {data.map((item, index) => {
-              const color = [accent, opcHud.colors.blue, opcHud.colors.orange, opcHud.colors.yellow, opcHud.colors.red][index % 5];
-              return <DataPill key={String(datumValue(item, nameKey))} label={`${String(datumValue(item, nameKey))} ${numberFrom(datumValue(item, valueKey), 0)}`} accent={color} />;
+              const color = palette[index % palette.length];
+              const value = numberFrom(datumValue(item, valueKey), 0);
+              const percent = (value / total) * 100 * progress;
+              return <DataPill key={String(datumValue(item, nameKey))} label={`${String(datumValue(item, nameKey))} ${formatNumber(percent)}%`} accent={color} />;
             })}
           </div>
         </div>
@@ -569,31 +591,43 @@ export const DonutChartPanel: React.FC<VfxComponentProps> = ({ effect, frame, du
 export const ProgressGauge: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
   const opacity = exitOpacity(frame, durationInFrames);
   const value = Math.max(0, Math.min(100, numberFrom(effect.value || effect.mainNumber, 68)));
-  const accent = accentForStatus(effect.status || effect.riskLevel);
-  const progress = enterProgress(frame, 8, 50) * value;
-  const radius = 160;
-  const circumference = 2 * Math.PI * radius;
+  const accent = opcHud.colors.green;
+  const progress = enterProgress(frame, 10, 72) * value;
 
   return (
     <AbsoluteFill style={{ fontFamily: opcHud.fontFamily, color: opcHud.colors.text, opacity }}>
       <SystemPanel accent={accent} style={panelStyle}>
         <SystemHeader eyebrow={effect.eyebrow || "PROGRESS GAUGE"} title={getTitle(effect, "进度检测")} accent={accent} />
-        <div style={{ marginTop: 38, display: "grid", placeItems: "center" }}>
-          <svg width="430" height="430">
-            <circle cx="215" cy="215" r={radius} fill="none" stroke="rgba(40,245,154,0.12)" strokeWidth="28" />
-            <circle
-              cx="215"
-              cy="215"
-              r={radius}
-              fill="none"
-              stroke={accent}
-              strokeWidth="28"
-              strokeDasharray={`${(progress / 100) * circumference} ${circumference}`}
-              strokeLinecap="round"
-              transform="rotate(-90 215 215)"
-            />
-            <text x="215" y="212" textAnchor="middle" fill={accent} fontSize="76" fontWeight="1000">{Math.round(progress)}%</text>
-            <text x="215" y="258" textAnchor="middle" fill={opcHud.colors.muted} fontSize="18" fontWeight="900">SYSTEM COVERAGE</text>
+        <div style={{ marginTop: 46, display: "grid", gap: 28 }}>
+          <div style={{ height: 34, border: `1px solid ${accent}55`, background: "rgba(0,0,0,0.32)" }}>
+            <div style={{ width: `${progress}%`, height: "100%", background: `linear-gradient(90deg, ${accent}, ${opcHud.colors.greenHot})`, boxShadow: `0 0 24px ${accent}55` }} />
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 28, alignItems: "center" }}>
+            <div style={{ color: accent, fontSize: 92, lineHeight: 1, fontWeight: 1000, textShadow: `0 0 28px ${accent}44` }}>
+              {formatNumber(progress)}%
+            </div>
+            <div>
+              <div style={{ color: opcHud.colors.muted, fontFamily: opcHud.monoFont, fontSize: 16, fontWeight: 900, letterSpacing: 2 }}>
+                SYSTEM COVERAGE
+              </div>
+              <div style={{ marginTop: 12, color: opcHud.colors.text, fontSize: 28, lineHeight: 1.16, fontWeight: 900 }}>
+                覆盖率用线性进度表达，保持和内容系统管线一致。
+              </div>
+            </div>
+          </div>
+          <svg width="760" height="170" style={{ overflow: "visible" }}>
+            {[0, 1, 2, 3].map((index) => {
+              const x = 60 + index * 200;
+              const p = enterProgress(frame, 14 + index * 10, 38);
+              const active = progress >= index * 25;
+              return (
+                <g key={index} opacity={0.45 + p * 0.55}>
+                  <line x1={x + 70} y1={82} x2={x + 150} y2={82} stroke={active ? accent : opcHud.colors.mutedDeep} strokeWidth={2} opacity={0.72} />
+                  <rect x={x} y={52} width={70} height={60} fill={active ? `${accent}20` : "rgba(0,0,0,0.2)"} stroke={active ? accent : opcHud.colors.mutedDeep} />
+                  <text x={x + 35} y={90} textAnchor="middle" fill={active ? accent : opcHud.colors.muted} fontSize={20} fontWeight={900}>{index + 1}</text>
+                </g>
+              );
+            })}
           </svg>
         </div>
         <div style={{ marginTop: 8, fontSize: 28, lineHeight: 1.16, fontWeight: 900 }}>{getTakeaway(effect, "进度不是目的，下一步动作才是目的。")}</div>
@@ -634,19 +668,20 @@ export const NetworkGraph: React.FC<VfxComponentProps> = ({ effect, frame, durat
   const { fps } = useVideoConfig();
   const pulse = springIn(frame, fps, 6);
   const cx = 380;
-  const cy = 270;
-  const radius = 172;
-  const nodeRadius = 38;
+  const cy = 238;
+  const radiusX = 230;
+  const radiusY = 148;
+  const nodeRadius = 36;
 
   return (
     <AbsoluteFill style={{ fontFamily: opcHud.fontFamily, color: opcHud.colors.text, opacity }}>
       <SystemPanel accent={accent} style={panelStyle}>
         <SystemHeader eyebrow={effect.eyebrow || "NETWORK GRAPH"} title={getTitle(effect, "资产网络")} accent={accent} />
-        <svg width="760" height="500" viewBox="0 0 760 500" style={{ marginTop: 16, display: "block" }}>
+        <svg width="760" height="420" viewBox="0 0 760 420" style={{ marginTop: 12, display: "block" }}>
           {nodes.map((node, index) => {
             const angle = (Math.PI * 2 * index) / nodes.length - Math.PI / 2;
-            const x = cx + Math.cos(angle) * radius;
-            const y = cy + Math.sin(angle) * radius;
+            const x = cx + Math.cos(angle) * radiusX;
+            const y = cy + Math.sin(angle) * radiusY;
             return <line key={`line-${node}`} x1={cx} y1={cy} x2={x} y2={y} stroke={accent} strokeWidth={1.5} opacity={0.25 + pulse * 0.35} />;
           })}
           <circle cx={cx} cy={cy} r={58 + pulse * 8} fill={`${accent}1f`} stroke={accent} strokeWidth={2} />
@@ -654,8 +689,8 @@ export const NetworkGraph: React.FC<VfxComponentProps> = ({ effect, frame, durat
           {nodes.map((node, index) => {
             const p = enterProgress(frame, index * 5, 12);
             const angle = (Math.PI * 2 * index) / nodes.length - Math.PI / 2;
-            const x = cx + Math.cos(angle) * radius;
-            const y = cy + Math.sin(angle) * radius;
+            const x = cx + Math.cos(angle) * radiusX;
+            const y = cy + Math.sin(angle) * radiusY;
             return (
               <g key={node} opacity={p}>
                 <circle cx={x} cy={y} r={nodeRadius} fill="rgba(0,18,14,0.92)" stroke={accent} strokeWidth={2} />

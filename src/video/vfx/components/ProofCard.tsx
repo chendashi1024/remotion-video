@@ -1,79 +1,58 @@
 import { AbsoluteFill, interpolate } from "remotion";
 import type { VfxComponentProps } from "../types";
-import { splitVisualText, vfxTheme } from "../theme";
-import { appear } from "../utils";
+import { enterProgress, exitOpacity, opcHud, toTextList } from "../design-language";
+import { DataPill, ScanSweep, SystemHeader, SystemPanel } from "./analysis/FramePrimitives";
 
 export const ProofCard: React.FC<VfxComponentProps> = ({ effect, frame, durationInFrames }) => {
-  const opacity = appear(frame, durationInFrames);
-  const lines = splitVisualText(effect.proofText || effect.title || effect.text || effect.name).slice(0, 4);
+  const opacity = exitOpacity(frame, durationInFrames);
+  const lines = toTextList(effect.proofText || effect.title || effect.text || effect.name).slice(0, 4);
   const isLeft = effect.position === "left";
-  const left = isLeft ? vfxTheme.layout.leftX : vfxTheme.layout.leftX + 220;
-  const x = interpolate(frame, [0, 18], [isLeft ? -72 : 72, 0], {
+  const accent = opcHud.colors.green;
+  const left = isLeft ? opcHud.layout.panelX : opcHud.layout.panelX + 170;
+  const x = interpolate(enterProgress(frame, 0, 32), [0, 1], [isLeft ? -56 : 56, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   return (
-    <AbsoluteFill style={{ fontFamily: vfxTheme.fontFamily, color: vfxTheme.colors.text, opacity }}>
-      <div
+    <AbsoluteFill style={{ fontFamily: opcHud.fontFamily, color: opcHud.colors.text, opacity }}>
+      <SystemPanel
+        accent={accent}
         style={{
           position: "absolute",
-          top: 300,
+          top: 190,
           left,
-          width: 470,
-          minHeight: 270,
-          padding: "22px 24px",
-          borderRadius: 10,
-          background: "linear-gradient(135deg, rgba(248,250,252,0.96), rgba(226,232,240,0.9))",
-          color: "#0f172a",
-          boxShadow: "0 18px 40px rgba(0,0,0,0.34), 0 0 0 1px rgba(96,165,250,0.72)",
-          transform: `translateX(${x}px) rotateY(${isLeft ? 6 : -6}deg)`,
+          width: 620,
+          minHeight: 410,
+          padding: "28px 30px",
+          transform: `translateX(${x}px)`,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-          <div style={{ color: "#2563eb", fontSize: 18, fontWeight: 1000, letterSpacing: 2, textTransform: "uppercase" }}>
-            {effect.proofLabel || effect.eyebrow || effect.title || "PROOF CARD"}
-          </div>
-          <div style={{ borderRadius: 999, padding: "5px 10px", background: "#dbeafe", color: "#1d4ed8", fontSize: 15, fontWeight: 1000 }}>
-            {effect.badge || "DATA"}
-          </div>
-        </div>
-        <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
+        <ScanSweep frame={frame} accent={accent} />
+        <SystemHeader eyebrow={effect.proofLabel || effect.eyebrow || "SOURCE MANIFEST"} title={effect.badge || "verified"} accent={accent} />
+        <div style={{ marginTop: 26, display: "grid", gap: 12 }}>
           {lines.map((line, index) => (
             <div
               key={`${line}-${index}`}
               style={{
-                padding: "10px 12px",
-                borderRadius: 8,
-                background: index === 0 ? "rgba(37,99,235,0.12)" : "rgba(15,23,42,0.06)",
-                fontSize: index === 0 ? 24 : 18,
-                fontWeight: index === 0 ? 1000 : 820,
-                lineHeight: 1.22,
+                opacity: enterProgress(frame, 10 + index * 7, 22),
+                padding: "13px 15px",
+                border: `1px solid ${index === 0 ? accent : opcHud.colors.hairline}`,
+                background: index === 0 ? `${accent}18` : "rgba(0,0,0,0.24)",
+                color: opcHud.colors.text,
+                fontSize: index === 0 ? 27 : 22,
+                fontWeight: index === 0 ? 1000 : 850,
+                lineHeight: 1.2,
               }}
             >
               {line}
             </div>
           ))}
         </div>
-        <div
-          style={{
-            marginTop: 18,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            borderRadius: 999,
-            padding: "8px 14px",
-            background: "#22c55e",
-            color: "#052e16",
-            fontSize: 15,
-            fontWeight: 1000,
-            letterSpacing: 2,
-          }}
-        >
-          <span style={{ width: 7, height: 7, borderRadius: 999, background: "#052e16" }} />
-          {effect.verified || "REAL · VERIFIED"}
+        <div style={{ marginTop: 22 }}>
+          <DataPill label={effect.verified || "TRACEABLE"} accent={accent} tone="solid" />
         </div>
-      </div>
+      </SystemPanel>
     </AbsoluteFill>
   );
 };
