@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate } from "remotion";
+import { AbsoluteFill } from "remotion";
 import type { VfxComponentProps } from "../types";
 import { splitVisualText } from "../theme";
 import { appear } from "../utils";

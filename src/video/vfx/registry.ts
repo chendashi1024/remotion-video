@@ -9,6 +9,21 @@ import { ProofCard } from "./components/ProofCard";
 import { RevenueSignal } from "./components/RevenueSignal";
 import { RiskPackage } from "./components/RiskPackage";
 import { StepSystem } from "./components/StepSystem";
+import {
+  AgentStatusPanel,
+  BarChartPanel,
+  CompareCard,
+  CostCard,
+  DonutChartPanel,
+  EvidenceCard,
+  FlowPipelineCard,
+  LineChartPanel,
+  MetricCounterCard,
+  NetworkGraph,
+  ProgressGauge,
+  QuoteCard,
+  TerminalLogCard,
+} from "./components/analysis/AnalysisCards";
 
 export const vfxRegistry: Record<VfxType, React.FC<VfxComponentProps>> = {
   ProgramPackage,
@@ -21,6 +36,19 @@ export const vfxRegistry: Record<VfxType, React.FC<VfxComponentProps>> = {
   ProofCard,
   NextEpisodePackage,
   AtmosphereOverlay,
+  EvidenceCard,
+  CompareCard,
+  MetricCounterCard,
+  FlowPipelineCard,
+  TerminalLogCard,
+  QuoteCard,
+  CostCard,
+  BarChartPanel,
+  LineChartPanel,
+  DonutChartPanel,
+  ProgressGauge,
+  AgentStatusPanel,
+  NetworkGraph,
 };
 
 export const isKnownVfxType = (type: string): type is VfxType => type in vfxRegistry;

@@ -63,6 +63,10 @@ const safeFileName = (name) =>
 
 const runtimeDir = join(projectRoot, ".runtime", "vfx");
 const outputDir = join(projectRoot, "out", slug, "vfx");
+const actionRequiredPaths = [
+  join(projectRoot, "out", slug, "assets", "action_required.json"),
+  basename(sourceDir) === "脚本" ? join(dirname(sourceDir), "素材", "remotion-assets", "action_required.json") : "",
+].filter(Boolean);
 const systemChrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const browserArgs = existsSync(systemChrome) ? ["--browser-executable", systemChrome] : [];
 mkdirSync(runtimeDir, { recursive: true });
@@ -72,6 +76,29 @@ for (const fileName of readdirSync(outputDir)) {
   if (fileName.endsWith(".mov") || fileName === "manifest.json") {
     rmSync(join(outputDir, fileName), { force: true });
   }
+}
+
+const readActionRequired = (path) => {
+  if (!existsSync(path)) return [];
+  try {
+    const parsed = JSON.parse(readFileSync(path, "utf8"));
+    return Array.isArray(parsed.items) ? parsed.items : [];
+  } catch {
+    return [];
+  }
+};
+
+const blockedItems = actionRequiredPaths
+  .flatMap(readActionRequired)
+  .filter((item) => effects.some((effect) => (effect.sceneId || effect.id) === item.scene_id && effect.type === item.component));
+
+if (blockedItems.length > 0) {
+  console.error("存在未解决的素材校验项，已阻止 VFX 渲染：");
+  for (const item of blockedItems) {
+    console.error(`- ${item.scene_id} ${item.component}: ${item.reason}`);
+  }
+  console.error("请先补素材、脱敏或调整为不依赖证据素材的组件，再重新执行 npm run vfx。");
+  process.exit(1);
 }
 
 const manifest = [];

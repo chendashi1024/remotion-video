@@ -8,7 +8,20 @@ export type VfxType =
   | "RevenueSignal"
   | "ProofCard"
   | "NextEpisodePackage"
-  | "AtmosphereOverlay";
+  | "AtmosphereOverlay"
+  | "EvidenceCard"
+  | "CompareCard"
+  | "MetricCounterCard"
+  | "FlowPipelineCard"
+  | "TerminalLogCard"
+  | "QuoteCard"
+  | "CostCard"
+  | "BarChartPanel"
+  | "LineChartPanel"
+  | "DonutChartPanel"
+  | "ProgressGauge"
+  | "AgentStatusPanel"
+  | "NetworkGraph";
 
 export type VfxBriefItem = {
   mode: string;
@@ -62,6 +75,46 @@ export type VfxBriefItem = {
   intensity?: "low" | "medium" | "high";
   commentKeyword?: string;
   forbiddenFields?: string[];
+  componentProps?: Record<string, unknown>;
+  assetStrategy?: Record<string, unknown>;
+  sceneId?: string;
+  sourceLabel?: string;
+  sourceType?: string;
+  sourceUrl?: string;
+  confidence?: number;
+  takeaway?: string;
+  verdict?: string;
+  centerLabel?: string;
+  compareType?: "text" | "metric" | "flow" | "image";
+  startValue?: number;
+  endValue?: number;
+  prefix?: string;
+  decimals?: number;
+  trend?: "up" | "down" | "neutral";
+  status?: "good" | "warning" | "danger" | "neutral";
+  conclusion?: string;
+  chartType?: "bar" | "line" | "donut" | "gauge";
+  chartData?: Array<Record<string, string | number>>;
+  data?: Array<Record<string, string | number>>;
+  xKey?: string;
+  yKey?: string;
+  nameKey?: string;
+  valueKey?: string;
+  unit?: string;
+  riskLevel?: "low" | "medium" | "high";
+  amountStart?: number;
+  amountEnd?: number;
+  currency?: "CNY" | "USD" | "JPY" | "none";
+  period?: "one_time" | "per_video" | "monthly" | "yearly";
+  logs?: Array<{
+    time?: string;
+    level?: "info" | "success" | "warning" | "error";
+    text: string;
+  }>;
+  quote?: string;
+  authorLabel?: string;
+  emphasisWords?: string[];
+  tone?: "calm" | "sharp" | "warning" | "inspiring";
 };
 
 export type VfxClipProps = {
