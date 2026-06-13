@@ -3,7 +3,7 @@ import { AbsoluteFill, Easing, Img, Sequence, interpolate, spring, staticFile, u
 import { matrixOpcTheme } from "../matrix-opc";
 import { BrandSignature } from "../matrix-opc/components/BrandSignature";
 import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
-import { SceneLabel, SubtitleLayer, VideoShell } from "../vfx/components/analysis/SystemShell";
+import { VideoShell } from "../vfx/components/analysis/SystemShell";
 import { personIntegrationDuration, personIntegrationScenes, type FocusArea, type PersonIntegrationScene } from "./scenes";
 
 const green = matrixOpcTheme.colors.green;
@@ -373,24 +373,7 @@ export const OpcPersonIntegrationTest: React.FC = () => {
     personIntegrationScenes.length - 1,
     Math.max(0, personIntegrationScenes.findIndex((scene) => frame >= scene.start && frame < scene.start + scene.duration))
   );
-  const active = personIntegrationScenes[activeIndex];
-  const caption =
-    active.component === "MetricCounterCard"
-      ? "从手工创作，进入系统化生产"
-      : active.component === "EvidenceCard"
-        ? "这不是观点，而是证据"
-        : active.component === "CompareCard"
-          ? "真正的差异，是内容有没有资产化"
-          : "每一次都从零开始，才是普通人做内容最大的损耗";
   const steps = [{ title: "P0 METRIC" }, { title: "P0 EVIDENCE" }, { title: "P0 COMPARE" }, { title: "P1 CLOSURE" }];
-  const sceneLabel =
-    active.component === "MetricCounterCard"
-      ? { id: "P0-001", title: "内容生产效率" }
-      : active.component === "EvidenceCard"
-        ? { id: "P0-002", title: "证据素材槽" }
-        : active.component === "CompareCard"
-          ? { id: "P0-003", title: "创作模式对比" }
-          : { id: "P1-001", title: "系统收束" };
 
   return (
     <VideoShell>
@@ -401,8 +384,6 @@ export const OpcPersonIntegrationTest: React.FC = () => {
         </Sequence>
       ))}
       <MatrixProgressNav frame={frame} steps={steps} activeIndex={activeIndex} progress={progress} />
-      <SceneLabel id={sceneLabel.id} title={sceneLabel.title} />
-      <SubtitleLayer text={caption} />
       <BrandSignature frame={frame} />
     </VideoShell>
   );
