@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文章证据卡</title>
+    <style>
+      body {
+        margin: 0;
+        width: 1280px;
+        height: 720px;
+        background: #020706;
+        color: #e8fff5;
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .card {
+        box-sizing: border-box;
+        width: 1280px;
+        height: 720px;
+        padding: 46px 56px;
+        background:
+          linear-gradient(rgba(40, 245, 154, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(40, 245, 154, 0.08) 1px, transparent 1px),
+          radial-gradient(circle at 78% 22%, rgba(40, 245, 154, 0.15), transparent 34%),
+          #020706;
+        background-size: 36px 36px, 36px 36px, auto, auto;
+        border: 1px solid rgba(40, 245, 154, 0.6);
+      }
+      .label {
+        color: #28f59a;
+        font-family: Menlo, monospace;
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: 3px;
+      }
+      h1 {
+        margin: 34px 0 24px;
+        font-size: 58px;
+        line-height: 1.05;
+      }
+      .quote {
+        width: 860px;
+        padding: 28px 32px;
+        border-left: 6px solid #28f59a;
+        background: rgba(40, 245, 154, 0.1);
+        font-size: 34px;
+        line-height: 1.35;
+        font-weight: 800;
+      }
+      .checks {
+        margin-top: 34px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .check {
+        padding: 18px 16px;
+        border: 1px solid rgba(40, 245, 154, 0.38);
+        background: rgba(0, 18, 14, 0.72);
+        font-size: 26px;
+        font-weight: 900;
+        text-align: center;
+      }
+      .source {
+        position: absolute;
+        right: 56px;
+        bottom: 42px;
+        color: #7ea08f;
+        font-family: Menlo, monospace;
+        font-size: 17px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="label">SOURCE_01 / LOCAL ARTICLE RENDER</div>
+      <h1>内容，不等于内容资产</h1>
+      <div class="quote">
+        能找回、能复用、能迭代、能变现的内容，才叫内容资产。
+      </div>
+      <div class="checks">
+        <div class="check">能找回</div>
+        <div class="check">能复用</div>
+        <div class="check">能迭代</div>
+        <div class="check">能变现</div>
+      </div>
+      <div class="source">cge-opc / 文章 / 预选池 / 2026-06-09</div>
+    </main>
+  </body>
+</html>

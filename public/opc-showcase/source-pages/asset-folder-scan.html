@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>素材池扫描</title>
+    <style>
+      body {
+        margin: 0;
+        width: 1280px;
+        height: 720px;
+        background: #020706;
+        color: #e8fff5;
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .screen {
+        box-sizing: border-box;
+        width: 1280px;
+        height: 720px;
+        padding: 44px 52px;
+        background: radial-gradient(circle at 15% 12%, rgba(28, 183, 255, 0.16), transparent 30%), #020706;
+        border: 1px solid rgba(40, 245, 154, 0.52);
+      }
+      .head {
+        display: flex;
+        justify-content: space-between;
+        color: #28f59a;
+        font-family: Menlo, monospace;
+        letter-spacing: 2px;
+        font-weight: 900;
+      }
+      .grid {
+        margin-top: 38px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+      .panel {
+        min-height: 460px;
+        border: 1px solid rgba(40, 245, 154, 0.34);
+        background: rgba(0, 18, 14, 0.66);
+        padding: 26px;
+      }
+      .panel h2 {
+        margin: 0 0 22px;
+        color: #28f59a;
+        font-size: 24px;
+        font-family: Menlo, monospace;
+        letter-spacing: 2px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 180px 1fr 110px;
+        gap: 12px;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(40, 245, 154, 0.16);
+        font-size: 22px;
+      }
+      .weak {
+        color: #ff8a1f;
+      }
+      .good {
+        color: #28f59a;
+      }
+      .danger {
+        color: #ff3b3b;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="screen">
+      <div class="head">
+        <div>USER ASSET FOLDER SCAN</div>
+        <div>VISION / OCR / PRIVACY CHECK</div>
+      </div>
+      <div class="grid">
+        <section class="panel">
+          <h2>RAW MATERIALS</h2>
+          <div class="row"><span>image001.png</span><span>聊天列表截图</span><span class="danger">脱敏</span></div>
+          <div class="row"><span>screen-02.png</span><span>文章资产截图</span><span class="good">可用</span></div>
+          <div class="row"><span>demo.mov</span><span>文件夹录屏</span><span class="weak">抽帧</span></div>
+          <div class="row"><span>pricing.png</span><span>公开页面</span><span class="good">高可信</span></div>
+        </section>
+        <section class="panel">
+          <h2>ACTION REQUIRED</h2>
+          <div class="row"><span>SHOT-001</span><span>聊天截图含用户名</span><span class="danger">打码</span></div>
+          <div class="row"><span>VFX-003</span><span>证据与观点匹配不足</span><span class="weak">复核</span></div>
+          <div class="row"><span>VFX-005</span><span>文件尺寸通过</span><span class="good">入库</span></div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

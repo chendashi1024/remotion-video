@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>素材抓取可行性</title>
+    <style>
+      body {
+        margin: 0;
+        width: 1280px;
+        height: 720px;
+        background: #020706;
+        color: #e8fff5;
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .wrap {
+        box-sizing: border-box;
+        width: 1280px;
+        height: 720px;
+        padding: 42px 52px;
+        border: 1px solid rgba(40, 245, 154, 0.52);
+        background:
+          linear-gradient(rgba(40, 245, 154, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(40, 245, 154, 0.07) 1px, transparent 1px),
+          #020706;
+        background-size: 38px 38px, 38px 38px, auto;
+      }
+      h1 {
+        margin: 0 0 24px;
+        color: #28f59a;
+        font-size: 42px;
+        font-family: Menlo, monospace;
+        letter-spacing: 2px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 24px;
+      }
+      th,
+      td {
+        border: 1px solid rgba(40, 245, 154, 0.24);
+        padding: 16px 18px;
+        text-align: left;
+      }
+      th {
+        color: #28f59a;
+        background: rgba(40, 245, 154, 0.12);
+        font-size: 20px;
+        letter-spacing: 1px;
+      }
+      .high {
+        color: #28f59a;
+        font-weight: 900;
+      }
+      .medium {
+        color: #facc15;
+        font-weight: 900;
+      }
+      .manual {
+        color: #ff8a1f;
+        font-weight: 900;
+      }
+      .stop {
+        color: #ff3b3b;
+        font-weight: 900;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>MATERIAL ACQUISITION FEASIBILITY</h1>
+      <table>
+        <tr><th>素材类型</th><th>抓取方式</th><th>可行性</th><th>进入视频条件</th></tr>
+        <tr><td>公开官网 / 文档</td><td>auto_web_capture</td><td class="high">高</td><td>来源记录 + OCR 匹配</td></tr>
+        <tr><td>公开文章 / 榜单</td><td>auto_web_search_then_capture</td><td class="medium">中</td><td>置信度 ≥ 0.8</td></tr>
+        <tr><td>用户文件夹截图</td><td>user_asset_folder_scan</td><td class="medium">中</td><td>真实读图 + 隐私扫描</td></tr>
+        <tr><td>后台 / 聊天 / 私域数据</td><td>user_required</td><td class="manual">人工</td><td>先脱敏，再确认</td></tr>
+        <tr><td>来源不明截图</td><td>skip_asset</td><td class="stop">拦截</td><td>不进最终视频</td></tr>
+      </table>
+    </main>
+  </body>
+</html>

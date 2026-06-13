@@ -7,6 +7,7 @@ import { ChapterTimeline, fallbackTimeline } from "./video/timeline";
 import { defaultVfxEffect, VfxClip, VfxDemo, VfxRealDemo } from "./video/vfx";
 import type { VfxBriefItem } from "./video/vfx";
 import { MatrixBrandLayer, MatrixOpcPreview, MatrixPersistentOverlay } from "./video/matrix-opc";
+import { OpcComponentsShowcase, opcShowcaseDuration } from "./video/opc-components-showcase";
 import demoEffects from "./video/vfx/demo-effects.json";
 
 export const RemotionRoot: React.FC = () => {
@@ -80,6 +81,14 @@ export const RemotionRoot: React.FC = () => {
         id="matrix-persistent-overlay"
         component={MatrixPersistentOverlay}
         durationInFrames={18000}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="opc-components-showcase"
+        component={OpcComponentsShowcase}
+        durationInFrames={opcShowcaseDuration}
         fps={30}
         width={1920}
         height={1080}
