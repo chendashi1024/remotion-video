@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { opcHud, systemEase } from "../../design-language";
 
 export const VideoShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -44,73 +44,6 @@ export const VideoShell: React.FC<{ children: React.ReactNode }> = ({ children }
   );
 };
 
-export const TopHudNav: React.FC<{ active: string; sections: string[] }> = ({ active, sections }) => (
-  <div
-    style={{
-      position: "absolute",
-      top: 34,
-      left: 64,
-      right: 64,
-      height: 46,
-      display: "grid",
-      gridTemplateColumns: "260px 1fr 220px",
-      alignItems: "center",
-      gap: 22,
-      fontFamily: opcHud.monoFont,
-      zIndex: 20,
-    }}
-  >
-    <div style={{ color: opcHud.colors.green, fontSize: 18, fontWeight: 1000, letterSpacing: 2.6 }}>OPC VISUAL OS</div>
-    <div style={{ display: "flex", gap: 10, minWidth: 0 }}>
-      {sections.map((section) => (
-        <div
-          key={section}
-          style={{
-            border: `1px solid ${section === active ? opcHud.colors.green : opcHud.colors.hairline}`,
-            background: section === active ? `${opcHud.colors.green}22` : "rgba(0,0,0,0.18)",
-            color: section === active ? opcHud.colors.text : opcHud.colors.muted,
-            padding: "7px 11px",
-            fontSize: 11,
-            fontWeight: 900,
-            letterSpacing: 1.1,
-            whiteSpace: "nowrap",
-          }}
-        >
-          {section}
-        </div>
-      ))}
-    </div>
-    <div style={{ color: opcHud.colors.muted, fontSize: 12, textAlign: "right", letterSpacing: 1.6 }}>LIVE PREVIEW / 1920x1080</div>
-  </div>
-);
-
-export const BottomSystemBar: React.FC<{ progress: number; label: string }> = ({ progress, label }) => {
-  const width = Math.max(0, Math.min(100, progress * 100));
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: 64,
-        right: 64,
-        bottom: 34,
-        height: 42,
-        display: "grid",
-        gridTemplateColumns: "250px 1fr 210px",
-        alignItems: "center",
-        gap: 18,
-        fontFamily: opcHud.monoFont,
-        zIndex: 20,
-      }}
-    >
-      <div style={{ color: opcHud.colors.green, fontSize: 13, fontWeight: 900, letterSpacing: 1.4 }}>C哥OPC / CONTENT ASSET</div>
-      <div style={{ height: 8, border: `1px solid ${opcHud.colors.hairline}`, background: "rgba(0,0,0,0.28)" }}>
-        <div style={{ width: `${width}%`, height: "100%", background: `linear-gradient(90deg, ${opcHud.colors.greenDim}, ${opcHud.colors.greenHot})` }} />
-      </div>
-      <div style={{ color: opcHud.colors.muted, fontSize: 12, textAlign: "right", letterSpacing: 1.2 }}>{label}</div>
-    </div>
-  );
-};
-
 export const SceneLabel: React.FC<{ id: string; title: string }> = ({ id, title }) => (
   <div
     style={{
@@ -153,9 +86,3 @@ export const SubtitleLayer: React.FC<{ text: string }> = ({ text }) => (
     {text}
   </div>
 );
-
-export const useCompositionProgress = () => {
-  const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  return durationInFrames <= 0 ? 0 : frame / durationInFrames;
-};

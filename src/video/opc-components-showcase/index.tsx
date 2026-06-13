@@ -1,6 +1,8 @@
-import { AbsoluteFill, Sequence, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
+import { BrandSignature } from "../matrix-opc/components/BrandSignature";
+import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
 import { VfxClip } from "../vfx";
-import { BottomSystemBar, SceneLabel, SubtitleLayer, TopHudNav, useCompositionProgress, VideoShell } from "../vfx/components/analysis/SystemShell";
+import { SceneLabel, SubtitleLayer, VideoShell } from "../vfx/components/analysis/SystemShell";
 import { showcaseScenes } from "./showcaseEffects";
 
 const sceneDuration = 120;
@@ -10,15 +12,21 @@ export const opcShowcaseDuration = showcaseScenes.length * sceneDuration;
 
 export const OpcComponentsShowcase: React.FC = () => {
   const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
   const activeIndex = Math.min(showcaseScenes.length - 1, Math.floor(frame / sceneDuration));
   const active = showcaseScenes[activeIndex];
   const activeSection = active.section.startsWith("P1") && ["P1 BAR", "P1 LINE", "P1 DONUT", "P1 GAUGE"].includes(active.section) ? "P1 CHARTS" : active.section;
-  const progress = useCompositionProgress();
+  const progress = frame / Math.max(durationInFrames - 1, 1);
+  const activeSectionIndex = Math.max(0, sections.findIndex((section) => section === activeSection));
 
   return (
     <VideoShell>
-      <TopHudNav active={activeSection} sections={sections} />
-      <BottomSystemBar progress={progress} label={`${String(activeIndex + 1).padStart(2, "0")} / ${showcaseScenes.length}`} />
+      <MatrixProgressNav
+        frame={frame}
+        steps={sections.map((title) => ({ title }))}
+        activeIndex={activeSectionIndex}
+        progress={progress}
+      />
       <SceneLabel id={active.effect.id} title={active.effect.name} />
       <SubtitleLayer text={active.subtitle} />
       <AbsoluteFill style={{ top: 0 }}>
@@ -28,6 +36,7 @@ export const OpcComponentsShowcase: React.FC = () => {
           </Sequence>
         ))}
       </AbsoluteFill>
+      <BrandSignature frame={frame} />
     </VideoShell>
   );
 };
