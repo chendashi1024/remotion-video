@@ -212,6 +212,36 @@ const EvidencePlaceholder: React.FC = () => {
   );
 };
 
+const ScrollingEvidenceAsset: React.FC<{ asset: string; frame: number; duration: number }> = ({ asset, frame, duration }) => {
+  const scrollProgress = interpolate(frame, [10, Math.max(11, duration - 16)], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.inOut(Easing.cubic),
+  });
+  const y = interpolate(scrollProgress, [0, 1], [0, -310]);
+
+  return (
+    <div style={{ position: "relative", width: "100%", height: 350, overflow: "hidden", border: `1px solid ${green}66`, background: "rgba(0,0,0,0.36)" }}>
+      <Img
+        src={staticFile(asset)}
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "auto",
+          transform: `translateY(${y}px)`,
+        }}
+      />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 34, background: "linear-gradient(180deg, rgba(0,0,0,0.42), transparent)" }} />
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 42, background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.48))" }} />
+      <div style={{ position: "absolute", right: 10, top: 10, bottom: 10, width: 3, background: "rgba(255,255,255,0.2)" }}>
+        <div style={{ position: "absolute", left: 0, right: 0, top: `${scrollProgress * 58}%`, height: "32%", background: green }} />
+      </div>
+    </div>
+  );
+};
+
 const EvidenceScene: React.FC<{ scene: Extract<PersonIntegrationScene, { component: "EvidenceCard" }> }> = ({ scene }) => {
   const frame = useCurrentFrame();
   const opacity = sceneOpacity(frame, scene.duration);
@@ -223,7 +253,7 @@ const EvidenceScene: React.FC<{ scene: Extract<PersonIntegrationScene, { compone
         <div style={{ marginTop: 24, fontSize: 46, lineHeight: 1.08, fontWeight: 980 }}>{scene.data.headline}</div>
         <div style={{ marginTop: 24 }}>
           {scene.data.asset ? (
-            <Img src={staticFile(scene.data.asset)} style={{ width: "100%", height: 350, objectFit: "cover", border: `1px solid ${green}66` }} />
+            <ScrollingEvidenceAsset asset={scene.data.asset} frame={frame} duration={scene.duration} />
           ) : (
             <EvidencePlaceholder />
           )}

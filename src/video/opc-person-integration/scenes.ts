@@ -75,7 +75,7 @@ export const personIntegrationScenes: PersonIntegrationScene[] = [
     data: {
       sourceLabel: "ANTHROPIC_DOCS",
       sourceType: "Claude Code 官方文档 / 工作流证据",
-      asset: "assets/evidence-anthropic-claude-code-crop.png",
+      asset: "assets/evidence-anthropic-claude-code-scroll.png",
       headline: "这不是观点，而是证据",
       takeaway: "真正重要的不是工具本身，而是它进入了你的工作流",
       confidenceTag: "OFFICIAL / SOURCE LINK",
