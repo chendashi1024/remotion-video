@@ -358,7 +358,7 @@ export const OpcPersonIntegrationTest: React.FC = () => {
           <SceneRenderer scene={scene} />
         </Sequence>
       ))}
-      <MatrixProgressNav frame={frame} steps={steps} activeIndex={activeIndex} progress={progress} />
+      <MatrixProgressNav frame={frame} steps={steps} activeIndex={activeIndex} progress={progress} edgeInset={0} variant="chapterStatus" />
       <BrandSignature frame={frame} />
     </VideoShell>
   );

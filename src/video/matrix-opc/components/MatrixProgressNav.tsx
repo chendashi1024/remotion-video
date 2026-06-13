@@ -12,6 +12,8 @@ type MatrixProgressNavProps = {
   steps: MatrixProgressStep[];
   activeIndex: number;
   progress?: number;
+  edgeInset?: number;
+  variant?: "default" | "chapterStatus";
 };
 
 export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
@@ -19,6 +21,8 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
   steps,
   activeIndex,
   progress,
+  edgeInset = 34,
+  variant = "default",
 }) => {
   const y = interpolate(frame, [0, 45], [-38, 0], {
     extrapolateLeft: "clamp",
@@ -26,22 +30,36 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
   });
   const normalizedProgress =
     progress ?? (steps.length <= 1 ? 1 : Math.min(Math.max(activeIndex / (steps.length - 1), 0), 1));
+  const isChapterStatus = variant === "chapterStatus";
 
   return (
     <div
       style={{
         position: "absolute",
         top: 0,
-        left: 34,
-        right: 34,
+        left: edgeInset,
+        right: edgeInset,
         height: 38,
         transform: `translateY(${y}px)`,
         fontFamily: matrixOpcTheme.fontFamily,
         color: matrixOpcTheme.colors.text,
-        background: "rgba(0,0,0,0.65)",
-        borderRadius: "0 0 4px 4px",
+        background: isChapterStatus ? "rgba(104,108,103,0.58)" : "rgba(0,0,0,0.65)",
+        borderRadius: edgeInset === 0 ? 0 : "0 0 4px 4px",
+        overflow: "hidden",
       }}
     >
+      {isChapterStatus ? (
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: `${normalizedProgress * 100}%`,
+            background: "rgba(0,0,0,0.74)",
+          }}
+        />
+      ) : null}
       <div
         style={{
           position: "absolute",
@@ -58,7 +76,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           left: 0,
           width: `${normalizedProgress * 100}%`,
           top: 32,
-          height: 2,
+          height: isChapterStatus ? 3 : 2,
           background: `linear-gradient(90deg, rgba(40,245,154,0.95), rgba(76,255,178,0.92))`,
         }}
       />
@@ -86,7 +104,7 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
               width: 8,
               height: 8,
               transform: "translateX(-50%) rotate(45deg)",
-              background: passed ? `${matrixOpcTheme.colors.green}cc` : "rgba(108,143,130,0.55)",
+              background: passed ? `${matrixOpcTheme.colors.green}cc` : isChapterStatus ? "rgba(255,255,255,0.55)" : "rgba(108,143,130,0.55)",
             }}
           />
         );
@@ -106,6 +124,15 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
           const segmentEnd = (index + 1) / steps.length;
           const labelProgress = (segmentStart + segmentEnd) / 2;
           const passed = segmentStart <= normalizedProgress + 0.002;
+          const labelColor = isChapterStatus
+            ? passed
+              ? matrixOpcTheme.colors.green
+              : "rgba(255,255,255,0.92)"
+            : active
+              ? matrixOpcTheme.colors.green
+              : passed
+                ? "rgba(232,255,245,0.85)"
+                : "rgba(232,255,245,0.60)";
           return (
             <div
               key={`${step.title}-${index}`}
@@ -129,14 +156,11 @@ export const MatrixProgressNav: React.FC<MatrixProgressNavProps> = ({
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                   textAlign: "center",
-                  color: active
-                    ? matrixOpcTheme.colors.green
-                    : passed
-                      ? "rgba(232,255,245,0.85)"
-                      : "rgba(232,255,245,0.60)",
+                  color: labelColor,
                   fontSize: 20,
-                  fontWeight: active ? 900 : 650,
+                  fontWeight: active || (isChapterStatus && passed) ? 900 : 650,
                   letterSpacing: 0.6,
+                  textShadow: isChapterStatus && passed ? "0 0 12px rgba(40,245,154,0.28)" : undefined,
                 }}
               >
                 {String(index + 1).padStart(2, "0")}. {step.title}
