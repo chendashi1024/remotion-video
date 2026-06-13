@@ -87,6 +87,7 @@ export const EvidenceCard: React.FC<VfxComponentProps> = ({ effect, frame, durat
   const imagePath = textProp(props, "imagePath", effect.image);
   const imageSrc = resolveImageSrc(imagePath);
   const confidence = numberFrom(props.confidence, effect.confidence ?? 0.86);
+  const sourceUrl = textProp(props, "sourceUrl", effect.sourceUrl || "");
   const focus = springIn(frame, 30, 18);
 
   return (
@@ -147,6 +148,7 @@ export const EvidenceCard: React.FC<VfxComponentProps> = ({ effect, frame, durat
               <div style={{ marginTop: 24, display: "grid", gap: 12 }}>
                 <DataPill label={textProp(props, "privacyMode", "privacy:none")} accent={accent} />
                 <DataPill label={textProp(props, "capturedAt", "captured:tracked")} accent={accent} />
+                {sourceUrl ? <DataPill label={sourceUrl.replace(/^https?:\/\//, "").slice(0, 44)} accent={accent} /> : null}
                 <DataPill label={textProp(props, "assetId", effect.id)} accent={accent} />
               </div>
             </div>
@@ -178,6 +180,9 @@ export const CompareCard: React.FC<VfxComponentProps> = ({ effect, frame, durati
   const rightTitle = textProp(props, "rightTitle", effect.rightLabel || "新逻辑");
   const leftItems = splitShort(textProp(props, "leftText", effect.leftText || "临时选题|临时写稿|临时剪辑"));
   const rightItems = splitShort(textProp(props, "rightText", effect.rightText || "母题库|文章资产|脚本复用"));
+  const leftImageSrc = resolveImageSrc(textProp(props, "leftImagePath"));
+  const rightImageSrc = resolveImageSrc(textProp(props, "rightImagePath"));
+  const imageMode = Boolean(leftImageSrc || rightImageSrc);
   const verdict = textProp(props, "verdict", effect.verdict || effect.footerText || "真正的差异，是流程能不能复用。");
   const slideLeft = interpolate(enterProgress(frame, 0), [0, 1], [-50, 0], { easing: Easing.out(Easing.cubic) });
   const slideRight = interpolate(enterProgress(frame, 4), [0, 1], [60, 0], { easing: Easing.out(Easing.cubic) });
@@ -186,7 +191,7 @@ export const CompareCard: React.FC<VfxComponentProps> = ({ effect, frame, durati
     <AbsoluteFill style={{ fontFamily: opcHud.fontFamily, color: opcHud.colors.text, opacity }}>
       <SystemPanel accent={accent} style={fullPanelStyle}>
         <SystemHeader eyebrow={effect.eyebrow || "SYSTEM DIFF"} title={getTitle(effect, "对比分析")} accent={accent} />
-        <div style={{ marginTop: 34, display: "grid", gridTemplateColumns: "1fr 170px 1fr", gap: 24, alignItems: "stretch" }}>
+        <div style={{ marginTop: 30, display: "grid", gridTemplateColumns: "1fr 170px 1fr", gap: 24, alignItems: "stretch" }}>
           {[
             { title: leftTitle, items: leftItems, transform: slideLeft, active: false },
             { title: rightTitle, items: rightItems, transform: slideRight, active: true },
@@ -195,7 +200,7 @@ export const CompareCard: React.FC<VfxComponentProps> = ({ effect, frame, durati
               key={side.title}
               style={{
                 minHeight: 470,
-                padding: "28px",
+                padding: imageMode ? "24px 28px" : "28px",
                 border: `1px solid ${side.active ? accent : opcHud.colors.hairline}`,
                 background: side.active ? `${accent}14` : "rgba(0,0,0,0.24)",
                 boxShadow: side.active ? `0 0 28px ${accent}33` : "none",
@@ -205,7 +210,28 @@ export const CompareCard: React.FC<VfxComponentProps> = ({ effect, frame, durati
               <div style={{ color: side.active ? accent : opcHud.colors.muted, fontFamily: opcHud.monoFont, fontSize: 20, fontWeight: 900, letterSpacing: 2.2, textTransform: "uppercase" }}>
                 {side.title}
               </div>
-              <div style={{ marginTop: 28, display: "grid", gap: 16 }}>
+              <div style={{ marginTop: imageMode ? 22 : 28, display: "grid", gap: imageMode ? 12 : 16 }}>
+                {imageMode ? (
+                  <div
+                    style={{
+                      height: 238,
+                      border: `1px solid ${side.active ? accent : opcHud.colors.hairline}`,
+                      background: "rgba(0,0,0,0.28)",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {(side.active ? rightImageSrc : leftImageSrc) ? (
+                      <Img
+                        src={side.active ? rightImageSrc : leftImageSrc}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.86, filter: "saturate(0.9) contrast(1.05)" }}
+                      />
+                    ) : (
+                      <div style={{ height: "100%", display: "grid", placeItems: "center", color: opcHud.colors.muted, fontFamily: opcHud.monoFont, fontSize: 18 }}>
+                        IMAGE PENDING
+                      </div>
+                    )}
+                  </div>
+                ) : null}
                 {side.items.map((item, index) => (
                   <div
                     key={`${side.title}-${item}`}
@@ -214,13 +240,13 @@ export const CompareCard: React.FC<VfxComponentProps> = ({ effect, frame, durati
                       gridTemplateColumns: "42px 1fr",
                       gap: 14,
                       alignItems: "center",
-                      padding: "15px 16px",
+                      padding: imageMode ? "12px 16px" : "15px 16px",
                       background: "rgba(0,0,0,0.26)",
                       border: `1px solid ${side.active && index === side.items.length - 1 ? accent : "rgba(40,245,154,0.16)"}`,
                     }}
                   >
                     <span style={{ color: side.active ? accent : opcHud.colors.muted, fontFamily: opcHud.monoFont, fontWeight: 900 }}>{String(index + 1).padStart(2, "0")}</span>
-                    <span style={{ fontSize: 31, lineHeight: 1.12, fontWeight: 900 }}>{item}</span>
+                    <span style={{ fontSize: imageMode ? 29 : 31, lineHeight: 1.12, fontWeight: 900 }}>{item}</span>
                   </div>
                 ))}
               </div>
@@ -231,7 +257,7 @@ export const CompareCard: React.FC<VfxComponentProps> = ({ effect, frame, durati
             </div>
           )] : [node]))}
         </div>
-        <div style={{ marginTop: 28, borderLeft: `4px solid ${accent}`, background: `${accent}12`, padding: "16px 20px", fontSize: 30, lineHeight: 1.18, fontWeight: 900 }}>
+        <div style={{ marginTop: imageMode ? 18 : 28, borderLeft: `4px solid ${accent}`, background: `${accent}12`, padding: "16px 20px", fontSize: imageMode ? 28 : 30, lineHeight: 1.18, fontWeight: 900 }}>
           {verdict}
         </div>
       </SystemPanel>

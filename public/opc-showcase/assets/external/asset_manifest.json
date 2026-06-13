@@ -1,0 +1,56 @@
+{
+  "captured_at": "2026-06-13",
+  "capture_method": "browse_screenshot",
+  "assets": [
+    {
+      "asset_id": "external_anthropic_claude_code",
+      "file_path": "opc-showcase/assets/external/anthropic-claude-code.png",
+      "source_url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+      "source_type": "official_docs",
+      "capture_status": "success",
+      "used_for_scene": ["P0-001B", "P0-002B"],
+      "confidence": 0.91,
+      "note": "官方文档页面可自动抓取，适合做证据卡和对比图。"
+    },
+    {
+      "asset_id": "external_cursor_docs",
+      "file_path": "opc-showcase/assets/external/cursor-docs.png",
+      "source_url": "https://docs.cursor.com/get-started/welcome",
+      "source_type": "official_docs",
+      "capture_status": "success",
+      "used_for_scene": ["P0-002B"],
+      "confidence": 0.9,
+      "note": "官方文档页面可自动抓取，适合做对比图。"
+    },
+    {
+      "asset_id": "external_cursor_home",
+      "file_path": "opc-showcase/assets/external/cursor-home.png",
+      "source_url": "https://cursor.com",
+      "source_type": "official_website",
+      "capture_status": "success_with_timeout",
+      "used_for_scene": [],
+      "confidence": 0.72,
+      "note": "页面截图成功，但等待 networkidle 超时，后续应人工确认首屏是否完整。"
+    },
+    {
+      "asset_id": "external_openai_docs_blocked",
+      "file_path": "opc-showcase/assets/external/openai-docs-overview.png",
+      "source_url": "https://platform.openai.com/docs/overview",
+      "source_type": "official_docs",
+      "capture_status": "blocked_by_cloudflare",
+      "used_for_scene": ["P0-001C"],
+      "confidence": 0.18,
+      "note": "页面返回人机验证，不能当作官网内容证据，只能作为抓取失败边界展示。"
+    },
+    {
+      "asset_id": "external_openai_chatgpt_blocked",
+      "file_path": "opc-showcase/assets/external/openai-chatgpt.png",
+      "source_url": "https://openai.com/chatgpt",
+      "source_type": "official_website",
+      "capture_status": "blocked_by_cloudflare",
+      "used_for_scene": [],
+      "confidence": 0.18,
+      "note": "页面返回人机验证，进入 action_required，由用户补素材或更换来源。"
+    }
+  ]
+}
