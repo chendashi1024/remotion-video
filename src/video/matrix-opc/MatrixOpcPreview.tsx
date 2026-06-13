@@ -1,8 +1,7 @@
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { BrandSignature } from "./components/BrandSignature";
 import { HudPanel } from "./components/HudPanel";
+import { MatrixBaseOverlay } from "./MatrixBaseOverlay";
 import { MatrixBackdrop } from "./components/MatrixBackdrop";
-import { MatrixProgressNav } from "./components/MatrixProgressNav";
 import { MetricCard } from "./components/MetricCard";
 import { PipelineStrip } from "./components/PipelineStrip";
 import { matrixOpcTheme } from "./theme";
@@ -25,12 +24,6 @@ export const MatrixOpcPreview: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: matrixOpcTheme.colors.bg, overflow: "hidden" }}>
       <MatrixBackdrop frame={frame} density="medium" transparent={false} />
-      <MatrixProgressNav
-        frame={frame}
-        steps={previewSteps.map((title) => ({ title }))}
-        activeIndex={activeIndex}
-        progress={frame / Math.max(durationInFrames - 1, 1)}
-      />
       <div
         style={{
           position: "absolute",
@@ -112,7 +105,11 @@ export const MatrixOpcPreview: React.FC = () => {
           boxShadow: `inset 0 0 50px rgba(40,245,154,0.12), ${matrixOpcTheme.shadow.greenSoft}`,
         }}
       />
-      <BrandSignature frame={frame} />
+      <MatrixBaseOverlay
+        steps={previewSteps.map((title) => ({ title }))}
+        activeIndex={activeIndex}
+        progress={frame / Math.max(durationInFrames - 1, 1)}
+      />
     </AbsoluteFill>
   );
 };

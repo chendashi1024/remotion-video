@@ -1,8 +1,6 @@
 import type { CSSProperties } from "react";
 import { AbsoluteFill, Easing, Img, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { matrixOpcTheme } from "../matrix-opc";
-import { BrandSignature } from "../matrix-opc/components/BrandSignature";
-import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
+import { MatrixBaseOverlay, matrixOpcTheme } from "../matrix-opc";
 import { VideoShell } from "../vfx/components/analysis/SystemShell";
 import { personIntegrationDuration, personIntegrationScenes, type PersonIntegrationScene } from "./scenes";
 
@@ -388,8 +386,7 @@ export const OpcPersonIntegrationTest: React.FC = () => {
           <SceneRenderer scene={scene} />
         </Sequence>
       ))}
-      <MatrixProgressNav frame={frame} steps={steps} activeIndex={activeIndex} progress={progress} edgeInset={0} variant="chapterStatus" />
-      <BrandSignature frame={frame} />
+      <MatrixBaseOverlay steps={steps} activeIndex={activeIndex} progress={progress} />
     </VideoShell>
   );
 };

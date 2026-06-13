@@ -1,6 +1,5 @@
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { BrandSignature } from "../matrix-opc/components/BrandSignature";
-import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
+import { MatrixBaseOverlay } from "../matrix-opc";
 import { vfxRegistry } from "./registry";
 import type { VfxBriefItem, VfxComponentProps } from "./types";
 
@@ -68,12 +67,12 @@ export const VfxRealDemo: React.FC<VfxRealDemoProps> = ({
             objectFit: "cover",
           }}
         />
-        {/* 底部暗色渐变，让 VFX 面板更突出 */}
+        {/* 中性暗色渐变，只压边缘和底部，不改变人物主体色。 */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(180deg, rgba(2,7,6,0.15) 0%, rgba(2,7,6,0.35) 60%, rgba(2,7,6,0.65) 100%)",
+            background: "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.16) 62%, rgba(0,0,0,0.48) 100%)",
           }}
         />
       </AbsoluteFill>
@@ -90,16 +89,7 @@ export const VfxRealDemo: React.FC<VfxRealDemoProps> = ({
         />
       ))}
 
-      {/* 顶部时间轴 */}
-      <MatrixProgressNav
-        frame={frame}
-        steps={stepTitles.map((title) => ({ title }))}
-        activeIndex={activeIndex}
-        progress={progress}
-      />
-
-      {/* 左下角品牌 */}
-      <BrandSignature frame={frame} />
+      <MatrixBaseOverlay steps={stepTitles.map((title) => ({ title }))} activeIndex={activeIndex} progress={progress} />
     </AbsoluteFill>
   );
 };

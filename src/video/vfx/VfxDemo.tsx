@@ -1,7 +1,6 @@
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { BrandSignature } from "../matrix-opc/components/BrandSignature";
+import { MatrixBaseOverlay } from "../matrix-opc";
 import { MatrixBackdrop } from "../matrix-opc/components/MatrixBackdrop";
-import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
 import { matrixOpcTheme } from "../matrix-opc/theme";
 import { vfxRegistry } from "./registry";
 import type { VfxBriefItem, VfxComponentProps } from "./types";
@@ -57,12 +56,6 @@ export const VfxDemo: React.FC<VfxDemoProps> = ({ effects }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: matrixOpcTheme.colors.bg, overflow: "hidden" }}>
       <MatrixBackdrop frame={frame} density="low" transparent={false} />
-      <MatrixProgressNav
-        frame={frame}
-        steps={stepTitles.map((title) => ({ title }))}
-        activeIndex={activeIndex}
-        progress={progress}
-      />
       {activeEffects.map((effect, index) => (
         <VfxSlot
           key={effect.id}
@@ -73,7 +66,7 @@ export const VfxDemo: React.FC<VfxDemoProps> = ({ effects }) => {
           total={activeEffects.length}
         />
       ))}
-      <BrandSignature frame={frame} />
+      <MatrixBaseOverlay steps={stepTitles.map((title) => ({ title }))} activeIndex={activeIndex} progress={progress} />
     </AbsoluteFill>
   );
 };

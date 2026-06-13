@@ -1,3 +1,4 @@
+export { MatrixBaseOverlay } from "./MatrixBaseOverlay";
 export { MatrixBrandLayer } from "./MatrixBrandLayer";
 export { MatrixOpcPreview } from "./MatrixOpcPreview";
 export { MatrixPersistentOverlay } from "./MatrixPersistentOverlay";

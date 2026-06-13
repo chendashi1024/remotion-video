@@ -1,5 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { MatrixProgressNav } from "../matrix-opc";
+import { MatrixBaseOverlay } from "../matrix-opc";
 import type { VideoTimeline } from "./types";
 
 type ChapterProgressBarProps = {
@@ -22,8 +22,7 @@ export const ChapterProgressBar: React.FC<ChapterProgressBarProps> = ({ timeline
 
   return (
     <AbsoluteFill style={{ backgroundColor: "transparent" }}>
-      <MatrixProgressNav
-        frame={frame}
+      <MatrixBaseOverlay
         steps={chapters.map((chapter) => ({ title: chapter.title, start: chapter.start, end: chapter.end }))}
         activeIndex={safeActiveIndex}
         progress={progress}

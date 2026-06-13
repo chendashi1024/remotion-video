@@ -1,6 +1,5 @@
 import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
-import { BrandSignature } from "../matrix-opc/components/BrandSignature";
-import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
+import { MatrixBaseOverlay } from "../matrix-opc";
 import { VfxClip } from "../vfx";
 import { SceneLabel, SubtitleLayer, VideoShell } from "../vfx/components/analysis/SystemShell";
 import { showcaseScenes } from "./showcaseEffects";
@@ -21,12 +20,6 @@ export const OpcComponentsShowcase: React.FC = () => {
 
   return (
     <VideoShell>
-      <MatrixProgressNav
-        frame={frame}
-        steps={sections.map((title) => ({ title }))}
-        activeIndex={activeSectionIndex}
-        progress={progress}
-      />
       <SceneLabel id={active.effect.id} title={active.effect.name} />
       <SubtitleLayer text={active.subtitle} />
       <AbsoluteFill style={{ top: 0 }}>
@@ -36,7 +29,7 @@ export const OpcComponentsShowcase: React.FC = () => {
           </Sequence>
         ))}
       </AbsoluteFill>
-      <BrandSignature frame={frame} />
+      <MatrixBaseOverlay steps={sections.map((title) => ({ title }))} activeIndex={activeSectionIndex} progress={progress} />
     </VideoShell>
   );
 };
