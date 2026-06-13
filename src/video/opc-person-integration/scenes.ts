@@ -1,11 +1,3 @@
-export type FocusArea = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  label: string;
-};
-
 export type PersonIntegrationScene =
   | {
       component: "MetricCounterCard";
@@ -33,7 +25,6 @@ export type PersonIntegrationScene =
         headline: string;
         takeaway: string;
         confidenceTag: string;
-        focusAreas: FocusArea[];
       };
     }
   | {
@@ -87,7 +78,6 @@ export const personIntegrationScenes: PersonIntegrationScene[] = [
       headline: "这不是观点，而是证据",
       takeaway: "真正重要的不是工具本身，而是它进入了你的工作流",
       confidenceTag: "VERIFIED / HIGH SIGNAL",
-      focusAreas: [{ x: 0.16, y: 0.24, width: 0.54, height: 0.26, label: "关键证据" }],
     },
   },
   {

@@ -4,7 +4,7 @@ import { matrixOpcTheme } from "../matrix-opc";
 import { BrandSignature } from "../matrix-opc/components/BrandSignature";
 import { MatrixProgressNav } from "../matrix-opc/components/MatrixProgressNav";
 import { VideoShell } from "../vfx/components/analysis/SystemShell";
-import { personIntegrationDuration, personIntegrationScenes, type FocusArea, type PersonIntegrationScene } from "./scenes";
+import { personIntegrationDuration, personIntegrationScenes, type PersonIntegrationScene } from "./scenes";
 
 const green = matrixOpcTheme.colors.green;
 const hot = matrixOpcTheme.colors.greenHot;
@@ -197,8 +197,7 @@ const MetricScene: React.FC<{ scene: Extract<PersonIntegrationScene, { component
   );
 };
 
-const EvidencePlaceholder: React.FC<{ frame: number; focusAreas: FocusArea[] }> = ({ frame, focusAreas }) => {
-  const scan = ((frame * 4) % 350) - 70;
+const EvidencePlaceholder: React.FC = () => {
   return (
     <div style={{ position: "relative", height: 350, border: `1px solid ${green}66`, background: "rgba(0,0,0,0.36)", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, opacity: 0.2, backgroundImage: "linear-gradient(rgba(40,245,154,0.25) 1px, transparent 1px)", backgroundSize: "100% 28px" }} />
@@ -206,23 +205,6 @@ const EvidencePlaceholder: React.FC<{ frame: number; focusAreas: FocusArea[] }> 
       <div style={{ position: "absolute", left: 34, top: 104, width: 420, height: 30, background: "rgba(232,255,245,0.08)" }} />
       <div style={{ position: "absolute", left: 34, top: 154, width: 580, height: 92, background: "rgba(232,255,245,0.07)", border: `1px solid ${green}28` }} />
       <div style={{ position: "absolute", left: 34, top: 272, width: 310, height: 28, background: "rgba(232,255,245,0.08)" }} />
-      <div style={{ position: "absolute", left: 0, right: 0, top: scan, height: 66, background: `linear-gradient(180deg, transparent, ${green}66, transparent)`, opacity: 0.48 }} />
-      {focusAreas.map((area) => (
-        <div
-          key={area.label}
-          style={{
-            position: "absolute",
-            left: `${area.x * 100}%`,
-            top: `${area.y * 100}%`,
-            width: `${area.width * 100}%`,
-            height: `${area.height * 100}%`,
-            border: `3px solid ${hot}`,
-            boxShadow: `0 0 28px ${hot}77, inset 0 0 24px ${hot}22`,
-          }}
-        >
-          <div style={{ position: "absolute", left: 8, top: -28, color: hot, fontFamily: mono, fontSize: 14, fontWeight: 950, letterSpacing: 1.4 }}>{area.label}</div>
-        </div>
-      ))}
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "12px 16px", color: muted, fontFamily: mono, fontSize: 13, letterSpacing: 1.4 }}>
         EVIDENCE SLOT READY / replace with public/assets/evidence-01.png
       </div>
@@ -243,7 +225,7 @@ const EvidenceScene: React.FC<{ scene: Extract<PersonIntegrationScene, { compone
           {scene.data.asset ? (
             <Img src={staticFile(scene.data.asset)} style={{ width: "100%", height: 350, objectFit: "cover", border: `1px solid ${green}66` }} />
           ) : (
-            <EvidencePlaceholder frame={frame} focusAreas={scene.data.focusAreas} />
+            <EvidencePlaceholder />
           )}
         </div>
         <div style={{ marginTop: 22, borderLeft: `5px solid ${green}`, padding: "17px 20px", background: `${green}12`, fontSize: 28, lineHeight: 1.18, fontWeight: 920 }}>
