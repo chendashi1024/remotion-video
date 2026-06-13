@@ -8,6 +8,7 @@ import { defaultVfxEffect, VfxClip, VfxDemo, VfxRealDemo } from "./video/vfx";
 import type { VfxBriefItem } from "./video/vfx";
 import { MatrixBrandLayer, MatrixOpcPreview, MatrixPersistentOverlay } from "./video/matrix-opc";
 import { OpcComponentsShowcase, opcShowcaseDuration } from "./video/opc-components-showcase";
+import { OpcPersonIntegrationTest, personIntegrationDuration } from "./video/opc-person-integration";
 import demoEffects from "./video/vfx/demo-effects.json";
 
 export const RemotionRoot: React.FC = () => {
@@ -89,6 +90,14 @@ export const RemotionRoot: React.FC = () => {
         id="opc-components-showcase"
         component={OpcComponentsShowcase}
         durationInFrames={opcShowcaseDuration}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="OpcPersonIntegrationTest"
+        component={OpcPersonIntegrationTest}
+        durationInFrames={personIntegrationDuration}
         fps={30}
         width={1920}
         height={1080}
